@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="headsHeader" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1147.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HeaderController">
+<AnchorPane id="headsHeader" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="1150.0" prefHeight="120.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HeaderController">
    <children>
-      <AnchorPane fx:id="titleBar" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" prefHeight="32.0" prefWidth="1147.0">
+      <AnchorPane fx:id="titleBar" minHeight="31.0" minWidth="1150.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" prefHeight="31.0" prefWidth="1150.0">
          <children>
-            <Button id="titleImageButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+            <Button id="titleImageButton" alignment="CENTER" layoutX="3.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
                <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Aeondromach.png" />
                      </image>
@@ -72,18 +72,18 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <StackPane layoutX="523.5" prefHeight="32.0" prefWidth="100.0">
+            <StackPane id="titleHold" layoutX="523.5" prefHeight="32.0" prefWidth="100.0">
                <children>
                   <Text id="noveritaText" fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Noverita" />
                </children>
             </StackPane>
-            <AnchorPane layoutX="933.3" prefHeight="32.0" prefWidth="214.0">
+            <AnchorPane id="titleButtonHold" layoutX="935.3" prefHeight="32.0" prefWidth="214.0">
                <children>
-                  <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="178.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
-                  <Button fx:id="btMax" alignment="CENTER" layoutX="142.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />
-                  <Button fx:id="btMin" alignment="CENTER" layoutX="106.0" mnemonicParsing="false" onMouseClicked="#handleMinimizeClick" prefHeight="32.0" prefWidth="36.0" style="-fx-font-size: 14px;" styleClass="titleButton" text="—" />
-                  <Button alignment="CENTER" layoutX="36.0" mnemonicParsing="false" onMouseClicked="#handleSettingsClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⚙" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleWebClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="🌐" />
+                  <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="178.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="30.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
+                  <Button fx:id="btMax" alignment="CENTER" layoutX="142.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="30.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />
+                  <Button fx:id="btMin" alignment="CENTER" layoutX="106.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#handleMinimizeClick" prefHeight="30.0" prefWidth="36.0" style="-fx-font-size: 14px;" styleClass="titleButton" text="—" />
+                  <Button alignment="CENTER" layoutX="36.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#handleSettingsClick" prefHeight="30.0" prefWidth="36.0" styleClass="titleButton" text="⚙" />
+                  <Button alignment="CENTER" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#handleWebClick" prefHeight="30.0" prefWidth="36.0" styleClass="titleButton" text="🌐" />
                </children>
             </AnchorPane>
          </children>

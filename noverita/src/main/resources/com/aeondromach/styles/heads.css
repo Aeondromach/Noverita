@@ -8,6 +8,16 @@
 
 #headsHeader {
     -fx-background-radius: 7 7 0 0;
+    -fx-background-insets: 0;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 7 7 0 0;
+}
+
+#headsFooter {
+    -fx-background-radius: 0 0 7 7;
+    -fx-border-radius: 0 0 7 7;
+    -fx-background-insets: 0;
+    -fx-border-width: 0 1 1 1;
 }
 
 .titleButton {
@@ -37,10 +47,29 @@
 
 #titleImageButton {
     -fx-background-color: none;
-    -fx-background-radius: 7 0 0 0;
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
 }
 
 #noveritaText {
     -fx-fill: -primaryTextColor;
     -fx-font-size: 16px;
+}
+
+.footText {
+    -fx-fill: -primaryTextColor;
+    -fx-font-size: 12px;
+}
+
+#versionHold {
+    -fx-padding: 0 15 0 0;
+}
+
+#pathFileHold {
+    -fx-padding: 0 5 0 5;
+}
+
+#lastActionHolder {
+    -fx-padding: 0 0 0 15;
 }

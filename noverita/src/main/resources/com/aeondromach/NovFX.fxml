@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane id="mainAppPane" fx:id="NovPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1150.0" stylesheets="@styles/nov.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane id="mainAppPane" fx:id="NovPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1150.0" style="-fx-background-color: none;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.NovController">
     <top>
-        <fx:include source="templates/header.fxml" BorderPane.alignment="TOP_CENTER" />
+        <fx:include source="templates/header.fxml" BorderPane.alignment="TOP_LEFT" />
     </top>
+   <center>
+      <Pane id="bodyAppPane" stylesheets="@styles/nov.css" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <fx:include source="templates/footer.fxml" BorderPane.alignment="BOTTOM_LEFT" />
+   </bottom>
 </BorderPane>

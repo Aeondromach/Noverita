@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
@@ -107,7 +108,8 @@ public class HeaderController {
      */
     @FXML
     protected void handleTitleBarPress(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
+        Scene scene = (Scene) titleBar.getScene();
+        if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             mousePosX = event.getX();
             mousePosY = event.getY();
         }
@@ -119,7 +121,8 @@ public class HeaderController {
      */
     @FXML
     protected void handleTitleBarDrag(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
+        Scene scene = (Scene) titleBar.getScene();
+        if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             Stage stage = (Stage) titleBar.getScene().getWindow();
             stage.setX(event.getScreenX() - mousePosX);
             stage.setY(event.getScreenY() - mousePosY);

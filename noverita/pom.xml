@@ -3,11 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aeondromach</groupId>
     <artifactId>noverita</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <app.name>${project.name}</app.name>
+        <app.version>${project.version}</app.version>
     </properties>
     <dependencies>
         <dependency>
@@ -22,6 +24,12 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

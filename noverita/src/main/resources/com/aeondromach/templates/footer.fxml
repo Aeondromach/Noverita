@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="headsFooter" fx:id="footerPane" maxHeight="20.0" maxWidth="-Infinity" minHeight="20.0" minWidth="1150.0" prefHeight="20.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.FooterController">
+   <children>
+      <HBox id="lastActionHolder" alignment="CENTER_LEFT" prefHeight="20.0">
+         <children>
+            <Text fx:id="labLastAction" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="footText" text="Last Action" />
+         </children>
+      </HBox>
+      <HBox id="pathFileHold" fx:id="pathHold" alignment="CENTER" layoutX="497.35" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0">
+         <children>
+            <Text fx:id="labFilePath" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="footText" text="🗀 Path/To/Character/File.ncf" />
+         </children>
+      </HBox>
+      <HBox id="versionHold" alignment="CENTER_RIGHT" layoutX="1050.0" prefHeight="20.0" prefWidth="100.0">
+         <children>
+            <Text fx:id="labVersion" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="footText" text="nov0.0.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

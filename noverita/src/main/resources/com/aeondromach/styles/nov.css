@@ -2,10 +2,9 @@
 
 @import "variables.css";
 
-#mainAppPane {
+#bodyAppPane {
     -fx-background-color: -background;
-    -fx-border-color: rgba(100, 100, 100, 0.9);
-    -fx-border-width: 1.5;
-    -fx-border-radius: 7;
-    -fx-background-radius: 10;
+    -fx-border-width: 0 1 0 1;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
 }
