@@ -1,0 +1,46 @@
+/* "Heads" Header and Footer css */
+
+@import "variables.css";
+
+.heads {
+    -fx-background-color: -primaryColor;
+}
+
+#headsHeader {
+    -fx-background-radius: 7 7 0 0;
+}
+
+.titleButton {
+    -fx-padding: 0;
+    -fx-text-fill: -primaryTextColor;
+    -fx-font-size: 17px;
+    -fx-background-radius: none;
+    -fx-background-insets: none;
+    -fx-background-color: none;
+}
+
+.titleButton:pressed {
+    -fx-opacity: 0.8;
+}
+
+.titleButton:hover {
+    -fx-background-color: -hover;
+}
+
+#closeButton {
+    -fx-background-radius: 0 7 0 0;
+}
+
+#closeButton:hover {
+    -fx-background-color: red;
+}
+
+#titleImageButton {
+    -fx-background-color: none;
+    -fx-background-radius: 7 0 0 0;
+}
+
+#noveritaText {
+    -fx-fill: -primaryTextColor;
+    -fx-font-size: 16px;
+}

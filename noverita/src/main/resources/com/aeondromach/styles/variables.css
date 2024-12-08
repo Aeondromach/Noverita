@@ -1,0 +1,15 @@
+/* All Variables to be used in css, for ease of theme changing */
+
+* {
+    /* Theme changing */
+    -primaryColor: rgb(34, 6, 71);
+    -secondaryColor: rgb(44, 10, 88);
+
+    /* Darkmode changing */
+    -primaryTextColor: aliceblue;
+    -secondaryTextColor: whitesmoke;
+    -background: #1f1f1f;
+
+    /* Permanent */
+    -hover: #7a7a7a;
+}

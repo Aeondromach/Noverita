@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="headsHeader" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1147.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HeaderController">
+   <children>
+      <AnchorPane fx:id="titleBar" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" prefHeight="32.0" prefWidth="1147.0">
+         <children>
+            <Button id="titleImageButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Aeondromach.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <MenuBar layoutX="40.0" layoutY="3.83333333333">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem fx:id="miOpenHome" mnemonicParsing="false" onAction="#handleMenuOpenHomeFolder" text="📁 Open Home Folder">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="miSaveChar" mnemonicParsing="false" onAction="#handleMenuSaveCharacter" text="💾 Save Character">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="miSaveCharPDF" mnemonicParsing="false" onAction="#handleMenuSavePDF" text="🗎 Save Character (PDF)">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                     </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                     <items>
+                        <MenuItem fx:id="miOpenImages" mnemonicParsing="false" onAction="#handleMenuOpenImagesFolder" text="Open Images Folder" />
+                        <MenuItem fx:id="miPackLog" mnemonicParsing="false" onAction="#handleMenuPackLog" text="Pack Log" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="miCharFile" mnemonicParsing="false" onAction="#handleMenuCharFileLoc" text="Character File Location" />
+                        <MenuItem fx:id="miCharSheet" mnemonicParsing="false" onAction="#handleMenuCharSheet" text="Character Sheet" />
+                        <MenuItem fx:id="miCombatCalc" mnemonicParsing="false" onAction="#handleMenuCombatCalc" text="Combat Calc" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="miSettings" mnemonicParsing="false" onAction="#handleMenuSettings" text="Application Settings" />
+                     </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem fx:id="miNextAction" mnemonicParsing="false" onAction="#handleMenuNextAction" text="Next Action" />
+                        <RadioMenuItem fx:id="miSuggestedAction" mnemonicParsing="false" onAction="#handleMenuSuggestedAction" text="Suggested Actions" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="miNewCon" mnemonicParsing="false" onAction="#handleMenuNewContent" text="New Content" />
+                        <MenuItem fx:id="miSupportPack" mnemonicParsing="false" onAction="#handleMenuSupportedPacks" text="Supported Packs" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="miSupportPage" mnemonicParsing="false" onAction="#handleMenuSupportPage" text="Support Page" />
+                        <MenuItem fx:id="miRoadMap" mnemonicParsing="false" onAction="#handleMenuRoadMap" text="Road Map" />
+                     </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <StackPane layoutX="523.5" prefHeight="32.0" prefWidth="100.0">
+               <children>
+                  <Text id="noveritaText" fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Noverita" />
+               </children>
+            </StackPane>
+            <AnchorPane layoutX="933.3" prefHeight="32.0" prefWidth="214.0">
+               <children>
+                  <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="178.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
+                  <Button fx:id="btMax" alignment="CENTER" layoutX="142.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />
+                  <Button fx:id="btMin" alignment="CENTER" layoutX="106.0" mnemonicParsing="false" onMouseClicked="#handleMinimizeClick" prefHeight="32.0" prefWidth="36.0" style="-fx-font-size: 14px;" styleClass="titleButton" text="—" />
+                  <Button alignment="CENTER" layoutX="36.0" mnemonicParsing="false" onMouseClicked="#handleSettingsClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⚙" />
+                  <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleWebClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="🌐" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

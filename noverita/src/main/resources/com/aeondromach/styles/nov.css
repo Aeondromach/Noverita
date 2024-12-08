@@ -1,0 +1,11 @@
+/* Main body css */
+
+@import "variables.css";
+
+#mainAppPane {
+    -fx-background-color: -background;
+    -fx-border-color: rgba(100, 100, 100, 0.9);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 7;
+    -fx-background-radius: 10;
+}
