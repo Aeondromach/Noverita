@@ -7,19 +7,22 @@ package com.aeondromach;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
 public class NovController {
     @FXML private BorderPane novPane;
 
-    private HeaderController headCon;
+    @FXML private HeaderController headerController;
+    @FXML private FooterController footerController;
 
     public static final String NAME = getProperty("app.name");
     public static final String VERSION = getProperty("app.version");
+    private ArrayList<String> lastActions = new ArrayList<>();
 
     /**
      * Get config.properties items and return
@@ -41,6 +44,17 @@ public class NovController {
      */
     @FXML
     protected void initialize() {
-        headCon = new FXMLLoader(getClass().getResource("header.fxml")).getController();
+        headerController.init(this);
+        footerController.init(this);
+        addAction("Entered Noverita");
+    }
+
+    public void addAction(String text) {
+        lastActions.add(text);
+        footerController.setLastAction();
+    }
+
+    public String getLastAction() {
+        return lastActions.get(lastActions.size() - 1);
     }
 }

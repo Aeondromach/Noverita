@@ -14,8 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,33 +28,18 @@ public class HeaderController {
     @FXML private Button btSet;
     @FXML private Button btWeb;
     @FXML private Text titleText;
-    @FXML private MenuItem miOpenHome;
-    @FXML private MenuItem miSaveChar;
-    @FXML private MenuItem miSaveCharPDF;
-    @FXML private MenuItem miOpenImages;
-    @FXML private MenuItem miPackLog;
-    @FXML private MenuItem miCharFile;
-    @FXML private MenuItem miCharSheet;
-    @FXML private MenuItem miCombatCalc;
-    @FXML private MenuItem miSettings;
-    @FXML private MenuItem miNextAction;
-    @FXML private RadioMenuItem miSuggestedAction;
-    @FXML private MenuItem miNewCon;
-    @FXML private MenuItem miSupportPack;
-    @FXML private MenuItem miSupportPage;
-    @FXML private MenuItem miRoadMap;
 
     private double mousePosX, mousePosY;
+    private Boolean isDoubleClick;
+
     private NovController nov;
 
-    /**
-     * initialize this controller within the main NovController on startup
-     * @param nov
-     * @return Returns the HeaderController for nov
-     */
-    public HeaderController init(NovController nov) {
-        nov = new NovController();
-        return this;
+    @FXML
+    protected void initialize() {
+    }
+
+    public void init(NovController nov) {
+        this.nov = nov;
     }
 
     /**
@@ -109,9 +92,17 @@ public class HeaderController {
     @FXML
     protected void handleTitleBarPress(MouseEvent event) {
         Scene scene = (Scene) titleBar.getScene();
+        Stage stage = (Stage) scene.getWindow();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
-            mousePosX = event.getX();
-            mousePosY = event.getY();
+            if(event.getClickCount() == 2){
+                isDoubleClick = true;
+                handleMaximizeClick(event);
+            }
+            else {
+                isDoubleClick = false;
+                mousePosX = event.getX();
+                mousePosY = event.getY();
+            }
         }
     }
 
@@ -121,6 +112,9 @@ public class HeaderController {
      */
     @FXML
     protected void handleTitleBarDrag(MouseEvent event) {
+        if (isDoubleClick) {
+            return;
+        }
         Scene scene = (Scene) titleBar.getScene();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             Stage stage = (Stage) titleBar.getScene().getWindow();

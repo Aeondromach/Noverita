@@ -24,7 +24,7 @@ import javafx.stage.StageStyle;
 public class App extends Application {
 
     private static Scene scene;
-    private static final int RESIZE_MARGIN = 10;
+    private static final int RESIZE_MARGIN = 5;
     private double xOffset = 0, yOffset = 0;
     private BorderPane mainPane;
 

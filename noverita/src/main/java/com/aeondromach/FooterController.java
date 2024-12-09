@@ -20,6 +20,8 @@ public class FooterController {
     @FXML private Text labFilePath;
     @FXML private Text labLastAction;
 
+    private NovController nov;
+
     /**
      * Runs initial footer set up
      */
@@ -29,5 +31,13 @@ public class FooterController {
             pathHold.setLayoutX((footerPane.getWidth()/2) - (pathHold.getWidth()/2));
             labVersion.setText("nov" + VERSION);
         });
+    }
+
+    public void init(NovController nov) {
+        this.nov = nov;
+    }
+
+    public void setLastAction() {
+        labLastAction.setText(nov.getLastAction());
     }
 }
