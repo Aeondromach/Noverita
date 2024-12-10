@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane id="bodyAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HomeController">
+   <center>
+      <Button fx:id="btTest" mnemonicParsing="false" onMouseClicked="#handleTestClick" text="Test" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

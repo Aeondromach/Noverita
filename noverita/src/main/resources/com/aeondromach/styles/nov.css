@@ -1,10 +1,29 @@
 /* Main body css */
 
-@import "variables.css";
+.root {
+    /* Theme changing */
+    -primaryColor: rgb(34, 6, 71);
+    -secondaryColor: rgb(44, 10, 88);
+
+    /* Darkmode changing */
+    -primaryTextColor: aliceblue;
+    -secondaryTextColor: whitesmoke;
+    -background: #1f1f1f;
+
+    /* Permanent */
+    -hover: #7a7a7a;
+    -borderColor: transparent;
+}
 
 #bodyAppPane {
     -fx-background-color: -background;
     -fx-border-width: 0 1 0 1;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
+    -fx-border-color: -borderColor;
+}
+
+#mainAppPane {
+    -fx-border-width: 0;
+    -fx-region-background: none;
 }

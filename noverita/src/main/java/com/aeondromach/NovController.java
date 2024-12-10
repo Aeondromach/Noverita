@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
@@ -19,6 +18,7 @@ public class NovController {
 
     @FXML private HeaderController headerController;
     @FXML private FooterController footerController;
+    @FXML private HomeController homeController;
 
     public static final String NAME = getProperty("app.name");
     public static final String VERSION = getProperty("app.version");
@@ -46,6 +46,7 @@ public class NovController {
     protected void initialize() {
         headerController.init(this);
         footerController.init(this);
+        homeController.init(this);
         addAction("Entered Noverita");
     }
 

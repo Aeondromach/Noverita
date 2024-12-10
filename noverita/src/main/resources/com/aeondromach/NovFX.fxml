@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 
-<BorderPane id="mainAppPane" fx:id="NovPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1150.0" style="-fx-background-color: none;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.NovController">
+<BorderPane id="mainAppPane" fx:id="NovPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="550.0" minWidth="1150.0" prefHeight="550.0" prefWidth="1150.0" style="-fx-background-color: none;" stylesheets="@styles/nov.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.NovController">
     <top>
-        <fx:include fx:id="header" source="templates/Header.fxml" BorderPane.alignment="TOP_LEFT" />
+        <fx:include fx:id="header" source="templates/Header.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
    <center>
-      <Pane id="bodyAppPane" stylesheets="@styles/nov.css" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="home" source="templates/Home.fxml" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <fx:include fx:id="footer" source="templates/Footer.fxml" BorderPane.alignment="BOTTOM_LEFT" />
+      <fx:include fx:id="footer" source="templates/Footer.fxml" BorderPane.alignment="BOTTOM_CENTER" />
    </bottom>
 </BorderPane>

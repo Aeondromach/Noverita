@@ -1,23 +1,25 @@
 /* "Heads" Header and Footer css */
 
-@import "variables.css";
+@import "nov.css";
 
 .heads {
     -fx-background-color: -primaryColor;
 }
 
 #headsHeader {
-    -fx-background-radius: 7 7 0 0;
+    -fx-background-radius: 8 8 0 0;
     -fx-background-insets: 0;
     -fx-border-width: 1 1 0 1;
     -fx-border-radius: 7 7 0 0;
+    -fx-border-color: -borderColor;
 }
 
 #headsFooter {
-    -fx-background-radius: 0 0 7 7;
+    -fx-background-radius: 0 0 8 8;
     -fx-border-radius: 0 0 7 7;
     -fx-background-insets: 0;
     -fx-border-width: 0 1 1 1;
+    -fx-border-color: -borderColor;
 }
 
 .titleButton {
@@ -27,6 +29,8 @@
     -fx-background-radius: none;
     -fx-background-insets: none;
     -fx-background-color: none;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: transparent;
 }
 
 .titleButton:pressed {
@@ -35,14 +39,19 @@
 
 .titleButton:hover {
     -fx-background-color: -hover;
+    -fx-border-color: -borderColor;
 }
 
 #closeButton {
-    -fx-background-radius: 0 7 0 0;
+    -fx-background-radius: 0 8 0 0;
+    -fx-border-width: 1 1 0 0;
+    -fx-border-radius: 0 7 0 0;
+    -fx-border-color: transparent;
 }
 
 #closeButton:hover {
     -fx-background-color: red;
+    -fx-border-color: -borderColor;
 }
 
 #titleImageButton {

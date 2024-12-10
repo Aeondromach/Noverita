@@ -53,21 +53,25 @@ public class ResizeHandler {
             mainPane.setPrefWidth(mainPane.getPrefWidth() + delta);
 
             // body Stretch
-            bodyPane.setPrefWidth(bodyPane.getPrefWidth() + delta);
+            bodyPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
 
             // Header Stretch
-            headerPane.setPrefWidth(headerPane.getPrefWidth() + delta);
+            headerPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
 
             // Header Children Pos set
-            titleHold.setLayoutX((headerPane.getWidth()/2) - (titleHold.getWidth()/2));
-            titleButtonHold.setLayoutX(headerPane.getWidth() - titleButtonHold.getWidth() - .6);
+            if (mainPane.getPrefWidth() + delta > 1150.0) {
+                titleHold.setLayoutX((headerPane.getPrefWidth()/2) - (titleHold.getWidth()/2));
+                titleButtonHold.setLayoutX(headerPane.getPrefWidth() - titleButtonHold.getWidth());
+            }
 
             // footer Stretch
-            footerPane.setPrefWidth(footerPane.getPrefWidth() + delta);
+            footerPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
 
             // Footer Children Pos set
-            versionHold.setLayoutX(footerPane.getWidth() - versionHold.getWidth());
-            pathFileHold.setLayoutX((footerPane.getWidth()/2) - (pathFileHold.getWidth()/2));
+            if (mainPane.getPrefWidth() + delta > 1150.0) {
+                versionHold.setLayoutX(footerPane.getPrefWidth() - versionHold.getWidth());
+                pathFileHold.setLayoutX((footerPane.getPrefWidth()/2) - (pathFileHold.getWidth()/2));
+            }
         }
     }
 

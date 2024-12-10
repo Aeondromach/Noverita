@@ -30,7 +30,7 @@ public class HeaderController {
     @FXML private Text titleText;
 
     private double mousePosX, mousePosY;
-    private Boolean isDoubleClick;
+    private Boolean isDoubleClick = false;
 
     private NovController nov;
 
