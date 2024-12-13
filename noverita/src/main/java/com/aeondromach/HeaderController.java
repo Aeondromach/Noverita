@@ -1,6 +1,8 @@
 /**
  * @author Evelyn Engleman @Æondromach
- * Controller for the header and titlebar
+ * @version 2
+ * @since 12/11/2024
+ * Main controller for Header and Titlebar
  */
 
 package com.aeondromach;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -17,8 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class HeaderController {
     @FXML private AnchorPane titleBar;
@@ -27,17 +32,32 @@ public class HeaderController {
     @FXML private Button btMin;
     @FXML private Button btSet;
     @FXML private Button btWeb;
-    @FXML private Text titleText;
+
+    // Header Buttons
+    @FXML private Button btHome;
+    @FXML private Button btChar;
+    @FXML private Button btEquip;
+    @FXML private Button btArche;
+    @FXML private Button btView;
 
     private double mousePosX, mousePosY;
     private Boolean isDoubleClick = false;
+    public static Boolean isMax = false;
+    private Boolean isMaximizeCooldown = false;
 
     private NovController nov;
 
+    /**
+     * Runs initial header set up
+     */
     @FXML
     protected void initialize() {
     }
 
+    /**
+     * Takes instantiated Novcontroller and links self to it.
+     * @param nov Sets instance of Novcontroller
+     */
     public void init(NovController nov) {
         this.nov = nov;
     }
@@ -55,21 +75,31 @@ public class HeaderController {
     }
 
     /**
+     * Handles Header maximize/restore actions
+     */
+    private void maximizeApp() {
+        if (isMax) {
+            btMax.setText("⬜");
+            btClose.setStyle("-fx-background-radius: 0 7 0 0");
+            nov.setMaximum();
+            isMax = false;
+        }
+        else {
+            btMax.setText("🗗");
+            btClose.setStyle("-fx-background-radius: 0 0 0 0");
+            nov.setMaximum();
+            isMax = true;
+        }
+    }
+
+    /**
      * Handles the Maximize and Restore button actions
      * @param event
      */
     @FXML
     protected void handleMaximizeClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY)){
-            Stage stage = (Stage) btMax.getScene().getWindow();
-            if (stage.isMaximized()) {
-                btMax.setText("⬜");
-                stage.setMaximized(false);
-            }
-            else {
-                btMax.setText("🗗");
-                stage.setMaximized(true);
-            }
+            maximizeApp();
         }
     }
 
@@ -92,17 +122,35 @@ public class HeaderController {
     @FXML
     protected void handleTitleBarPress(MouseEvent event) {
         Scene scene = (Scene) titleBar.getScene();
-        Stage stage = (Stage) scene.getWindow();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             if(event.getClickCount() == 2){
                 isDoubleClick = true;
-                handleMaximizeClick(event);
+                maximizeApp();
+                isMaximizeCooldown = true;
+                final Timeline setCooldownMax = new Timeline(
+                    new KeyFrame(Duration.seconds(0.2), (ActionEvent actionEvent) -> {
+                        isMaximizeCooldown = false;
+                    }
+                ));
+                setCooldownMax.setCycleCount(1);
+                setCooldownMax.play(); 
             }
             else {
                 isDoubleClick = false;
                 mousePosX = event.getX();
                 mousePosY = event.getY();
             }
+        }
+    }
+
+    /**
+     * Handles when title bar is let go of
+     * @param event
+     */
+    @FXML protected void handleTitleBarUnPress(MouseEvent event) {
+        Stage stage = (Stage) titleBar.getScene().getWindow();
+        if (stage.getY() >= -25 && stage.getY() < 10 && (stage.getX() + (stage.getWidth()/2)) > ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 3) && (stage.getX() + (stage.getWidth()/2)) < ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 5) && !isMax && !isMaximizeCooldown) {
+            maximizeApp();
         }
     }
 
@@ -115,6 +163,7 @@ public class HeaderController {
         if (isDoubleClick) {
             return;
         }
+
         Scene scene = (Scene) titleBar.getScene();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             Stage stage = (Stage) titleBar.getScene().getWindow();
@@ -328,5 +377,70 @@ public class HeaderController {
         } 
         catch (IOException | URISyntaxException e) {
         }
+    }
+
+    /**
+     * Handles when Home button is clicked
+     * @param event
+     */
+    @FXML protected void handleHomeClick(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            setActiveTab("home", btHome);
+        }
+    }
+
+    /**
+     * Handles when Character button is clicked
+     * @param event
+     */
+    @FXML protected void handleCharClick(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            setActiveTab("char", btChar);
+        }
+    }
+
+    /**
+     * Handles when Equipment button is clicked
+     * @param event
+     */
+    @FXML protected void handleEquipClick(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            setActiveTab("equip", btEquip);
+        }
+    }
+
+    /**
+     * Handles when Archetype button is clicked
+     * @param event
+     */
+    @FXML protected void handleArcheClick(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            setActiveTab("arche", btArche);
+        }
+    }
+
+    /**
+     * Handles when View button is clicked
+     * @param event
+     */
+    @FXML protected void handleViewClick(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            setActiveTab("view", btView);
+        }
+    }
+
+    /**
+     * Sets active page
+     * @param tab
+     * @param button
+     */
+    private void setActiveTab(String tab, Button button) {
+        btHome.setStyle("-fx-opacity: 0.8;");
+        btChar.setStyle("-fx-opacity: 0.8;");
+        btEquip.setStyle("-fx-opacity: 0.8;");
+        btArche.setStyle("-fx-opacity: 0.8;");
+        btView.setStyle("-fx-opacity: 0.8;");
+        button.setStyle("-fx-opacity: 1;");
+        nov.setTab(tab + "Root");
     }
 }

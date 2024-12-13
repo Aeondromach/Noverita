@@ -1,6 +1,8 @@
 /**
  * @author Evelyn Engleman @Æondromach
- * Controller for all Footer items
+ * @version 1
+ * @since 12/11/2024
+ * Main controller for Footer
  */
 
 package com.aeondromach;
@@ -33,10 +35,17 @@ public class FooterController {
         });
     }
 
+    /**
+     * Takes instantiated Novcontroller and links self to it.
+     * @param nov Sets instance of Novcontroller
+     */
     public void init(NovController nov) {
         this.nov = nov;
     }
 
+    /**
+     * Calls NovController to set last action
+     */
     public void setLastAction() {
         labLastAction.setText(nov.getLastAction());
     }

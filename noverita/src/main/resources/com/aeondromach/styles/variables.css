@@ -1,0 +1,22 @@
+.root {
+    /* Theme changing */
+    -primaryColor: rgb(34, 6, 71);
+    -secondaryColor: rgb(44, 10, 88);
+
+    /* Darkmode changing */
+    -primaryTextColor: aliceblue;
+    -secondaryTextColor: whitesmoke;
+    -background: #1f1f1f;
+
+    /* Permanent */
+    -hover: #7a7a7a;
+    -borderColor: transparent;
+}
+
+#mainAppPane {
+    -fx-border-width: 0;
+    -fx-region-background: none;
+    -fx-padding: 0;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+}

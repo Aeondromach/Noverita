@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
@@ -15,7 +16,7 @@
 
 <AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="1150.0" prefHeight="120.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HeaderController">
    <children>
-      <AnchorPane fx:id="titleBar" minHeight="31.0" minWidth="1150.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" prefHeight="31.0" prefWidth="1150.0">
+      <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1150.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
          <children>
             <Button id="titleImageButton" alignment="CENTER" layoutX="3.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
                <graphic>
@@ -77,15 +78,28 @@
                   <Text id="noveritaText" fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Noverita" />
                </children>
             </StackPane>
-            <AnchorPane id="titleButtonHold" layoutX="936.0" prefHeight="32.0" prefWidth="214.0">
+            <AnchorPane id="titleButtonHold" layoutX="934.0" maxHeight="32.0" maxWidth="216.0" minHeight="32.0" minWidth="216.0" prefHeight="32.0" prefWidth="216.0">
                <children>
-                  <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="178.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
-                  <Button fx:id="btMax" alignment="CENTER" layoutX="142.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />
-                  <Button fx:id="btMin" alignment="CENTER" layoutX="106.0" mnemonicParsing="false" onMouseClicked="#handleMinimizeClick" prefHeight="32.0" prefWidth="36.0" style="-fx-font-size: 14px;" styleClass="titleButton" text="—" />
+                  <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
+                  <Button fx:id="btMax" alignment="CENTER" layoutX="144.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />
+                  <Button fx:id="btMin" alignment="CENTER" layoutX="108.0" mnemonicParsing="false" onMouseClicked="#handleMinimizeClick" prefHeight="32.0" prefWidth="36.0" style="-fx-font-size: 14px;" styleClass="titleButton" text="—" />
                   <Button alignment="CENTER" layoutX="36.0" mnemonicParsing="false" onMouseClicked="#handleSettingsClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⚙" />
                   <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleWebClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="🌐" />
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="32.0" minHeight="88.0" minWidth="1150.0">
+         <children>
+            <ToolBar layoutY="28.0">
+              <items>
+                <Button fx:id="btHome" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleHomeClick" styleClass="headerTitle" text="HOME" />
+                  <Button fx:id="btChar" mnemonicParsing="false" onMouseClicked="#handleCharClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="CHARACTER" />
+                  <Button fx:id="btEquip" mnemonicParsing="false" onMouseClicked="#handleEquipClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="EQUIPMENT" />
+                  <Button fx:id="btArche" mnemonicParsing="false" onMouseClicked="#handleArcheClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="ARCHETYPE" />
+                  <Button fx:id="btView" mnemonicParsing="false" onMouseClicked="#handleViewClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="VIEW" />
+              </items>
+            </ToolBar>
          </children>
       </AnchorPane>
    </children>

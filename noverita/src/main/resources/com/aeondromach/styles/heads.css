@@ -1,6 +1,6 @@
 /* "Heads" Header and Footer css */
 
-@import "nov.css";
+@import url("variables.css");
 
 .heads {
     -fx-background-color: -primaryColor;
@@ -46,6 +46,7 @@
     -fx-background-radius: 0 8 0 0;
     -fx-border-width: 1 1 0 0;
     -fx-border-radius: 0 7 0 0;
+    -fx-border-insets: 0;
     -fx-border-color: transparent;
 }
 
@@ -81,4 +82,18 @@
 
 #lastActionHolder {
     -fx-padding: 0 0 0 15;
+}
+
+.headerTitle {
+    -fx-text-fill: -primaryTextColor;
+    -fx-font-size: 26px;
+    -fx-background-color: none;
+    -fx-background-insets: 0;
+    -fx-padding: 15 10 5 10;
+}
+
+.tool-bar {
+    -fx-background-color: none;
+    -fx-padding: 0 0 0 15;
+    -fx-spacing: 10;
 }

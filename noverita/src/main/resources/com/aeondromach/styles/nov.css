@@ -1,21 +1,8 @@
 /* Main body css */
 
-.root {
-    /* Theme changing */
-    -primaryColor: rgb(34, 6, 71);
-    -secondaryColor: rgb(44, 10, 88);
+@import url("variables.css");
 
-    /* Darkmode changing */
-    -primaryTextColor: aliceblue;
-    -secondaryTextColor: whitesmoke;
-    -background: #1f1f1f;
-
-    /* Permanent */
-    -hover: #7a7a7a;
-    -borderColor: transparent;
-}
-
-#bodyAppPane {
+.bodyAppPane {
     -fx-background-color: -background;
     -fx-border-width: 0 1 0 1;
     -fx-border-radius: 0;
@@ -23,7 +10,57 @@
     -fx-border-color: -borderColor;
 }
 
-#mainAppPane {
-    -fx-border-width: 0;
-    -fx-region-background: none;
+.pane {
+    -fx-padding: 0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 1;
+    -fx-background-color: -secondaryColor;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 15;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:1px;
+}
+
+.tab{
+    -fx-padding: 5 10 5 10;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: transparent;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: transparent;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: -primaryTextColor;
+    -fx-opacity: 0.8;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:hover .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-opacity: 0.9;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-opacity: 1;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
 }

@@ -1,11 +1,15 @@
 /**
  * @author Evelyn Engleman @Æondromach
+ * @version 2
+ * @since 12/08/2024
+ * Handles resizing all app elements whenever stage width/height changes
  */
 
 package com.aeondromach;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +25,11 @@ public class ResizeHandler {
         private final Pane headerPane;
         private final StackPane titleHold;
         private final AnchorPane titleButtonHold;
-        private final Pane bodyPane;
+        private final TabPane homePane;
+        private final TabPane charPane;
+        private final TabPane equipPane;
+        private final TabPane archePane;
+        private final TabPane viewPane;
         
         /**
          * Constructor for width resizer
@@ -29,7 +37,11 @@ public class ResizeHandler {
          */
         public NewResizeWidthChange(@SuppressWarnings("exports") BorderPane mainPane) {
             this.mainPane = mainPane;
-            bodyPane = (Pane) mainPane.lookup("#bodyAppPane");
+            homePane = (TabPane) mainPane.lookup("#homeBod");
+            charPane = (TabPane) mainPane.lookup("#charBod");
+            equipPane = (TabPane) mainPane.lookup("#equipBod");
+            archePane = (TabPane) mainPane.lookup("#archeBod");
+            viewPane = (TabPane) mainPane.lookup("#viewBod");
             headerPane = (Pane) mainPane.lookup("#headsHeader");
             titleHold = (StackPane) headerPane.lookup("#titleHold");
             titleButtonHold = (AnchorPane) headerPane.lookup("#titleButtonHold");
@@ -52,11 +64,8 @@ public class ResizeHandler {
             // entire pane stretch
             mainPane.setPrefWidth(mainPane.getPrefWidth() + delta);
 
-            // body Stretch
-            bodyPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
-
             // Header Stretch
-            headerPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
+            headerPane.setPrefWidth(headerPane.getPrefWidth() + delta);
 
             // Header Children Pos set
             if (mainPane.getPrefWidth() + delta > 1150.0) {
@@ -65,19 +74,30 @@ public class ResizeHandler {
             }
 
             // footer Stretch
-            footerPane.setPrefWidth(mainPane.getPrefWidth() - 0.3);
+            footerPane.setPrefWidth(footerPane.getPrefWidth() + delta);
 
             // Footer Children Pos set
             if (mainPane.getPrefWidth() + delta > 1150.0) {
                 versionHold.setLayoutX(footerPane.getPrefWidth() - versionHold.getWidth());
                 pathFileHold.setLayoutX((footerPane.getPrefWidth()/2) - (pathFileHold.getWidth()/2));
             }
+
+            // body Stretch
+            homePane.setPrefWidth(homePane.getPrefWidth() + delta);
+            charPane.setPrefWidth(charPane.getPrefWidth() + delta);
+            equipPane.setPrefWidth(equipPane.getPrefWidth() + delta);
+            archePane.setPrefWidth(archePane.getPrefWidth() + delta);
+            viewPane.setPrefWidth(viewPane.getPrefWidth() + delta);
         }
     }
 
     public static class NewResizeHeightChange implements ChangeListener<Number> {
         private final BorderPane mainPane;
-        private final Pane bodyPane;
+        private final TabPane homePane;
+        private final TabPane charPane;
+        private final TabPane equipPane;
+        private final TabPane archePane;
+        private final TabPane viewPane;
 
         /**
          * Constructor for height change
@@ -85,7 +105,11 @@ public class ResizeHandler {
          */
         public NewResizeHeightChange(@SuppressWarnings("exports") BorderPane mainPane) {
             this.mainPane = mainPane;
-            bodyPane = (Pane) mainPane.lookup("#bodyAppPane");
+            homePane = (TabPane) mainPane.lookup("#homeBod");
+            charPane = (TabPane) mainPane.lookup("#charBod");
+            equipPane = (TabPane) mainPane.lookup("#equipBod");
+            archePane = (TabPane) mainPane.lookup("#archeBod");
+            viewPane = (TabPane) mainPane.lookup("#viewBod");
         }
 
         /**
@@ -101,7 +125,11 @@ public class ResizeHandler {
 
             mainPane.setPrefHeight(mainPane.getPrefHeight() + delta);
 
-            bodyPane.setPrefHeight(bodyPane.getPrefHeight() + delta);
+            homePane.setPrefHeight(homePane.getPrefHeight() + delta);
+            charPane.setPrefHeight(charPane.getPrefHeight() + delta);
+            equipPane.setPrefHeight(equipPane.getPrefHeight() + delta);
+            archePane.setPrefHeight(archePane.getPrefHeight() + delta);
+            viewPane.setPrefHeight(viewPane.getPrefHeight() + delta);
         }
     }
 }

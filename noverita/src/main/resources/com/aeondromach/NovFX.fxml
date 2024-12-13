@@ -1,15 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane id="mainAppPane" fx:id="NovPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="550.0" minWidth="1150.0" prefHeight="550.0" prefWidth="1150.0" style="-fx-background-color: none;" stylesheets="@styles/nov.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.NovController">
-    <top>
-        <fx:include fx:id="header" source="templates/Header.fxml" BorderPane.alignment="TOP_CENTER" />
-    </top>
+<BorderPane id="mainAppPane" fx:id="novPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="550.0" minWidth="1150.0" prefHeight="550.0" prefWidth="1150.0" snapToPixel="true" style="-fx-background-color: none;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.NovController">
    <center>
-      <fx:include fx:id="home" source="templates/Home.fxml" BorderPane.alignment="CENTER" />
+      <Pane fx:id="tabView" style="-fx-padding: 0; -fx-background-insets: 0; -fx-border-image-insets: 0; -fx-margins: 0;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="viewRoot" visible="false">
+               <children>
+                  <fx:include fx:id="view" source="templates/View.fxml" />
+               </children>
+            </Pane>
+            <Pane fx:id="archeRoot" visible="false">
+               <children>
+                  <fx:include fx:id="archetype" source="templates/Archetype.fxml" />
+               </children>
+            </Pane>
+            <Pane fx:id="equipRoot" visible="false">
+               <children>
+                  <fx:include fx:id="equipment" source="templates/Equipment.fxml" />
+               </children>
+            </Pane>
+            <Pane fx:id="charRoot" visible="false">
+               <children>
+                  <fx:include fx:id="character" source="templates/Character.fxml" />
+               </children>
+            </Pane>
+            <Pane fx:id="homeRoot">
+               <children>
+                  <fx:include fx:id="home" source="templates/Home.fxml" />
+               </children>
+            </Pane>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Pane>
    </center>
+   <top>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+              <fx:include fx:id="header" source="templates/Header.fxml" BorderPane.alignment="TOP_CENTER" />
+         </children>
+      </Pane>
+   </top>
    <bottom>
-      <fx:include fx:id="footer" source="templates/Footer.fxml" BorderPane.alignment="BOTTOM_CENTER" />
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <fx:include fx:id="footer" source="templates/Footer.fxml" BorderPane.alignment="BOTTOM_CENTER" />
+         </children>
+      </Pane>
    </bottom>
 </BorderPane>

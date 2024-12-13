@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HomeController">
+<TabPane fx:id="view" styleClass="bodyAppPane" id="viewBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.ViewController">
   <tabs>
-    <Tab text="Character Hub">
+    <Tab text="Character Sheet">
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -17,15 +17,10 @@
             </BorderPane>
          </content>
     </Tab>
-    <Tab text="Packs">
+    <Tab text="Combat Calculator">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </Tab>
-      <Tab text="New Content">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
-      </Tab>
   </tabs>
 </TabPane>

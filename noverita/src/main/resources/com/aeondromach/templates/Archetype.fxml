@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HomeController">
+<TabPane fx:id="archetype" styleClass="bodyAppPane" id="archeBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.ArchetypeController">
   <tabs>
-    <Tab text="Character Hub">
+    <Tab text="Archetype">
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -17,12 +17,17 @@
             </BorderPane>
          </content>
     </Tab>
-    <Tab text="Packs">
+    <Tab text="Rank">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </Tab>
-      <Tab text="New Content">
+      <Tab text="Skill Tree">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+      <Tab text="Manipulations">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
         </content>

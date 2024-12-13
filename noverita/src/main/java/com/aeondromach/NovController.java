@@ -1,28 +1,54 @@
 /**
  * @author Evelyn Engleman @Æondromach
+ * @version 2
+ * @since 12/07/2024
  * Main Controller for Noverita
  */
 
 package com.aeondromach;
 
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import static com.aeondromach.HeaderController.isMax;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 public class NovController {
     @FXML private BorderPane novPane;
+    @FXML private Pane tabView;
+
+    @FXML private Pane homeRoot;
+    @FXML private Pane charRoot;
+    @FXML private Pane equipRoot;
+    @FXML private Pane archeRoot;
+    @FXML private Pane viewRoot;
 
     @FXML private HeaderController headerController;
     @FXML private FooterController footerController;
     @FXML private HomeController homeController;
+    @FXML private CharacterController characterController;
+    @FXML private EquipmentController equipmentController;
+    @FXML private ArchetypeController archetypeController;
+    @FXML private ViewController viewController;
 
     public static final String NAME = getProperty("app.name");
     public static final String VERSION = getProperty("app.version");
-    private ArrayList<String> lastActions = new ArrayList<>();
+    private final ArrayList<String> LAST_ACTIONS = new ArrayList<>();
+    private double stageX, stageY, stageW, stageH;
 
     /**
      * Get config.properties items and return
@@ -47,15 +73,83 @@ public class NovController {
         headerController.init(this);
         footerController.init(this);
         homeController.init(this);
+        characterController.init(this);
+        equipmentController.init(this);
+        archetypeController.init(this);
+        viewController.init(this);
         addAction("Entered Noverita");
+        Platform.runLater(() -> {
+            Stage stage = (Stage) novPane.getScene().getWindow();
+            stageX = stage.getX();
+            stageY = stage.getY();
+            stageW = stage.getWidth();
+            stageH = stage.getHeight();
+        });
     }
 
     public void addAction(String text) {
-        lastActions.add(text);
+        LAST_ACTIONS.add(text);
         footerController.setLastAction();
     }
 
     public String getLastAction() {
-        return lastActions.get(lastActions.size() - 1);
+        return LAST_ACTIONS.get(LAST_ACTIONS.size() - 1);
+    }
+
+    public void setTab(String activeTab) {
+        homeRoot.setVisible(false);
+        charRoot.setVisible(false);
+        equipRoot.setVisible(false);
+        archeRoot.setVisible(false);
+        viewRoot.setVisible(false);
+        for (Node pane: tabView.getChildren()) {
+            if (pane.getId().equals(activeTab)) {
+                pane.setVisible(true);
+            }
+        }
+    }
+
+    public void setMaximum() {
+        Stage stage = (Stage) novPane.getScene().getWindow();
+        Parent root = (Parent) novPane.getScene().getRoot();
+        AnchorPane headerPane = (AnchorPane) novPane.lookup("#headsHeader");
+        AnchorPane footerPane = (AnchorPane) novPane.lookup("#headsFooter");
+
+        if (!isMax) {
+            stageX = stage.getX();
+            stageY = stage.getY();
+            stageW = stage.getWidth();
+            stageH = stage.getHeight();
+            stage.setX(0);
+            stage.setY(0);
+            stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
+
+            Dimension scrnSize = Toolkit.getDefaultToolkit().getScreenSize();
+            java.awt.Rectangle winSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+            int taskBarHeight = scrnSize.height - winSize.height;
+            
+            stage.setHeight(Screen.getPrimary().getBounds().getHeight() - taskBarHeight);
+
+            root.setStyle("-borderColor: transparent");
+            headerPane.setStyle("-fx-background-radius: 0 0 0 0;");
+            footerPane.setStyle("-fx-background-radius: 0 0 0 0;");
+        }
+        else {
+            stage.setX(stageX);
+            stage.setY(stageY);
+            stage.setWidth(stageW);
+            stage.setHeight(stageH);
+
+            root.setStyle("-borderColor: rgba(100, 100, 100, 0.75);");
+            headerPane.setStyle("-fx-background-radius: 8 8 0 0;");
+            footerPane.setStyle("-fx-background-radius: 0 0 8 8;");
+        }
+        Platform.runLater(() -> {
+            stage.setWidth(stage.getWidth() + 0.00000000001);
+            stage.setWidth(stage.getWidth() - 0.00000000001);
+            stage.setHeight(stage.getHeight() + 0.00000000001);
+            stage.setHeight(stage.getHeight() - 0.00000000001);
+        });
     }
 }

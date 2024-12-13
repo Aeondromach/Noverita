@@ -1,5 +1,7 @@
 /**
  * @author Evelyn Engleman @Æondromach
+ * @version 3
+ * @since 12/07/2024
  * App driver for Noverita
  */
 
@@ -7,14 +9,18 @@ package com.aeondromach;
 
 import java.io.IOException;
 
+import static com.aeondromach.HeaderController.isMax;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -49,6 +55,13 @@ public class App extends Application {
         // Set task bar title
         stage.setTitle("Noverita");
 
+        Screen screen = Screen.getPrimary();
+        double dpi = screen.getDpi();
+        double scaleFactor = dpi / 96.0;
+
+        stage.outputScaleXProperty().add(scaleFactor);
+        stage.outputScaleYProperty().add(scaleFactor);
+
         addResizeHandlers(stage, scene);
 
         // get and set icon
@@ -62,10 +75,10 @@ public class App extends Application {
             Platform.runLater(() -> {
                 if (newValue) {
                     scene.lookup("#noveritaText").setStyle("-fx-opacity: 1;");
-                    scene.getRoot().setStyle("-borderColor: rgba(100, 100, 100, 0.75);");
+                    if (!isMax) { scene.getRoot().setStyle("-borderColor: rgba(100, 100, 100, 0.75);"); }
                 } else {
                     scene.lookup("#noveritaText").setStyle("-fx-opacity: 0.75;");
-                    scene.getRoot().setStyle("-borderColor: rgba(100, 100, 100, 0.4);");
+                    if (!isMax) { scene.getRoot().setStyle("-borderColor: rgba(100, 100, 100, 0.4);"); }
                 }
             });            
         });
@@ -79,21 +92,10 @@ public class App extends Application {
      * @param scene
      */
     private void addResizeHandlers(Stage stage, Scene scene) {
-        scene.setOnMousePressed(e -> {
-            xOffset = e.getSceneX();
-            yOffset = e.getSceneY();
-        });
+        scene.addEventFilter(MouseEvent.MOUSE_MOVED, e -> updateCursor(e, stage));
 
-        scene.setOnMouseDragged(e -> {
-            if (!isInResizeZone(e, stage)) {
-                stage.setX(e.getScreenX() - xOffset);
-                stage.setY(e.getScreenY() - yOffset);
-            }
-        });
 
-        scene.setOnMouseMoved(e -> updateCursor(e, stage));
-
-        scene.setOnMouseDragged(e -> resize(stage, e));
+        scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> resize(stage, e));
     }
 
     /**
@@ -102,34 +104,36 @@ public class App extends Application {
      * @param stage
      */
     private void updateCursor(javafx.scene.input.MouseEvent e, Stage stage) {
-        double x = e.getSceneX(), y = e.getSceneY();
+        if (!isMax) {
+            double x = e.getSceneX(), y = e.getSceneY();
 
-        if (x < RESIZE_MARGIN && y < RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.NW_RESIZE);
-        } 
-        else if (x > mainPane.getWidth() - RESIZE_MARGIN && y < RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.NE_RESIZE);
-        } 
-        else if (x < RESIZE_MARGIN && y > mainPane.getHeight() - RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.SW_RESIZE);
-        } 
-        else if (x > mainPane.getWidth() - RESIZE_MARGIN && y > mainPane.getHeight() - RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.SE_RESIZE);
-        } 
-        else if (x < RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.W_RESIZE);
-        } 
-        else if (x > mainPane.getWidth() - RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.E_RESIZE);
-        } 
-        else if (y < RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.N_RESIZE);
-        } 
-        else if (y > mainPane.getHeight() - RESIZE_MARGIN) {
-            stage.getScene().setCursor(javafx.scene.Cursor.S_RESIZE);
-        } 
-        else {
-            stage.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+            if (x < RESIZE_MARGIN && y < RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.NW_RESIZE);
+            } 
+            else if (x > mainPane.getWidth() - RESIZE_MARGIN && y < RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.NE_RESIZE);
+            } 
+            else if (x < RESIZE_MARGIN && y > mainPane.getHeight() - RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.SW_RESIZE);
+            } 
+            else if (x > mainPane.getWidth() - RESIZE_MARGIN && y > mainPane.getHeight() - RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.SE_RESIZE);
+            } 
+            else if (x < RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.W_RESIZE);
+            } 
+            else if (x > mainPane.getWidth() - RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.E_RESIZE);
+            } 
+            else if (y < RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.N_RESIZE);
+            } 
+            else if (y > mainPane.getHeight() - RESIZE_MARGIN) {
+                stage.getScene().setCursor(javafx.scene.Cursor.S_RESIZE);
+            } 
+            else {
+                stage.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+            }
         }
     }
 
@@ -145,20 +149,18 @@ public class App extends Application {
         if (stage.getScene().getCursor() == javafx.scene.Cursor.NW_RESIZE) {
             double width = stage.getWidth() - (screenX - stage.getX());
             double height = stage.getHeight() - (screenY - stage.getY());
-            int newWidth = (int) Math.round(width);
-            int newHeight = (int) Math.round(height);
-            if (newWidth > RESIZE_MARGIN) {
-                if (newWidth >= stage.getMinWidth()) {
-                    stage.setWidth(newWidth);
+            if (width > RESIZE_MARGIN) {
+                if (width >= stage.getMinWidth()) {
+                    stage.setWidth(width);
                     stage.setX(screenX);
                 }
                 else {
-                    stage.setWidth(newWidth);
+                    stage.setWidth(stage.getMinWidth());
                 }
             }
-            if (newHeight > RESIZE_MARGIN) {
-                if (newHeight >= stage.getMinHeight()) {
-                    stage.setHeight(newHeight);
+            if (height > RESIZE_MARGIN) {
+                if (height >= stage.getMinHeight()) {
+                    stage.setHeight(height);
                     stage.setY(screenY);
                 }
                 else {
@@ -169,12 +171,16 @@ public class App extends Application {
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.NE_RESIZE) {
             double width = x;
             double height = stage.getHeight() - (screenY - stage.getY());
-            int newWidth = (int) Math.round(width);
-            int newHeight = (int) Math.round(height);
-            if (newWidth > RESIZE_MARGIN) stage.setWidth(newWidth);
-            if (newHeight > RESIZE_MARGIN) {
-                if (newHeight >= stage.getMinHeight()) {
-                    stage.setHeight(newHeight);
+            if (width >= stage.getMinWidth()) {
+                stage.setWidth(width);
+            }
+            else {
+                stage.setWidth(stage.getMinWidth());
+            }
+
+            if (height > RESIZE_MARGIN) {
+                if (height >= stage.getMinHeight()) {
+                    stage.setHeight(height);
                     stage.setY(screenY);
                 }
                 else {
@@ -185,33 +191,46 @@ public class App extends Application {
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.SW_RESIZE) {
             double width = stage.getWidth() - (screenX - stage.getX());
             double height = y;
-            int newWidth = (int) Math.round(width);
-            int newHeight = (int) Math.round(height);
-            if (newWidth > RESIZE_MARGIN) {
-                if (newWidth >= stage.getMinWidth()) {
-                    stage.setWidth(newWidth);
+            if (width > RESIZE_MARGIN) {
+                if (width >= stage.getMinWidth()) {
+                    stage.setWidth(width);
                     stage.setX(screenX);
                 }
                 else {
                     stage.setWidth(stage.getMinWidth());
                 }
             }
-            if (newHeight > RESIZE_MARGIN) stage.setHeight(newHeight);
+            if (height > RESIZE_MARGIN) {
+                if (height >= stage.getMinHeight()) {
+                    stage.setHeight(height);
+                }
+                else {
+                    stage.setHeight(stage.getMinHeight());
+                }
+            }
         } 
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.SE_RESIZE) {
             double width = x;
             double height = y;
-            int newWidth = (int) Math.round(width);
-            int newHeight = (int) Math.round(height);
-            if (newWidth > RESIZE_MARGIN) stage.setWidth(newWidth);
-            if (newHeight > RESIZE_MARGIN) stage.setHeight(newHeight);
+            if (width >= stage.getMinWidth()) {
+                stage.setWidth(width);
+            }
+            else {
+                stage.setWidth(stage.getMinWidth());
+            }
+
+            if (height >= stage.getMinHeight()) {
+                stage.setHeight(height);
+            }
+            else {
+                stage.setHeight(stage.getMinHeight());
+            }
         } 
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.W_RESIZE) {
             double width = stage.getWidth() - (screenX - stage.getX());
-            int newWidth = (int) Math.round(width);
-            if (newWidth > RESIZE_MARGIN) {
-                if (newWidth >= stage.getMinWidth()) {
-                    stage.setWidth(newWidth);
+            if (width > RESIZE_MARGIN) {
+                if (width >= stage.getMinWidth()) {
+                    stage.setWidth(width);
                     stage.setX(screenX);
                 }
                 else {
@@ -221,16 +240,20 @@ public class App extends Application {
         } 
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.E_RESIZE) {
             double width = x;
-            int newWidth = (int) Math.round(width);
-            if (newWidth > RESIZE_MARGIN) stage.setWidth(newWidth);
-            // System.out.println("stage min width: " + stage.getMinWidth() + " | New Width: " + newWidth);
+            if (width > RESIZE_MARGIN) {
+                if (width >= stage.getMinWidth()) {
+                    stage.setWidth(width);
+                }
+                else {
+                    stage.setWidth(stage.getMinWidth());
+                }
+            }
         } 
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.N_RESIZE) {
             double height = stage.getHeight() - (screenY - stage.getY());
-            int newHeight = (int) Math.round(height);
-            if (newHeight > RESIZE_MARGIN) {
-                if (newHeight >= stage.getMinHeight()) {
-                    stage.setHeight(newHeight);
+            if (height > RESIZE_MARGIN) {
+                if (height >= stage.getMinHeight()) {
+                    stage.setHeight(height);
                     stage.setY(screenY);
                 }
                 else {
@@ -240,29 +263,19 @@ public class App extends Application {
         } 
         else if (stage.getScene().getCursor() == javafx.scene.Cursor.S_RESIZE) {
             double height = y;
-            int newHeight = (int) Math.round(height);
-            if (newHeight > RESIZE_MARGIN) stage.setHeight(newHeight);
+            if (height >= stage.getMinHeight()) {
+                stage.setHeight(height);
+            }
+            else {
+                stage.setHeight(stage.getMinHeight());
+            }
         }
-    }
-
-    /**
-     * Checks if in resize zone
-     * @param e
-     * @param stage
-     * @return
-     */
-    private boolean isInResizeZone(javafx.scene.input.MouseEvent e, Stage stage) {
-        double x = e.getSceneX(), y = e.getSceneY();
-        double width = stage.getWidth(), height = stage.getHeight();
-
-        return (x < RESIZE_MARGIN || x > width - RESIZE_MARGIN ||
-                y < RESIZE_MARGIN || y > height - RESIZE_MARGIN);
     }
 
     /**
      * Ease of access load fxml file
      * @param fxml
-     * @return
+     * @return fxml file with .fxml ending
      * @throws IOException
      */
     private static Parent loadFXML(String fxml) throws IOException {
