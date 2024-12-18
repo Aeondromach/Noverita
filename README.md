@@ -4,7 +4,7 @@ Noverita is a character creator and editor for a based in dnd modern system. In 
 ## How to download
 Noverita cannot currently be downloaded, but once a .exe/.jar file is ready, You will be able to download through two different ways:
 1. Through Github
-2. Through Novera.com
+2. ~~Through Novera.Aeondromach.com~~
 ## Find any glitches?
 I would love to recieve a bug report in the issues tab!
 https://github.com/Aeondromach/Noverita/issues

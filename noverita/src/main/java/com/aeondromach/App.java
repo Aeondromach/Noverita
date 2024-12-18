@@ -20,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -31,36 +30,34 @@ public class App extends Application {
 
     private static Scene scene;
     private static final int RESIZE_MARGIN = 5;
-    private double xOffset = 0, yOffset = 0;
     private BorderPane mainPane;
+    private double mainHeight, mainWidth;
 
     /**
      * Initial set-up of Noverita
      */
     @Override
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
+        mainWidth = 1150.0;
+        mainHeight = 550.0;
+        
         // get and set scene
-        scene = new Scene(loadFXML("NovFX"), 1150, 550);
+        scene = new Scene(loadFXML("NovFX"), mainWidth, mainHeight);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
 
-        stage.setMinHeight(550);
-        stage.setMinWidth(1150);
+        stage.setMinHeight(mainHeight);
+        stage.setMinWidth(mainWidth);
 
         mainPane = (BorderPane) scene.lookup("#mainAppPane");
+        // mainPane.setPrefHeight(mainHeight);
+        // mainPane.setPrefWidth(mainWidth);
 
         stage.widthProperty().addListener(new ResizeHandler.NewResizeWidthChange(mainPane));
         stage.heightProperty().addListener(new ResizeHandler.NewResizeHeightChange(mainPane));
 
         // Set task bar title
         stage.setTitle("Noverita");
-
-        Screen screen = Screen.getPrimary();
-        double dpi = screen.getDpi();
-        double scaleFactor = dpi / 96.0;
-
-        stage.outputScaleXProperty().add(scaleFactor);
-        stage.outputScaleYProperty().add(scaleFactor);
 
         addResizeHandlers(stage, scene);
 
@@ -93,8 +90,6 @@ public class App extends Application {
      */
     private void addResizeHandlers(Stage stage, Scene scene) {
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, e -> updateCursor(e, stage));
-
-
         scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> resize(stage, e));
     }
 
@@ -270,6 +265,12 @@ public class App extends Application {
                 stage.setHeight(stage.getMinHeight());
             }
         }
+        Platform.runLater(() -> {
+            stage.setWidth(stage.getWidth() + 0.00000000001);
+            stage.setWidth(stage.getWidth() - 0.00000000001);
+            stage.setHeight(stage.getHeight() + 0.00000000001);
+            stage.setHeight(stage.getHeight() - 0.00000000001);
+        });
     }
 
     /**
@@ -290,5 +291,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

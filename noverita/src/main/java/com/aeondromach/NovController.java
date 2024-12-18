@@ -19,6 +19,7 @@ import static com.aeondromach.HeaderController.isMax;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -96,6 +97,20 @@ public class NovController {
         return LAST_ACTIONS.get(LAST_ACTIONS.size() - 1);
     }
 
+    public void setStageX(double setter) {
+        this.stageX = setter;
+    }
+
+    public void setStageY(double setter) {
+        this.stageY = setter;
+    }
+
+    @SuppressWarnings("exports")
+    public Rectangle2D getOriginalSize() {
+        Rectangle2D rect = new Rectangle2D(1150, 550, stageW, stageH);
+        return rect;
+    }
+
     public void setTab(String activeTab) {
         homeRoot.setVisible(false);
         charRoot.setVisible(false);
@@ -146,6 +161,10 @@ public class NovController {
             footerPane.setStyle("-fx-background-radius: 0 0 8 8;");
         }
         Platform.runLater(() -> {
+            isMax = !isMax;
+            if (isMax) {
+                stage.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+            }
             stage.setWidth(stage.getWidth() + 0.00000000001);
             stage.setWidth(stage.getWidth() - 0.00000000001);
             stage.setHeight(stage.getHeight() + 0.00000000001);

@@ -69,7 +69,7 @@
 
 .footText {
     -fx-fill: -primaryTextColor;
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
 }
 
 #versionHold {

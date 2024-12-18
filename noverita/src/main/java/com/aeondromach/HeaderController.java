@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -44,6 +45,7 @@ public class HeaderController {
     private Boolean isDoubleClick = false;
     public static Boolean isMax = false;
     private Boolean isMaximizeCooldown = false;
+    private Boolean isMaxDragging = false;
 
     private NovController nov;
 
@@ -82,13 +84,11 @@ public class HeaderController {
             btMax.setText("⬜");
             btClose.setStyle("-fx-background-radius: 0 7 0 0");
             nov.setMaximum();
-            isMax = false;
         }
         else {
             btMax.setText("🗗");
             btClose.setStyle("-fx-background-radius: 0 0 0 0");
             nov.setMaximum();
-            isMax = true;
         }
     }
 
@@ -149,6 +149,7 @@ public class HeaderController {
      */
     @FXML protected void handleTitleBarUnPress(MouseEvent event) {
         Stage stage = (Stage) titleBar.getScene().getWindow();
+        isMaxDragging = false;
         if (stage.getY() >= -25 && stage.getY() < 10 && (stage.getX() + (stage.getWidth()/2)) > ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 3) && (stage.getX() + (stage.getWidth()/2)) < ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 5) && !isMax && !isMaximizeCooldown) {
             maximizeApp();
         }
@@ -167,8 +168,25 @@ public class HeaderController {
         Scene scene = (Scene) titleBar.getScene();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             Stage stage = (Stage) titleBar.getScene().getWindow();
-            stage.setX(event.getScreenX() - mousePosX);
-            stage.setY(event.getScreenY() - mousePosY);
+            if (!isMaxDragging && !isMax) {
+                stage.setX(event.getScreenX() - mousePosX);
+                stage.setY(event.getScreenY() - mousePosY);
+            }
+            else if (!isMaxDragging && isMax) {
+                isMaxDragging = true;
+                mousePosX = nov.getOriginalSize().getWidth() / 2;
+                nov.setStageX(event.getScreenX() - mousePosX);
+                nov.setStageY(event.getScreenY() - mousePosY);
+                Platform.runLater(() -> {
+                    maximizeApp();
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    stage.setX(event.getScreenX() - mousePosX);
+                    stage.setY(event.getScreenY() - mousePosY);
+                });
+            }
         }
     }
 
