@@ -9,6 +9,7 @@ package com.aeondromach;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -98,6 +99,8 @@ public class ResizeHandler {
         private final TabPane equipPane;
         private final TabPane archePane;
         private final TabPane viewPane;
+        private final ScrollPane squadsPane;
+        private final StackPane newCharHold;
 
         /**
          * Constructor for height change
@@ -110,6 +113,8 @@ public class ResizeHandler {
             equipPane = (TabPane) mainPane.lookup("#equipBod");
             archePane = (TabPane) mainPane.lookup("#archeBod");
             viewPane = (TabPane) mainPane.lookup("#viewBod");
+            squadsPane = (ScrollPane) mainPane.lookup("#squadsPane");
+            newCharHold = (StackPane) mainPane.lookup("#newCharButtonHold");
         }
 
         /**
@@ -130,6 +135,10 @@ public class ResizeHandler {
             equipPane.setPrefHeight(equipPane.getPrefHeight() + delta);
             archePane.setPrefHeight(archePane.getPrefHeight() + delta);
             viewPane.setPrefHeight(viewPane.getPrefHeight() + delta);
+
+            squadsPane.setPrefHeight(squadsPane.getPrefHeight() + delta);
+
+            newCharHold.setLayoutY(newCharHold.getLayoutY() + delta);
         }
     }
 }

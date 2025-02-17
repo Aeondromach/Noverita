@@ -1,18 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HomeController">
+<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1150.0" prefHeight="430.0" prefWidth="1150.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HomeController">
   <tabs>
     <Tab text="Character Hub">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane>
+               <left>
+                  <AnchorPane id="sidePaneCharHub" fx:id="sidePaneCharHub" prefWidth="370.0" styleClass="bodyPane" BorderPane.alignment="CENTER">
+                     <children>
+                        <StackPane layoutY="7.0" prefHeight="40.0" prefWidth="370.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Sort by Category" />
+                           </children>
+                        </StackPane>
+                        <ScrollPane id="squadsPane" hbarPolicy="NEVER" layoutY="54.0" prefHeight="240.0" prefWidth="360.0" styleClass="bodyPane">
+                           <content>
+                              <VBox fx:id="vBoxSquadList" prefHeight="0.0" prefWidth="360.0" styleClass="bodyPane" />
+                           </content>
+                        </ScrollPane>
+                        <StackPane id="newCharButtonHold" layoutY="294.0" prefHeight="103.0" prefWidth="370.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" text="New Character" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </AnchorPane>
+               </left>
                <center>
-                  <Button mnemonicParsing="false" onMouseClicked="#handleTestClick" text="Test" BorderPane.alignment="CENTER" />
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <VBox fx:id="vBoxCharHub" prefWidth="762.0" styleClass="homeCharPage">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                     </content>
+                     <styleClass>
+                        <String fx:value="bodyAppPane" />
+                        <String fx:value="bodyScrollPane" />
+                     </styleClass>
+                  </ScrollPane>
                </center>
             </BorderPane>
          </content>

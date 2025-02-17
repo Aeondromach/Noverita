@@ -2,15 +2,15 @@
  * @author Evelyn Engleman @Æondromach
  * @version 1
  * @since 12/11/2024
- * Main controller for Archetype page
+ * Main controller for Equipment page
  */
 
-package com.aeondromach;
+package com.aeondromach.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
-public class ArchetypeController {
+public class EquipmentController {
     private NovController nov;
 
     /**
@@ -26,6 +26,6 @@ public class ArchetypeController {
      * @param event
      */
     @FXML protected void handleTestClick(MouseEvent event) {
-        nov.addAction("Archetype");
+        nov.addAction("Equip");
     }
 }

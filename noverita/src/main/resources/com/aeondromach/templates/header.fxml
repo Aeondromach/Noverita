@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="1150.0" prefHeight="120.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.HeaderController">
+<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="1150.0" prefHeight="100.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
    <children>
       <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1150.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
          <children>
@@ -89,9 +89,9 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="32.0" minHeight="88.0" minWidth="1150.0">
+      <AnchorPane layoutY="42.0">
          <children>
-            <ToolBar layoutY="28.0">
+            <ToolBar>
               <items>
                 <Button fx:id="btHome" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleHomeClick" styleClass="headerTitle" text="HOME" />
                   <Button fx:id="btChar" mnemonicParsing="false" onMouseClicked="#handleCharClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="CHARACTER" />

@@ -10,6 +10,10 @@
     -fx-border-color: -borderColor;
 }
 
+.bodyPane {
+    -fx-background-color: -backgroundSec;
+}
+
 .pane {
     -fx-padding: 0;
 }
@@ -63,4 +67,86 @@
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
+}
+
+.titleText {
+    -fx-font-size: 30px;
+    -fx-fill: -primaryTextColor;
+}
+
+.scroll-pane {
+    -fx-background: transparent; /* Must be -fx-background, -fx-background-color only changes border colors */
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+    -fx-pref-width: 15px;
+    -fx-opacity: 0.9;
+}
+
+.scroll-bar:horizontal:hover, .scroll-bar:vertical:hover {
+    -fx-opacity: 1;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -quartaryColor;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+.homeCharPage {
+    -fx-padding: 10px 30px;
+}
+
+.squadTitle {
+    -fx-text-fill: -primaryTextColor;
+    -fx-opacity: 0.9;
+    -fx-font-size: 22px;
+    -fx-background-color: transparent;
+    -fx-padding: 0 20px 0 0;
+}
+
+.charHold {
+    -fx-background-color: -backgroundSec;
+    -fx-border-color: transparent;
+}
+
+.charHold:hover {
+    -fx-border-color: -tertiaryColor;
+}
+
+.bodyScrollPane {
+    -fx-border-insets: 0 3px;
+    -fx-border-color: transparent;
+}
+
+.charHighlight {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-padding: 4px 8px;
+}
+
+.charTitle {
+    -fx-font-size: 18px;
+    -fx-text-fill: -primaryTextColor;
+}
+
+.charDesc {
+    -fx-font-size: 16px;
+    -fx-text-fill: -secondaryTextColor;
 }

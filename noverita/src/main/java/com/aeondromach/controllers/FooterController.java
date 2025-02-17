@@ -5,9 +5,9 @@
  * Main controller for Footer
  */
 
-package com.aeondromach;
+package com.aeondromach.controllers;
 
-import static com.aeondromach.NovController.VERSION;
+import static com.aeondromach.controllers.NovController.VERSION;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

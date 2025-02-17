@@ -2,15 +2,15 @@
  * @author Evelyn Engleman @Æondromach
  * @version 1
  * @since 12/11/2024
- * Main controller for Home page
+ * Main controller for View page
  */
 
-package com.aeondromach;
+package com.aeondromach.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
-public class HomeController {
+public class ViewController {
     private NovController nov;
 
     /**
@@ -26,6 +26,6 @@ public class HomeController {
      * @param event
      */
     @FXML protected void handleTestClick(MouseEvent event) {
-        nov.addAction("Home");
+        nov.addAction("View");
     }
 }

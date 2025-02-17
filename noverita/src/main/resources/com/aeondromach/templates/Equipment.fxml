@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane fx:id="equipment" styleClass="bodyAppPane" id="equipBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="410.0" minWidth="1150.0" prefHeight="410.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.EquipmentController">
+<TabPane fx:id="equipment" styleClass="bodyAppPane" id="equipBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1150.0" prefHeight="430.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.controllers.EquipmentController">
   <tabs>
     <Tab text="Equipment">
          <content>

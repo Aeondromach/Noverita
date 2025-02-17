@@ -5,9 +5,12 @@
  * Main controller for Header and Titlebar
  */
 
-package com.aeondromach;
+package com.aeondromach.controllers;
 
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -168,9 +171,17 @@ public class HeaderController {
         Scene scene = (Scene) titleBar.getScene();
         if(event.getButton().equals(MouseButton.PRIMARY) && scene.getCursor().equals(javafx.scene.Cursor.DEFAULT)){
             Stage stage = (Stage) titleBar.getScene().getWindow();
+            Dimension scrnSize = Toolkit.getDefaultToolkit().getScreenSize();
+            java.awt.Rectangle winSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+            int taskBarHeight = scrnSize.height - winSize.height;
+            double maxThreshold = Screen.getPrimary().getBounds().getHeight() - taskBarHeight;
+
+            
             if (!isMaxDragging && !isMax) {
                 stage.setX(event.getScreenX() - mousePosX);
-                stage.setY(event.getScreenY() - mousePosY);
+                if (event.getScreenY() < maxThreshold) {
+                    stage.setY(event.getScreenY() - mousePosY);
+                }
             }
             else if (!isMaxDragging && isMax) {
                 isMaxDragging = true;
@@ -184,7 +195,9 @@ public class HeaderController {
             else {
                 Platform.runLater(() -> {
                     stage.setX(event.getScreenX() - mousePosX);
-                    stage.setY(event.getScreenY() - mousePosY);
+                    if (event.getScreenY() < maxThreshold) {
+                        stage.setY(event.getScreenY() - mousePosY);
+                    }
                 });
             }
         }

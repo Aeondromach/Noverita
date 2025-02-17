@@ -5,7 +5,7 @@
  * Main Controller for Noverita
  */
 
-package com.aeondromach;
+package com.aeondromach.controllers;
 
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import static com.aeondromach.HeaderController.isMax;
+import static com.aeondromach.controllers.HeaderController.isMax;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -46,8 +46,9 @@ public class NovController {
     @FXML private ArchetypeController archetypeController;
     @FXML private ViewController viewController;
 
-    public static final String NAME = getProperty("app.name");
-    public static final String VERSION = getProperty("app.version");
+    protected static final String NAME = getProperty("app.name");
+    protected static final String VERSION = getProperty("app.version");
+    public static Boolean isHover = false;
     private final ArrayList<String> LAST_ACTIONS = new ArrayList<>();
     private double stageX, stageY, stageW, stageH;
 
@@ -64,6 +65,10 @@ public class NovController {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void setIsHover(Boolean setter) {
+        isHover = setter;
     }
 
     /**
@@ -112,14 +117,12 @@ public class NovController {
     }
 
     public void setTab(String activeTab) {
-        homeRoot.setVisible(false);
-        charRoot.setVisible(false);
-        equipRoot.setVisible(false);
-        archeRoot.setVisible(false);
-        viewRoot.setVisible(false);
         for (Node pane: tabView.getChildren()) {
             if (pane.getId().equals(activeTab)) {
                 pane.setVisible(true);
+            }
+            else {
+                pane.setVisible(false);
             }
         }
     }
@@ -162,9 +165,6 @@ public class NovController {
         }
         Platform.runLater(() -> {
             isMax = !isMax;
-            if (isMax) {
-                stage.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
-            }
             stage.setWidth(stage.getWidth() + 0.00000000001);
             stage.setWidth(stage.getWidth() - 0.00000000001);
             stage.setHeight(stage.getHeight() + 0.00000000001);

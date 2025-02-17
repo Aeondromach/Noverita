@@ -97,3 +97,45 @@
     -fx-padding: 0 0 0 15;
     -fx-spacing: 10;
 }
+
+.menu-bar {
+    -fx-background-color: none;
+}
+
+.menu .label {
+    -fx-text-fill: -primaryTextColor !important;
+    -fx-background-color: none;
+}
+
+.menu {
+    -fx-background-color: none;
+}
+
+.menu:selected {
+    -fx-background-color: -backgroundSec;
+}
+
+.context-menu {
+    -fx-background-color: -backgroundSec;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em;
+}
+
+.menu-item {
+    -fx-text-fill: -primaryTextColor !important;
+    -fx-background-color: -backgroundSec;
+}
+
+.menu-item:focused {
+    -fx-background-color: -hover;
+}
+
+.menu:hover {
+    -fx-background-color: -hover;
+}
+
+/* Style for MenuItems when selected */
+.menu-item:selected {
+    -fx-background-color: -hover; /* Background when selected */
+}
