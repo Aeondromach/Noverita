@@ -111,7 +111,7 @@
 }
 
 .homeCharPage {
-    -fx-padding: 10px 30px;
+    -fx-padding: 10px 45px;
 }
 
 .squadTitle {
@@ -123,8 +123,13 @@
 }
 
 .charHold {
-    -fx-background-color: -backgroundSec;
-    -fx-border-color: transparent;
+    -fx-border-color: -quartaryColor;
+    -fx-border-insets: 0;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+    -fx-end-margin: 0;
+    -fx-start-margin: 0;
+    -fx-background-insets: 0;
 }
 
 .charHold:hover {
@@ -137,11 +142,12 @@
 }
 
 .charHighlight {
-    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-background-color: rgba(0, 0, 0, 0.75);
     -fx-padding: 4px 8px;
 }
 
 .charTitle {
+    -fx-padding: 5px 0 0 0;
     -fx-font-size: 18px;
     -fx-text-fill: -primaryTextColor;
 }
@@ -149,4 +155,65 @@
 .charDesc {
     -fx-font-size: 16px;
     -fx-text-fill: -secondaryTextColor;
+}
+
+#reloadButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: -primaryTextColor;
+    -fx-padding: 5 2;
+    -fx-font-size: 22px;
+    -fx-opacity: 0.8;
+}
+
+#reloadButton:hover {
+    -fx-opacity: 1;
+}
+
+#reloadButton:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.squadHold {
+    -fx-background-color: transparent;
+}
+
+.statBlock {
+    -fx-background-color: -backgroundSec;
+}
+
+.statTitle {
+    -fx-pref-height: 50;
+    -fx-min-height: 50;
+    -fx-max-height: 50;
+    -fx-alignment: BOTTOM_CENTER;
+}
+
+.statText {
+    -fx-font-size: 21px;
+    -fx-fill: -primaryTextColor;
+}
+
+.statButton {
+    -fx-rotate: 90;
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+    -fx-text-fill: -primaryTextColor;
+    -fx-padding: 20 25;
+}
+
+.statNum {
+    -fx-pref-width: 130;
+    -fx-max-width: 130;
+    -fx-min-width: 130;
+
+    -fx-pref-height: 65;
+    -fx-max-height: 65;
+    -fx-min-height: 65;
+
+    -fx-alignment: CENTER;
+    -fx-background-color: -background;
+    -fx-text-fill: -secondaryTextColor;
+    -fx-prompt-text-fill: -secondaryTextColor;
+    -fx-font-size: 24px;
 }

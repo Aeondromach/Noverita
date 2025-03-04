@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane fx:id="archetype" styleClass="bodyAppPane" id="archeBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1150.0" prefHeight="430.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.controllers.ArchetypeController">
+<TabPane fx:id="archetype" styleClass="bodyAppPane" id="archeBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1160.0" prefHeight="430.0" prefWidth="1160.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.controllers.ArchetypeController">
   <tabs>
     <Tab text="Archetype">
          <content>

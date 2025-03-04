@@ -14,15 +14,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="1150.0" prefHeight="100.0" prefWidth="1150.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
+<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="1160.0" prefHeight="100.0" prefWidth="1160.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
    <children>
-      <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1150.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
+      <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1160.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
          <children>
             <Button id="titleImageButton" alignment="CENTER" layoutX="3.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../images/Aeondromach.png" />
+                        <Image url="@../images/noverita.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -73,12 +73,12 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <StackPane id="titleHold" layoutX="523.5" prefHeight="32.0" prefWidth="100.0">
+            <StackPane id="titleHold" fx:id="novTitleHold" layoutX="523.5" prefHeight="32.0" prefWidth="100.0">
                <children>
                   <Text id="noveritaText" fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Noverita" />
                </children>
             </StackPane>
-            <AnchorPane id="titleButtonHold" layoutX="934.0" maxHeight="32.0" maxWidth="216.0" minHeight="32.0" minWidth="216.0" prefHeight="32.0" prefWidth="216.0">
+            <AnchorPane id="titleButtonHold" fx:id="novButtonHold" layoutX="934.0" maxHeight="32.0" maxWidth="216.0" minHeight="32.0" minWidth="216.0" prefHeight="32.0" prefWidth="216.0">
                <children>
                   <Button id="closeButton" fx:id="btClose" alignment="CENTER" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
                   <Button fx:id="btMax" alignment="CENTER" layoutX="144.0" mnemonicParsing="false" onMouseClicked="#handleMaximizeClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="⬜" />

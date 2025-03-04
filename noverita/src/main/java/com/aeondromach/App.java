@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -39,7 +40,7 @@ public class App extends Application {
      */
     @Override
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
-        mainWidth = 1150.0;
+        mainWidth = 1160.0;
         mainHeight = 550.0;
         
         // get and set scene
@@ -62,8 +63,26 @@ public class App extends Application {
 
         addResizeHandlers(stage, scene);
 
+        TabPane homePane = (TabPane) mainPane.lookup("#homeBod");
+        TabPane charPane = (TabPane) mainPane.lookup("#charBod");
+        TabPane equipPane = (TabPane) mainPane.lookup("#equipBod");
+        TabPane archePane = (TabPane) mainPane.lookup("#archeBod");
+        TabPane viewPane = (TabPane) mainPane.lookup("#viewBod");
+
+        homePane.prefWidthProperty().bind(stage.widthProperty());
+        charPane.prefWidthProperty().bind(stage.widthProperty());
+        equipPane.prefWidthProperty().bind(stage.widthProperty());
+        archePane.prefWidthProperty().bind(stage.widthProperty());
+        viewPane.prefWidthProperty().bind(stage.widthProperty());
+
+        homePane.prefHeightProperty().bind(stage.heightProperty().subtract(120.0));
+        charPane.prefHeightProperty().bind(stage.heightProperty().subtract(120.0));
+        equipPane.prefHeightProperty().bind(stage.heightProperty().subtract(120.0));
+        archePane.prefHeightProperty().bind(stage.heightProperty().subtract(120.0));
+        viewPane.prefHeightProperty().bind(stage.heightProperty().subtract(120.0));
+
         // get and set icon
-        Image icon = new Image(getClass().getResourceAsStream("images/AeondromachBackground.png"));
+        Image icon = new Image(getClass().getResourceAsStream("images/noveritaBackground.png"));
         stage.getIcons().add(icon);
 
         // Set app background to transparent and remove windows decorations
@@ -271,12 +290,6 @@ public class App extends Application {
                 stage.setHeight(stage.getMinHeight());
             }
         }
-        Platform.runLater(() -> {
-            stage.setWidth(stage.getWidth() + 0.00000000001);
-            stage.setWidth(stage.getWidth() - 0.00000000001);
-            stage.setHeight(stage.getHeight() + 0.00000000001);
-            stage.setHeight(stage.getHeight() - 0.00000000001);
-        });
     }
 
     /**

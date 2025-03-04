@@ -3,7 +3,7 @@
     -primaryColor: rgb(31, 18, 43); /* rgb(34, 6, 71) */
     -secondaryColor: rgb(14, 14, 14); /* rgb(44, 10, 88) */
     -tertiaryColor: aliceblue;
-    -quartaryColor: whitesmoke;
+    -quartaryColor: rgb(140, 148, 155);
 
     /* Darkmode changing */
     -primaryTextColor: aliceblue;

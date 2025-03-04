@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.aeondromach.controllers.HeaderController.isMax;
+import com.aeondromach.system.Character;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -51,6 +52,7 @@ public class NovController {
     public static Boolean isHover = false;
     private final ArrayList<String> LAST_ACTIONS = new ArrayList<>();
     private double stageX, stageY, stageW, stageH;
+    private Character character;
 
     /**
      * Get config.properties items and return
@@ -89,7 +91,6 @@ public class NovController {
             stageX = stage.getX();
             stageY = stage.getY();
             stageW = stage.getWidth();
-            stageH = stage.getHeight();
         });
     }
 
@@ -110,7 +111,6 @@ public class NovController {
         this.stageY = setter;
     }
 
-    @SuppressWarnings("exports")
     public Rectangle2D getOriginalSize() {
         Rectangle2D rect = new Rectangle2D(1150, 550, stageW, stageH);
         return rect;
@@ -163,12 +163,29 @@ public class NovController {
             headerPane.setStyle("-fx-background-radius: 8 8 0 0;");
             footerPane.setStyle("-fx-background-radius: 0 0 8 8;");
         }
-        Platform.runLater(() -> {
-            isMax = !isMax;
-            stage.setWidth(stage.getWidth() + 0.00000000001);
-            stage.setWidth(stage.getWidth() - 0.00000000001);
-            stage.setHeight(stage.getHeight() + 0.00000000001);
-            stage.setHeight(stage.getHeight() - 0.00000000001);
-        });
+        isMax = !isMax;
+    }
+
+    public void createCharacter(String filePath) {
+        character = new Character(filePath);
+    }
+
+    public void clearCharacter() {
+        character = null;
+    }
+
+    public Character getCharacter() {
+        return this.character;
+    }
+
+    public void loadCharacter() {
+        characterController.getTfStr().setPromptText(character.getBaseSTR() + " (" + character.getModifierString(character.getBaseSTR()) + ")");
+        characterController.getTfDex().setPromptText(character.getBaseDEX() + " (" + character.getModifierString(character.getBaseDEX()) + ")");
+        characterController.getTfCon().setPromptText(character.getBaseCON() + " (" + character.getModifierString(character.getBaseCON()) + ")");
+        characterController.getTfInt().setPromptText(character.getBaseINT() + " (" + character.getModifierString(character.getBaseINT()) + ")");
+        characterController.getTfWis().setPromptText(character.getBaseWIS() + " (" + character.getModifierString(character.getBaseWIS()) + ")");
+        characterController.getTfCha().setPromptText(character.getBaseCHA() + " (" + character.getModifierString(character.getBaseCHA()) + ")");
+        character.setStatPoints();
+        characterController.getPointText().setText(character.getStatPoints() + "/27");
     }
 }

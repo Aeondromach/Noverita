@@ -49,8 +49,28 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.aeondromach.App</mainClass>
+                            <mainClass>com.aeondromach.Main</mainClass>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin> <!-- Shade used for packaging to .jar // cd noverita > mvn clean install // Running // cd target > java -jar noverita-0.1.5.jar -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>com.aeondromach.Main</mainClass>
+                        </transformer>
+                        </transformers>
+                    </configuration>
                     </execution>
                 </executions>
             </plugin>

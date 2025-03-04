@@ -14,9 +14,11 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class FooterController {
     @FXML private HBox pathHold;
+    @FXML private HBox verHold;
     @FXML private AnchorPane footerPane;
     @FXML private Text labVersion;
     @FXML private Text labFilePath;
@@ -30,7 +32,11 @@ public class FooterController {
     @FXML
     protected void initialize() {
         Platform.runLater(() -> {
-            pathHold.setLayoutX((footerPane.getWidth()/2) - (pathHold.getWidth()/2));
+            Stage stage = (Stage) pathHold.getScene().getWindow();
+            pathHold.translateXProperty().bind(stage.widthProperty().subtract(pathHold.prefWidthProperty()).divide(2).subtract(pathHold.getLayoutX()));
+ 
+            verHold.translateXProperty().bind(stage.widthProperty().subtract(verHold.prefWidthProperty()).subtract(verHold.getLayoutX()));
+            
             labVersion.setText("nov" + VERSION);
         });
     }

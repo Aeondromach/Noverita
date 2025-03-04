@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -44,6 +45,10 @@ public class HeaderController {
     @FXML private Button btArche;
     @FXML private Button btView;
 
+    // Header Holders
+    @FXML private StackPane novTitleHold;
+    @FXML private AnchorPane novButtonHold;
+
     private double mousePosX, mousePosY;
     private Boolean isDoubleClick = false;
     public static Boolean isMax = false;
@@ -57,6 +62,13 @@ public class HeaderController {
      */
     @FXML
     protected void initialize() {
+        Platform.runLater(() -> {
+            Stage stage = (Stage) novButtonHold.getScene().getWindow();
+
+            novTitleHold.translateXProperty().bind(stage.widthProperty().subtract(novTitleHold.prefWidthProperty()).divide(2).subtract(novTitleHold.getLayoutX()));
+ 
+            novButtonHold.translateXProperty().bind(stage.widthProperty().subtract(novButtonHold.prefWidthProperty()).subtract(novButtonHold.getLayoutX()));
+        });
     }
 
     /**

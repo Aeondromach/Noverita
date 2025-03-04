@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<TabPane fx:id="character" styleClass="bodyAppPane" id="charBod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1150.0" prefHeight="430.0" prefWidth="1150.0" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.aeondromach.controllers.CharacterController">
+<TabPane id="charBod" fx:id="character" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1160.0" prefHeight="430.0" prefWidth="1160.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.CharacterController">
   <tabs>
     <Tab text="Species">
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <center>
-                  <Button mnemonicParsing="false" onMouseClicked="#handleTestClick" text="Test" BorderPane.alignment="CENTER" />
-               </center>
             </BorderPane>
          </content>
     </Tab>
@@ -23,9 +26,96 @@
       </content>
     </Tab>
       <Tab text="Stats">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0">
+                     <children>
+                        <Text fx:id="textPoints" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="27/27" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="28.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Strength" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btStrIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfStr" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btStrIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Dexterity" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btDexIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfDex" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btDexIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Constitution" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btConIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfCon" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btConIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Intelligence" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btIntIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfInt" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btIntIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Wisdom" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btWisIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfWis" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btWisIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                           <children>
+                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Charisma" />
+                                 </children>
+                              </StackPane>
+                              <Button fx:id="btChaIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                              <TextField fx:id="tfCha" onAction="#handleStatInput" styleClass="statNum" />
+                              <Button fx:id="btChaIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
       </Tab>
       <Tab text="Expertise">
         <content>
