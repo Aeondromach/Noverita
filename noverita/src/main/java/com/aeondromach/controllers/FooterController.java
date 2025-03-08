@@ -1,5 +1,5 @@
 /**
- * @author Evelyn Engleman @Æondromach
+ * @author Evelyn Engleman @Aeondromach
  * @version 1
  * @since 12/11/2024
  * Main controller for Footer
@@ -47,6 +47,15 @@ public class FooterController {
      */
     public void init(NovController nov) {
         this.nov = nov;
+    }
+
+    /**
+     * Takes a filepath and displays it in the middle of the footer
+     * @param filePath Insert the current character filepath to be displayed in the middle of the footer
+     */
+    public void setCharFilePath(String filePath) {
+        pathHold.setVisible(true);
+        labFilePath.setText("🗀 " + filePath);
     }
 
     /**

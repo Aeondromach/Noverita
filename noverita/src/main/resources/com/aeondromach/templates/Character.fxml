@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -16,7 +18,26 @@
   <tabs>
     <Tab text="Species">
          <content>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+         </content>
+         <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <right>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <styleClass>
+                        <String fx:value="sidePane" />
+                        <String fx:value="bodyPane" />
+                     </styleClass>
+                     <children>
+                        <StackPane prefHeight="60.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="speciesTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Species Name" />
+                           </children>
+                        </StackPane>
+                        <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="338.0" styleClass="bodyPane" />
+                     </children>
+                  </VBox>
+               </right>
             </BorderPane>
          </content>
     </Tab>

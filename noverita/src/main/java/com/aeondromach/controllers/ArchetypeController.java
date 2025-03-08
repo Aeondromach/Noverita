@@ -1,5 +1,5 @@
 /**
- * @author Evelyn Engleman @Æondromach
+ * @author Evelyn Engleman @Aeondromach
  * @version 1
  * @since 12/11/2024
  * Main controller for Archetype page

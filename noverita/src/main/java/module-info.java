@@ -4,6 +4,7 @@ module com.aeondromach {
     requires java.desktop;
     requires javafx.graphics;
     requires javafx.base;
+    requires org.jsoup;
 
     opens com.aeondromach.controllers to javafx.fxml;
     exports com.aeondromach;

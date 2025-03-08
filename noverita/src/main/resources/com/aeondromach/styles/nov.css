@@ -4,7 +4,7 @@
 
 .bodyAppPane {
     -fx-background-color: -background;
-    -fx-border-width: 0 1 0 1;
+    -fx-border-width: 0 1px 0 1px;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
     -fx-border-color: -borderColor;
@@ -12,6 +12,10 @@
 
 .bodyPane {
     -fx-background-color: -backgroundSec;
+}
+
+.sidePane {
+    -fx-pref-width: 370px;
 }
 
 .pane {

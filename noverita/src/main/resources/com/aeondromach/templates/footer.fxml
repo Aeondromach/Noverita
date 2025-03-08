@@ -11,7 +11,7 @@
             <Text fx:id="labLastAction" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="footText" text="Last Action" />
          </children>
       </HBox>
-      <HBox id="pathFileHold" fx:id="pathHold" alignment="TOP_CENTER" layoutX="325.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" prefWidth="500.0">
+      <HBox id="pathFileHold" fx:id="pathHold" alignment="TOP_CENTER" layoutX="325.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" prefWidth="500.0" visible="false">
          <children>
             <Text fx:id="labFilePath" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="footText" text="🗀 Path/To/Character/File.ncf" textAlignment="CENTER" />
          </children>

@@ -1,5 +1,5 @@
 /**
- * @author Evelyn Engleman @Æondromach
+ * @author Evelyn Engleman @Aeondromach
  * @version 1
  * @since 12/11/2024
  * Main controller for Character page
@@ -12,10 +12,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class CharacterController {
     private NovController nov;
@@ -27,6 +29,10 @@ public class CharacterController {
     @FXML private TextField tfWis;
     @FXML private TextField tfCha;
 
+    @FXML private TabPane character;
+
+    @FXML private Text speciesTitle;
+
     @FXML private Text textPoints;
 
     /**
@@ -37,6 +43,9 @@ public class CharacterController {
         this.nov = nov;
     }
 
+    /**
+     * Initialize the FXML project, setting up all features for the character tab
+     */
     @FXML protected void initialize() {
         Platform.runLater(() -> {
             setTf(tfStr);
@@ -45,9 +54,16 @@ public class CharacterController {
             setTf(tfInt);
             setTf(tfWis);
             setTf(tfCha);
+
+            Stage stage = (Stage) character.getScene().getWindow();
+            character.prefWidthProperty().bind(stage.widthProperty().subtract(.001));
         });
     }
 
+    /**
+     * Set the text value for the text fields (Number values that display something like "10 (0)")
+     * @param tf Which text field to set
+     */
     private void setTf(TextField tf) {
         tf.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (!newValue.matches("\\d*")) {
@@ -56,120 +72,137 @@ public class CharacterController {
         });
     }
 
+    /**
+     * Handles the increment up button in the character stat subTab
+     * @param event recieves mouse input
+     */
     @FXML protected void handleIncrementUp(MouseEvent event) {
-        com.aeondromach.system.Character character = nov.getCharacter();
+        com.aeondromach.system.Character curChar = nov.getCharacter();
 
         if(event.getButton().equals(MouseButton.PRIMARY)){
             Button sourceButton = (Button) event.getSource();
     
             switch (sourceButton.getId()) {
                 case "btStrIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseSTR() + 1, 0)) {
-                        character.setBaseSTR(character.getBaseSTR() + 1);
-                        tfStr.setPromptText(character.getFinalSTR() + " (" + character.getModifierString(character.getFinalSTR()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 0)) {
+                        curChar.setBaseSTR(curChar.getBaseSTR() + 1);
+                        tfStr.setPromptText(curChar.getFinalSTR() + " (" + curChar.getModifierString(curChar.getFinalSTR()) + ")");
                     }
                     break;
                 case "btDexIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseDEX() + 1, 1)) {
-                        character.setBaseDEX(character.getBaseDEX() + 1);
-                        tfDex.setPromptText(character.getFinalDEX() + " (" + character.getModifierString(character.getFinalDEX()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 1)) {
+                        curChar.setBaseDEX(curChar.getBaseDEX() + 1);
+                        tfDex.setPromptText(curChar.getFinalDEX() + " (" + curChar.getModifierString(curChar.getFinalDEX()) + ")");
                     }                    
                     break;
                 case "btConIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseCON() + 1, 2)) {
-                        character.setBaseCON(character.getBaseCON() + 1);
-                        tfCon.setPromptText(character.getFinalCON() + " (" + character.getModifierString(character.getFinalCON()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 2)) {
+                        curChar.setBaseCON(curChar.getBaseCON() + 1);
+                        tfCon.setPromptText(curChar.getFinalCON() + " (" + curChar.getModifierString(curChar.getFinalCON()) + ")");
                     }                    
                     break;
                 case "btIntIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseINT() + 1, 3)) {
-                        character.setBaseINT(character.getBaseINT() + 1);
-                        tfInt.setPromptText(character.getBaseINT() + " (" + character.getModifierString(character.getFinalINT()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 3)) {
+                        curChar.setBaseINT(curChar.getBaseINT() + 1);
+                        tfInt.setPromptText(curChar.getBaseINT() + " (" + curChar.getModifierString(curChar.getFinalINT()) + ")");
                     }                    
                     break;
                 case "btWisIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseWIS() + 1, 4)) {
-                        character.setBaseWIS(character.getBaseWIS() + 1);
-                        tfWis.setPromptText(character.getFinalWIS() + " (" + character.getModifierString(character.getFinalWIS()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 4)) {
+                        curChar.setBaseWIS(curChar.getBaseWIS() + 1);
+                        tfWis.setPromptText(curChar.getFinalWIS() + " (" + curChar.getModifierString(curChar.getFinalWIS()) + ")");
                     }                    
                     break;
                 case "btChaIncUp":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(character.getBaseCHA() + 1, 5)) {
-                        character.setBaseCHA(character.getBaseCHA() + 1);
-                        tfCha.setPromptText(character.getFinalCHA() + " (" + character.getModifierString(character.getFinalCHA()) + ")");
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 5)) {
+                        curChar.setBaseCHA(curChar.getBaseCHA() + 1);
+                        tfCha.setPromptText(curChar.getFinalCHA() + " (" + curChar.getModifierString(curChar.getFinalCHA()) + ")");
                     }                    
                     break;
             }
-            character.setStatPoints();
-            textPoints.setText(character.getStatPoints() + "/27");
+            curChar.setStatPoints();
+            textPoints.setText(curChar.getStatPoints() + "/27");
         }
     }
 
+    /**
+     * Handles the increment down button in the character stat subTab
+     * @param event recieves mouse input
+     */
     @FXML protected void handleIncrementDown(MouseEvent event) {
-        com.aeondromach.system.Character character = nov.getCharacter();
+        com.aeondromach.system.Character curChar = nov.getCharacter();
 
         if(event.getButton().equals(MouseButton.PRIMARY)){
             Button sourceButton = (Button) event.getSource();
     
             switch (sourceButton.getId()) {
                 case "btStrIncDown":
-                    character.setBaseSTR(character.getBaseSTR() - 1);
-                    tfStr.setPromptText(character.getFinalSTR() + " (" + character.getModifierString(character.getFinalSTR()) + ")");
+                    curChar.setBaseSTR(curChar.getBaseSTR() - 1);
+                    tfStr.setPromptText(curChar.getFinalSTR() + " (" + curChar.getModifierString(curChar.getFinalSTR()) + ")");
                     break;
                 case "btDexIncDown":
-                    character.setBaseDEX(character.getBaseDEX() - 1);
-                    tfDex.setPromptText(character.getFinalDEX() + " (" + character.getModifierString(character.getFinalDEX()) + ")");
+                    curChar.setBaseDEX(curChar.getBaseDEX() - 1);
+                    tfDex.setPromptText(curChar.getFinalDEX() + " (" + curChar.getModifierString(curChar.getFinalDEX()) + ")");
                     break;
                 case "btConIncDown":
-                    character.setBaseCON(character.getBaseCON() - 1);
-                    tfCon.setPromptText(character.getFinalCON() + " (" + character.getModifierString(character.getFinalCON()) + ")");
+                    curChar.setBaseCON(curChar.getBaseCON() - 1);
+                    tfCon.setPromptText(curChar.getFinalCON() + " (" + curChar.getModifierString(curChar.getFinalCON()) + ")");
                     break;
                 case "btIntIncDown":
-                    character.setBaseINT(character.getBaseINT() - 1);
-                    tfInt.setPromptText(character.getFinalINT() + " (" + character.getModifierString(character.getFinalINT()) + ")");
+                    curChar.setBaseINT(curChar.getBaseINT() - 1);
+                    tfInt.setPromptText(curChar.getFinalINT() + " (" + curChar.getModifierString(curChar.getFinalINT()) + ")");
                     break;
                 case "btWisIncDown":
-                    character.setBaseWIS(character.getBaseWIS() - 1);
-                    tfWis.setPromptText(character.getFinalWIS() + " (" + character.getModifierString(character.getFinalWIS()) + ")");
+                    curChar.setBaseWIS(curChar.getBaseWIS() - 1);
+                    tfWis.setPromptText(curChar.getFinalWIS() + " (" + curChar.getModifierString(curChar.getFinalWIS()) + ")");
                     break;
                 case "btChaIncDown":
-                    character.setBaseCHA(character.getBaseCHA() - 1);
-                    tfCha.setPromptText(character.getFinalCHA() + " (" + character.getModifierString(character.getFinalCHA()) + ")");
+                    curChar.setBaseCHA(curChar.getBaseCHA() - 1);
+                    tfCha.setPromptText(curChar.getFinalCHA() + " (" + curChar.getModifierString(curChar.getFinalCHA()) + ")");
                     break;
             }
-            character.setStatPoints();
-            textPoints.setText(character.getStatPoints() + "/27");
+            curChar.setStatPoints();
+            textPoints.setText(curChar.getStatPoints() + "/27");
         }
     }
 
+    /**
+     * Handles the input in the character stat subTab
+     * @param event recieves action/key input
+     */
     @FXML protected void handleStatInput(ActionEvent event) {
-        com.aeondromach.system.Character character = nov.getCharacter();
+        com.aeondromach.system.Character curChar = nov.getCharacter();
         TextField sourceTextField = (TextField) event.getSource();
 
         switch (sourceTextField.getId()) {
             case "tfStr":
-                textFieldInput(tfStr, character);
+                textFieldInput(tfStr, curChar);
                 break;
             case "tfDex":
-                textFieldInput(tfDex, character);
+                textFieldInput(tfDex, curChar);
                 break;
             case "tfCon":
-                textFieldInput(tfCon, character);
+                textFieldInput(tfCon, curChar);
                 break;
             case "tfInt":
-                textFieldInput(tfInt, character);
+                textFieldInput(tfInt, curChar);
                 break;
             case "tfWis":
-                textFieldInput(tfWis, character);
+                textFieldInput(tfWis, curChar);
                 break;
             case "tfCha":
-                textFieldInput(tfCha, character);
+                textFieldInput(tfCha, curChar);
                 break;
         }
-        character.setStatPoints();
-        textPoints.setText(character.getStatPoints() + "/27");
+        curChar.setStatPoints();
+        textPoints.setText(curChar.getStatPoints() + "/27");
     }
 
+    /**
+     * Changes the text field input for all text fields in the stat character subTab
+     * @param tf which textfield to change
+     * @param character the current character
+     */
     private void textFieldInput(TextField tf, com.aeondromach.system.Character character) {
         if (!tf.getText().equals("")) {
             Integer input = Integer.valueOf(tf.getText());
@@ -223,30 +256,58 @@ public class CharacterController {
         tf.setText("");
     }
 
+    /**
+     * Gets the point text "27/27" object
+     * @return the point "27/27" text object
+     */
     public Text getPointText() {
         return textPoints;
     }
 
+    /**
+     * Returns the strength textfield
+     * @return Strength Textfield
+     */
     public TextField getTfStr() {
         return tfStr;
     }
 
+    /**
+     * Returns the dexterity textfield
+     * @return Dexterity Textfield
+     */
     public TextField getTfDex() {
         return tfDex;
     }
 
+    /**
+     * Returns the constitution textfield
+     * @return Constitution Textfield
+     */
     public TextField getTfCon() {
         return tfCon;
     }
 
+    /**
+     * Returns the intelligence textfield
+     * @return Intelligence Textfield
+     */
     public TextField getTfInt() {
         return tfInt;
     }
 
+    /**
+     * Returns the wisdom textfield
+     * @return Wisdom Textfield
+     */
     public TextField getTfWis() {
         return tfWis;
     }
 
+    /**
+     * Returns the charisma textfield
+     * @return Charisma Textfield
+     */
     public TextField getTfCha() {
         return tfCha;
     }

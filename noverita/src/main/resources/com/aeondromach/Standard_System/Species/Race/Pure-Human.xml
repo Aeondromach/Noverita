@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+    <element name="Pure" type="Race" source="Noverita" id="ID_RACE_HUMAN_PURE">
+		<description>
+			<p>Pure humans are exactly that, purely human. They are the most common type of Human along Terra, with over 99% of the population being purely human.</p>
+		</description>
+		<exclusive>
+			<grant type="Race Intrinsic" id="ID_RACIAL_INTRINSIC_BASE_ESCAPE" />
+			<grant type="Race Specialty" id="ID_RACIAL_SPECIALTY_ALL_ROUNDER" />
+            <grant type="Proficiency" value="omni"/>
+		</exclusive>
+	</element>
+
+
+	<element name="Base Escape" type="Racial Intrinsic" id="ID_RACIAL_INTRINSIC_BASE_ESCAPE">
+		<description>
+			<p>Humans are among the most durable, yet fragile race across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
+		</description>
+        <exclusive>
+            <grant type="ID_SAVE_THROW_STRENGTH" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_DEXTERITY" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_CONSTITUTION" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_INTELLIGENCE" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_WISDOM" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_CHARISMA" bonus="minimum" value="1" />
+        </exclusive>
+	</element>
+
+	<element name="All-Rounder" type="Race Specialty" id="ID_RACIAL_SPECIALTY_ALL_ROUNDER" usurp="Base Stats">
+		<description>
+			<p>Pure Humans are some of the most well rounded species and even race in known space, because of this, they gain 1 to every stat, plus an addition 1 to one stat of their choice.</p>
+		</description>
+        <exclusive>
+            <stat name="all" value="1" />
+            <stat name="omni" value="1" />
+        </exclusive>
+	</element>
+</elements>
