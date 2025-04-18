@@ -26,6 +26,6 @@ public class ViewController {
      * @param event
      */
     @FXML protected void handleTestClick(MouseEvent event) {
-        nov.addAction("View");
+        nov.addAction("Testing Error Message");
     }
 }

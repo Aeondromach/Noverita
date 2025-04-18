@@ -10,31 +10,46 @@ package com.aeondromach.controllers;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.aeondromach.Messages;
+import com.aeondromach.Settings;
 import com.aeondromach.system.CharView;
 
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TabPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class HomeController {
     @FXML private VBox vBoxSquadList;
     @FXML private VBox vBoxCharHub;
     @FXML private TabPane home;
+
+    @FXML private Button btRefresh;
 
     private NovController nov;
     private ArrayList<CharView> characters = new ArrayList<>();
@@ -78,6 +93,8 @@ public class HomeController {
         vBoxCharHub.getChildren().clear();
 
         if (characters != null) {
+            if (!SQUADS.isEmpty()) SQUADS.clear();
+
             for (CharView character: characters){
                 if (!SQUADS.isEmpty()) {
                     if (!SQUADS.contains(character.getSquad())) {
@@ -107,7 +124,7 @@ public class HomeController {
                 
                 SVGPath icon = new SVGPath();
                 icon.setContent("M14 20l8 8 8-8z");
-                icon.setStyle("-fx-fill: -tertiaryColor;");
+                icon.setStyle("-fx-fill: -primaryTextColor;");
                 squadPane.getChildren().add(icon);
 
                 Label title = new Label();
@@ -146,8 +163,15 @@ public class HomeController {
                 squadTitle.getStyleClass().add("squadTitle");
                 squadTitle.setText(squad);
 
+                squadTitle.setTextOverrun(OverrunStyle.CLIP);
+
+                squadTitleHold.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                squadTitleHold.setMinWidth(Region.USE_PREF_SIZE);
+
+                squadTitle.setMaxWidth(Double.MAX_VALUE);
+
                 Line squadLine = new Line();
-                squadLine.setStyle("-fx-stroke: -tertiaryColor; -fx-stroke-width: 1;");
+                squadLine.setStyle("-fx-stroke: -brightSecondary; -fx-stroke-width: 1; -fx-opacity: 0.8;");
                 squadLine.startXProperty().bind(squadTitle.layoutBoundsProperty().map(bounds -> bounds.getWidth() + 20));
                 squadLine.endXProperty().bind(squadTitleHold.widthProperty());
                 squadLine.setStartY(0);
@@ -159,24 +183,24 @@ public class HomeController {
                 squadHold.setAlignment(Pos.CENTER_LEFT);
                 squadHold.getStyleClass().add("squadHold");
 
-                double marginX = 205, marginY = 185, marginInX = 35, marginInY = 15;
+                double marginX = 20, marginY = 10, size = (Integer) Settings.getSetting(Settings.DisplaySettings.CHAR_VIEW_SIZE);
 
                 for (int i = 0; i < characters.size(); i++) {
                     CharView character = characters.get(i);
                     if (character.getSquad().equals(squad)) {
                         StackPane charMargin = new StackPane();
                         charMargin.setAlignment(Pos.CENTER);
-                        charMargin.setPrefHeight(marginY);
-                        charMargin.setPrefWidth(marginX);
+                        charMargin.setPrefHeight(marginY + size);
+                        charMargin.setPrefWidth(marginX + size);
                         charMargin.setStyle("-fx-background-color: transparent;");
 
                         AnchorPane charHold =  new AnchorPane();
-                        charHold.setPrefHeight(marginY - marginInY);
-                        charHold.setPrefWidth(marginX - marginInX);
-                        charHold.setMaxHeight(marginY - marginInY);
-                        charHold.setMaxWidth(marginX - marginInX);
-                        charHold.setMinHeight(marginY - marginInY);
-                        charHold.setMinWidth(marginX - marginInX);
+                        charHold.setPrefHeight(size);
+                        charHold.setPrefWidth(size);
+                        charHold.setMaxHeight(size);
+                        charHold.setMaxWidth(size);
+                        charHold.setMinHeight(size);
+                        charHold.setMinWidth(size);
                         charHold.getStyleClass().add("charHold");
 
                         ImageView charImage = new ImageView();
@@ -215,7 +239,7 @@ public class HomeController {
                         charHighlight.setPrefWidth(charHold.getPrefWidth() - 2);
                         charHighlight.setPrefHeight(70);
                         charHighlight.setLayoutX(1);
-                        charHighlight.setLayoutY((marginY - marginInY) - 71);
+                        charHighlight.setLayoutY((size) - 71);
                         charHighlight.getStyleClass().add("charHighlight");
 
                         Label charTitle = new Label();
@@ -232,12 +256,42 @@ public class HomeController {
                         }
 
                         charHold.setOnMouseClicked(e -> {
-                            if(e.getButton().equals(MouseButton.PRIMARY)){
-                                if(e.getClickCount() == 2){
-                                    nov.createCharacter(character.getFILEPATH());
-                                    nov.addAction("Loaded " + character.getName());
-                                    nov.setFooterPath(character.getFILEPATH());
-                                    nov.loadCharacter();
+                            if(e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2){
+                                if((Boolean) Settings.getSetting(Settings.GeneralSettings.CHARLOADALERT)){
+                                    Messages.yesNoAlert("Load Character - " + character.getFILEPATH(), "Do you really wish to load " + character.getName() + "?", character.getFILEPATH() + "\n" + character.getName() + " may possibly take a while to load, make sure that this is absolutely the character you wish to use.", character.getImage(), 
+                                    () -> {
+                                        Task<Void> loadCharacterTask = new Task<>() {
+                                            @Override
+                                            protected Void call() {
+                                                nov.createCharacter(character.getFILEPATH(), character.getImage());
+                                                return null;
+                                            }
+                                            
+                                            @Override
+                                            protected void succeeded() {
+                                                selectCharacter(character);
+                                            }
+                                        };
+                    
+                                        new Thread(loadCharacterTask).start();
+                                        }
+                                    );
+                                }
+                                else {
+                                    Task<Void> loadCharacterTask = new Task<>() {
+                                        @Override
+                                        protected Void call() {
+                                            nov.createCharacter(character.getFILEPATH(), character.getImage());
+                                            return null;
+                                        }
+                                        
+                                        @Override
+                                        protected void succeeded() {
+                                            selectCharacter(character);
+                                        }
+                                    };
+                
+                                    new Thread(loadCharacterTask).start();
                                 }
                             }
                         });
@@ -262,6 +316,12 @@ public class HomeController {
                 });
             }
         }
+    }
+
+    private void selectCharacter(CharView character) {
+        nov.addAction("Loaded " + character.getName());
+        nov.setFooterPath(character.getFILEPATH());
+        nov.loadCharacter();
     }
 
     /**
@@ -321,6 +381,13 @@ public class HomeController {
      * @param event handles mouse input
      */
     @FXML protected void handleRefreshClick(MouseEvent event) {
+        RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), btRefresh);
+        rotate.setByAngle(360);
+        rotate.setCycleCount(1);
+        rotate.setAutoReverse(false);
+
+        rotate.playFromStart();
+
         setHubField();
     }
 }

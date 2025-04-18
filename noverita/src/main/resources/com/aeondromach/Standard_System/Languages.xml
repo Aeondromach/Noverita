@@ -1,0 +1,13 @@
+<xml version="1.0" encoding="UTF-8">
+<elements>
+    <element name="Ænglisc" type="Language" id="ID_LANGUAGE_AENGLISC" source="Noverita">
+        <description><p>The by-far most common language spoken across Terra, thanks to the rapid colonialism of the Cælum Dominion. Ænglisc is not far off from our real-world English language, though notably possesses more letters, and does not use our conventional lettering.
+        The language was first thought to have been created even before the Prophet wandered and united the Middle-East and greater European empires in the 1st century, most historians would believe that the language first started out as something we'd see today as
+        a "foreign" language, and thorugh time, slowly evolved into what we have today. In fact, ænglisc seems to be a "child" of the Glóthic language, spoken in Eastern European Countries, such as Italy and Greece, as there is substantial evidence that even the Prophet
+        spoke glóthic, being that the Palítheia is written in glóthic, meaning that all that the Prophet has authored was in fact, in a language other than ænglisc.</p></description>
+    </element>
+
+    <element name="Glóthic" type="Language" id="ID_LANGUAGE_GLOTHIC" source="Noverita">
+        <description><p></p></description>
+    </element>
+</elements>

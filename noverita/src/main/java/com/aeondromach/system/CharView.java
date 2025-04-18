@@ -28,60 +28,16 @@ public class CharView {
      */
     public CharView(String name, String archetype, String squad, int rank, Image image, String filePath) {
         this.name = name;
-        this.ARCHETYPE = archetype;
-        this.SQUAD = squad;
-        this.RANK = rank;
-        this.IMAGE = image;
-        this.FILEPATH = filePath;
-    }
+        
+        if (archetype != null) this.ARCHETYPE = archetype;
+        else this.ARCHETYPE = "Typical";
 
-    /**
-     * Constructor for Charview missing archetype
-     * @param name name of the character
-     * @param squad squad of the character
-     * @param rank rank of the character
-     * @param image image of the character
-     * @param filePath filepath of the character
-     */
-    public CharView(String name, String squad, int rank, Image image, String filePath) {
-        this.name = name;
-        this.ARCHETYPE = null;
         this.SQUAD = squad;
         this.RANK = rank;
-        this.IMAGE = image;
-        this.FILEPATH = filePath;
-    }
+        
+        if (image != null) this.IMAGE = image;
+        else this.IMAGE = new Image(getClass().getResourceAsStream("/images/Test.png"));
 
-    /**
-     * Constructor for Charview missing image
-     * @param name name of the character
-     * @param archetype archetype of the character
-     * @param squad squad of the character
-     * @param rank rank of the character
-     * @param filePath filepath of the character
-     */
-    public CharView(String name, String archetype, String squad, int rank, String filePath) {
-        this.name = name;
-        this.ARCHETYPE = archetype;
-        this.SQUAD = squad;
-        this.RANK = rank;
-        this.IMAGE = new Image(getClass().getResource("/com/aeondromach/images/Test.png").toExternalForm());
-        this.FILEPATH = filePath;
-    }
-
-    /**
-     * Constructor for Charview missing image & archetype
-     * @param name name of the character
-     * @param squad squad of the character
-     * @param rank rank of the character
-     * @param filePath filepath of the character
-     */
-    public CharView(String name, String squad, int rank, String filePath) {
-        this.name = name;
-        this.ARCHETYPE = null;
-        this.SQUAD = squad;
-        this.RANK = rank;
-        this.IMAGE = new Image(getClass().getResource("/com/aeondromach/images/Test.png").toExternalForm());
         this.FILEPATH = filePath;
     }
 

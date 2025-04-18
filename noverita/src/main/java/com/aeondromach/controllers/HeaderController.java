@@ -22,21 +22,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class HeaderController {
+    @FXML private AnchorPane headerPane;
     @FXML private AnchorPane titleBar;
     @FXML private Button btClose;
     @FXML private Button btMax;
     @FXML private Button btMin;
     @FXML private Button btSet;
     @FXML private Button btWeb;
+
+    @FXML private AnchorPane headCharInfoHold;
+    @FXML private ImageView imageHeaderChar;
+    @FXML private Pane imageContainer;
+    @FXML private Text textCharacterTitle;
+    @FXML private Text textCharacterDesc;
 
     // Header Buttons
     @FXML private Button btHome;
@@ -55,7 +66,10 @@ public class HeaderController {
     private Boolean isMaximizeCooldown = false;
     private Boolean isMaxDragging = false;
 
+    private Button button;
+
     private NovController nov;
+    private com.aeondromach.system.Character character;
 
     /**
      * Runs initial header set up
@@ -65,9 +79,29 @@ public class HeaderController {
         Platform.runLater(() -> {
             Stage stage = (Stage) novButtonHold.getScene().getWindow();
 
+            headerPane.prefWidthProperty().bind(stage.widthProperty());
+
+            this.button = btHome;
+
             novTitleHold.translateXProperty().bind(stage.widthProperty().subtract(novTitleHold.prefWidthProperty()).divide(2).subtract(novTitleHold.getLayoutX()));
  
             novButtonHold.translateXProperty().bind(stage.widthProperty().subtract(novButtonHold.prefWidthProperty()).subtract(novButtonHold.getLayoutX()));
+
+            headCharInfoHold.translateXProperty().bind(stage.widthProperty().subtract(headCharInfoHold.prefWidthProperty()).subtract(headCharInfoHold.getLayoutX()).subtract(10));
+
+            double radius = imageHeaderChar.getFitWidth() / 2;
+
+            Circle clip = new Circle(radius, radius, radius);
+            clip.getStyleClass().add("circle-clip");
+            imageHeaderChar.setClip(clip);
+
+            Circle border = new Circle(radius, radius, radius);
+            border.getStyleClass().add("circle-border");
+
+            imageContainer.getChildren().add(border);
+
+            Circle container = new Circle(radius, radius, radius);
+            imageContainer.setClip(container);
         });
     }
 
@@ -89,6 +123,21 @@ public class HeaderController {
             Stage stage = (Stage) btClose.getScene().getWindow();
             stage.close();
         }
+    }
+
+    public void setHeaderButtonsDisabled(Boolean disable) {
+        btHome.setDisable(disable);
+        btChar.setDisable(disable);
+        btEquip.setDisable(disable);
+        btArche.setDisable(disable);
+        btView.setDisable(disable);
+        
+        btHome.setStyle("-fx-opacity: 0.8;");
+        btChar.setStyle("-fx-opacity: 0.8;");
+        btEquip.setStyle("-fx-opacity: 0.8;");
+        btArche.setStyle("-fx-opacity: 0.8;");
+        btView.setStyle("-fx-opacity: 0.8;");
+        this.button.setStyle("-fx-opacity: 1;");
     }
 
     /**
@@ -168,6 +217,7 @@ public class HeaderController {
         if (stage.getY() >= -25 && stage.getY() < 10 && (stage.getX() + (stage.getWidth()/2)) > ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 3) && (stage.getX() + (stage.getWidth()/2)) < ((Screen.getPrimary().getVisualBounds().getWidth() / 8) * 5) && !isMax && !isMaximizeCooldown) {
             maximizeApp();
         }
+        else if (stage.getY() < 0) stage.setY(2);
     }
 
     /**
@@ -483,7 +533,22 @@ public class HeaderController {
         btEquip.setStyle("-fx-opacity: 0.8;");
         btArche.setStyle("-fx-opacity: 0.8;");
         btView.setStyle("-fx-opacity: 0.8;");
+        this.button = button;
         button.setStyle("-fx-opacity: 1;");
         nov.setTab(tab + "Root");
+    }
+
+    public void setChar() {
+        character = nov.getCharacter();
+    }
+
+    public void setHeadCharInfo() {
+        imageHeaderChar.setImage(character.getImage());
+        textCharacterTitle.setText(character.getName() + " ([Archetype])");
+        textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getSpecies().getRaceTitle() + " " + character.getSpecies().getTitle() + " [Specialization]");
+    }
+
+    public void setHeadCharVisible(Boolean check) {
+        headCharInfoHold.setVisible(check);
     }
 }

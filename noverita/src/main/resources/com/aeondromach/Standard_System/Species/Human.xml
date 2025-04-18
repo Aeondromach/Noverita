@@ -27,7 +27,7 @@
 	<element name="Indomitable Will" type="Species Specialty" id="ID_SPECIES_SPECIALTY_INDOMITABLE_WILL">
 		<description>
 			<p>Humans are among the most durable, yet fragile species across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
-		</description>
+		</description>♫
 		<choices>
 			<choice name="Impact" type="Resistance" id="ID_DAMAGE_RESISTANCE_IMPACT"/>
 			<choice name="Puncture" type="Resistance" id="ID_DAMAGE_RESISTANCE_PUNCTURE"/>

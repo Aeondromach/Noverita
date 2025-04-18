@@ -6,7 +6,9 @@
  * Collects stat buffs from other sources to add to character
  */
 
-package com.aeondromach.system;
+package com.aeondromach.system.minor;
+
+import com.aeondromach.system.parsers.XmlParser;
 
 public class OtherStat {
     private int stat;
@@ -23,6 +25,19 @@ public class OtherStat {
         this.stat = stat;
         this.mod = mod;
         this.source = source;
+    }
+
+    /**
+     * The constructor for otherstat
+     * @param stat the stat to be modded
+     * @param mod the modifier
+     * @param source the source location
+     */
+    public OtherStat(String statId, int mod, String source) {
+        this.stat = XmlParser.readStatId(statId);
+        this.mod = mod;
+        if (this.mod > 0) this.source = source + " (+" + this.mod + ")";
+        else this.source = source + " (" + this.mod + ")";
     }
 
     /**

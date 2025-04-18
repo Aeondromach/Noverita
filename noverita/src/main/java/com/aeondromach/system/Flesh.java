@@ -7,15 +7,21 @@
 
 package com.aeondromach.system;
 
+import java.util.ArrayList;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.aeondromach.system.enums.DamageType;
-import com.aeondromach.system.enums.ResistanceLevel;
+import com.aeondromach.system.interfaces.system.Exclusive;
+import com.aeondromach.system.minor.Grant;
+import com.aeondromach.system.minor.OtherStat;
+import com.aeondromach.system.parsers.XmlParser;
 
-public class Flesh {
+public class Flesh implements Exclusive {
     private final String ID;
+    private ArrayList<Grant> grantList;
+    private ArrayList<OtherStat> statList;
 
     /**
      * The constructor for flesh
@@ -23,6 +29,9 @@ public class Flesh {
      */
     public Flesh(String id) {
         this.ID = id;
+
+        this.grantList = new ArrayList<>();
+        this.statList = new ArrayList<>();
 
         checkId();
     }
@@ -32,30 +41,25 @@ public class Flesh {
      * @param doc gets the Jsoup document
      */
     private void parseXML(Document doc) {
+        System.out.println("this");
         Elements elements = doc.select("element[id]");
         for (Element element: elements) {
-            if (element.attr("id").equals(ID)) {
-                Element exclusive = element.select("exclusive").first();
-                Elements grants = exclusive.select("grant[id]");
-                for (Element grant: grants) {
-                    if (grant.attr("id").startsWith("ID_DAMAGE_TYPE_")) {
-                        DamageType.setResistance(DamageType.getDamageType(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
-                    }
-                    else if (grant.attr("id").startsWith("ID_DAMAGE_CATEGORY_")) {
-                        DamageType.setResistances(DamageType.getDamageCategory(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
-                    }
-                    
-                }
+            if (element.attr("id").equals(ID) && element.attr("type").toLowerCase().equals("flesh") && !element.attr("name").isEmpty()) {
+                Element exclusive = element.selectFirst("exclusive");
+
+                grantList = XmlParser.parseExclusiveGrants(exclusive);
+
+                statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
+
+                System.out.println(grantList + " | " + statList);
+                    // if (grant.attr("id").startsWith("ID_DAMAGE_TYPE_")) {
+                    //     DamageType.setResistance(DamageType.getDamageType(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
+                    // }
+                    // else if (grant.attr("id").startsWith("ID_DAMAGE_CATEGORY_")) {
+                    //     DamageType.setResistances(DamageType.getDamageCategory(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
+                    // }
             }
         }
-    }
-
-    /**
-     * Return the id of fleh
-     * @return id
-     */
-    public String getID() {
-        return ID;
     }
 
     /**
@@ -64,10 +68,51 @@ public class Flesh {
     private void checkId() {
         if (ID != null) {
             try {
+                if (!grantList.isEmpty() || !this.grantList.isEmpty()) grantList.clear();
+                if (!statList.isEmpty() || !this.statList.isEmpty()) statList.clear();
                 parseXML(XmlParser.check(ID, "FLESH"));
             } 
             catch (NullPointerException e) {
+                System.out.println("null");
             }
+        }
+    }
+
+    @Override
+    public ArrayList<OtherStat> getStatList() {
+        return statList;
+    }
+
+    @Override
+    public void reCheck() {
+        checkId();
+    }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
+
+    @Override
+    public ArrayList<Grant> getGrantList() {
+       return grantList;
+    }
+
+    @Override
+    public Boolean hasStatList() {
+        try {
+            return this.statList != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean hasGrantList() {
+        try {
+            return this.grantList != null;
+        } catch (NullPointerException e) {
+            return false;
         }
     }
 }

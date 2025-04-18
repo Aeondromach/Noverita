@@ -5,6 +5,7 @@ module com.aeondromach {
     requires javafx.graphics;
     requires javafx.base;
     requires org.jsoup;
+    requires com.fasterxml.jackson.databind;
 
     opens com.aeondromach.controllers to javafx.fxml;
     exports com.aeondromach;

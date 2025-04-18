@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elements>
-    <element name="Organic Flesh" type="Flesh" id="ID_FLESH_ORGANIC">
+    <element name="Organic Flesh" type="Flesh" source="Noverita" id="ID_FLESH_ORGANIC">
         <exclusive>
             <grant type="Damage Type" id="ID_DAMAGE_TYPE_CHRONIC" value="Resistance" />
             <grant type="Damage Type" id="ID_DAMAGE_TYPE_BLIGHT" value="Resistance" />

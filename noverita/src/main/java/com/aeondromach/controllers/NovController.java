@@ -10,16 +10,12 @@ package com.aeondromach.controllers;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Properties;
 import java.util.stream.Stream;
 
@@ -28,16 +24,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.App;
+import com.aeondromach.Settings;
 import static com.aeondromach.controllers.HeaderController.isMax;
 import com.aeondromach.system.CharView;
 import com.aeondromach.system.Character;
-import com.aeondromach.system.IdClassList;
+import com.aeondromach.system.parsers.XmlParser;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -70,7 +68,7 @@ public class NovController {
     private double stageX, stageY, stageW, stageH;
     private Character character;
     private final ArrayList<String> SQUADS = new ArrayList<>();
-    protected IdClassList id;
+    private Scene scene;
 
     /**
      * Get config.properties items and return
@@ -107,10 +105,11 @@ public class NovController {
         equipmentController.init(this);
         archetypeController.init(this);
         viewController.init(this);
-        id = new IdClassList(Paths.get("C:"));
         addAction("Entered Noverita");
         Platform.runLater(() -> {
             Stage stage = (Stage) novPane.getScene().getWindow();
+            scene = (Scene) stage.getScene();
+
             stageX = stage.getX();
             stageY = stage.getY();
             stageW = stage.getWidth();
@@ -122,7 +121,7 @@ public class NovController {
      * @return an Arraylist of character views
      */
     public ArrayList<CharView> readCharViews() {
-        Path path = Paths.get("C:/Novaric-Squad/"); // -- DEBUG -- Change this pathway to whatever you want
+        Path path = Paths.get(String.valueOf(Settings.getSetting(Settings.CustomSettings.CHAR_PATH)));
         SQUADS.clear();
         ArrayList<CharView> charViews = new ArrayList<>();
         try (Stream<Path> stream = Files.walk(path)) {
@@ -146,8 +145,6 @@ public class NovController {
             String archetypeTag;
             String squadTag;
             int rankTag;
-            String localPathTag;
-            Image base64Tag;
             try {
                 Document doc = Jsoup.parse(Files.readString(path), "UTF-8");
 
@@ -160,73 +157,21 @@ public class NovController {
                     Element squad = information.selectFirst("squad");
                     Element rank = information.selectFirst("rank");
                     Element portrait = information.selectFirst("charPortrait");
-                        Element localPath = portrait.selectFirst("local");
 
-                        if (name == null) nameTag = "Enygma";
-                        else nameTag = name.ownText();
-                        if (archetype == null) archetypeTag = "Typical";
-                        else archetypeTag = archetype.ownText();
-                        if (squad == null) squadTag = "Default Squad";
-                        else squadTag = squad.ownText();
-                        if (rank == null) rankTag = 1;
-                        else rankTag = Integer.parseInt(rank.ownText());
-                        if (localPath == null) localPathTag = null;
-                        else localPathTag = localPath.ownText();
+                    if (name == null) nameTag = "Enygma";
+                    else nameTag = name.ownText();
+                    if (archetype == null) archetypeTag = "Typical";
+                    else archetypeTag = archetype.ownText();
+                    if (squad == null || squad.ownText().isBlank()) squadTag = "Characters";
+                    else squadTag = squad.ownText();
+                    if (rank == null) rankTag = 1;
+                    else rankTag = Integer.parseInt(rank.ownText());
 
-                        if (localPathTag != null) {
-                            Path filePath = Paths.get(localPathTag); // Convert the string path into a Path object
-                            if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
-                                charViews.add(new CharView(nameTag, archetypeTag, squadTag, rankTag, new Image(new File(localPathTag).toURI().toString()), path.toString()));
-                            }
-
-                            Element base64 = portrait.selectFirst("base64");
-
-                            base64Tag = doBase64(base64);
-
-                            charViews.add(new CharView(nameTag, archetypeTag, squadTag, rankTag, base64Tag, path.toString()));
-                        }
-                        else {
-                            Element base64 = portrait.selectFirst("base64");
-
-                            base64Tag = doBase64(base64);
-
-                            charViews.add(new CharView(nameTag, archetypeTag, squadTag, rankTag, base64Tag, path.toString()));
-                        }
-
-                if (!SQUADS.isEmpty()) {
-                    for (String squadCheck: SQUADS) {
-                        if (!squadCheck.equals(squadTag)) {
-                            SQUADS.add(squadTag);
-                        }
-                    }
-                } else {
-                    SQUADS.add(squadTag);
-                }
+                    charViews.add(new CharView(nameTag, archetypeTag, squadTag, rankTag, XmlParser.findImage(portrait), path.toString()));
             } 
             catch (IOException e) {
             }
         }
-    }
-
-    /**
-     * Read a base64 line within a character's .ncf file, returning an image if successful or unsuccessful.
-     * @param base64 Grab the XML portion for base64
-     * @return the image
-     */
-    private Image doBase64(Element base64) {
-        if (base64 != null) {
-            String base64Image = base64.ownText().replace("<![CDATA[", "").replace("]]>", "");
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-    
-            return new Image(new ByteArrayInputStream(imageBytes));
-        } else {
-            try {
-                return new Image(App.class.getResource("/com/aeondromach/images/noverita.png").toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;  // In case of error, return null
     }
 
     /**
@@ -317,19 +262,21 @@ public class NovController {
 
             int taskBarHeight = scrnSize.height - winSize.height;
             
+            stage.setMaximized(!isMax);
             stage.setHeight(Screen.getPrimary().getBounds().getHeight() - taskBarHeight);
 
-            root.setStyle("-borderColor: transparent");
+            App.setTheme("-borderColor", "transparent");
             headerPane.setStyle("-fx-background-radius: 0 0 0 0;");
             footerPane.setStyle("-fx-background-radius: 0 0 0 0;");
         }
         else {
             stage.setX(stageX);
-            stage.setY(stageY);
+            if (stageY > 2) stage.setY(stageY);
+            else stage.setY(2);
             stage.setWidth(stageW);
             stage.setHeight(stageH);
 
-            root.setStyle("-borderColor: rgba(100, 100, 100, 0.75);");
+            App.setTheme("-borderColor", "rgba(100, 100, 100, 1)");
             headerPane.setStyle("-fx-background-radius: 8 8 0 0;");
             footerPane.setStyle("-fx-background-radius: 0 0 8 8;");
         }
@@ -340,8 +287,8 @@ public class NovController {
      * Create a character with a given filepath
      * @param filePath the path to the ncf file
      */
-    public void createCharacter(String filePath) {
-        character = new Character(filePath);
+    public void createCharacter(String filePath, Image image) {
+        character = new Character(filePath, image);
     }
 
     /**
@@ -363,13 +310,32 @@ public class NovController {
      * Loads the current character to all available UI elements
      */
     public void loadCharacter() {
-        characterController.getTfStr().setPromptText(character.getBaseSTR() + " (" + character.getModifierString(character.getBaseSTR()) + ")");
-        characterController.getTfDex().setPromptText(character.getBaseDEX() + " (" + character.getModifierString(character.getBaseDEX()) + ")");
-        characterController.getTfCon().setPromptText(character.getBaseCON() + " (" + character.getModifierString(character.getBaseCON()) + ")");
-        characterController.getTfInt().setPromptText(character.getBaseINT() + " (" + character.getModifierString(character.getBaseINT()) + ")");
-        characterController.getTfWis().setPromptText(character.getBaseWIS() + " (" + character.getModifierString(character.getBaseWIS()) + ")");
-        characterController.getTfCha().setPromptText(character.getBaseCHA() + " (" + character.getModifierString(character.getBaseCHA()) + ")");
+        headerController.setChar();
+        headerController.setHeadCharInfo();
+        headerController.setHeadCharVisible(true);
+        headerController.setHeaderButtonsDisabled(false);
+
+        characterController.setCharTab();
+
+        characterController.gettStr().setText(character.getFinalStat(0) + " (" + character.getModifierString(character.getFinalStat(0)) + ")");
+        characterController.gettDex().setText(character.getFinalStat(1) + " (" + character.getModifierString(character.getFinalStat(1)) + ")");
+        characterController.gettCon().setText(character.getFinalStat(2) + " (" + character.getModifierString(character.getFinalStat(2)) + ")");
+        characterController.gettInt().setText(character.getFinalStat(3) + " (" + character.getModifierString(character.getFinalStat(3)) + ")");
+        characterController.gettWis().setText(character.getFinalStat(4) + " (" + character.getModifierString(character.getFinalStat(4)) + ")");
+        characterController.gettCha().setText(character.getFinalStat(5) + " (" + character.getModifierString(character.getFinalStat(5)) + ")");
+
+        characterController.getTfStr().setPromptText(String.valueOf(character.getBaseStat(0)));
+        characterController.getTfDex().setPromptText(String.valueOf(character.getBaseStat(1)));
+        characterController.getTfCon().setPromptText(String.valueOf(character.getBaseStat(2)));
+        characterController.getTfInt().setPromptText(String.valueOf(character.getBaseStat(3)));
+        characterController.getTfWis().setPromptText(String.valueOf(character.getBaseStat(4)));
+        characterController.getTfCha().setPromptText(String.valueOf(character.getBaseStat(5)));
+
         character.setStatPoints();
         characterController.getPointText().setText(character.getStatPoints() + "/27");
+
+        if (character.hasSpecies()) {
+            
+        }
     }
 }

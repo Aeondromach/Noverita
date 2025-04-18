@@ -7,11 +7,18 @@
 
 package com.aeondromach.system;
 
+import java.util.ArrayList;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Species {
+import com.aeondromach.system.interfaces.system.Exclusive;
+import com.aeondromach.system.minor.Grant;
+import com.aeondromach.system.minor.OtherStat;
+import com.aeondromach.system.parsers.XmlParser;
+
+public class Species implements Exclusive {
     private String id;
     private String title;
     private String description;
@@ -22,6 +29,9 @@ public class Species {
     private String raceTitle;
     private String raceDescription;
 
+    private ArrayList<Grant> grantList;
+    private ArrayList<OtherStat> statList;
+
     /**
      * The constructor for species
      * @param id the species id
@@ -31,17 +41,22 @@ public class Species {
         this.id = id;
         this.subId = subId;
 
-        checkIfId();
+        this.grantList = new ArrayList<>();
+        this.statList = new ArrayList<>();
+
+        checkId();
     }
 
     /**
      * Check if species id is fit to read
      */
-    private void checkIfId() {
-        if (id != null) {
+    private void checkId() {
+        if (this.id != null) {
             try {
-                parseXML(XmlParser.check(id, "SPECIES"));
-                checkIfSubId();
+                if (!grantList.isEmpty() || !this.grantList.isEmpty()) grantList.clear();
+                if (!statList.isEmpty() || !this.statList.isEmpty()) statList.clear();
+                parseXML(XmlParser.check(this.id, "SPECIES"));
+                checkSubId();
             } 
             catch (NullPointerException e) {
             }
@@ -51,12 +66,14 @@ public class Species {
     /**
      * Check if race id is fit to read
      */
-    private void checkIfSubId() {
+    private void checkSubId() {
         if (subId != null) {
             try {
                 parseXML(XmlParser.check(subId, "RACE"));
+                System.out.println(raceTitle + " || " + raceDescription);
             } 
             catch (NullPointerException e) {
+                System.out.println("Race NULL");
             }
         }
     }
@@ -68,25 +85,43 @@ public class Species {
     private void parseXML(Document doc) {
         Elements elements = doc.select("element[id]");
         for (Element element: elements) {
-            if (element.attr("id").equals(this.id) && element.attr("type").equals("Species") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
-                Element descriptionXML = element.select("description").first();
+            if (element.attr("id").equals(this.id) && element.attr("type").toLowerCase().equals("species") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
+                Element descriptionXML = element.selectFirst("description");
 
                 setTitle(element.attr("name"));
                 setDescription(descriptionXML.html().trim());
 
                 Element exclusive = element.selectFirst("exclusive");
-                Elements grants = exclusive.select("grant");
-                for (Element grant: grants) {
-                    if (grant.attr("type").equals("Flesh")) {
-                        setFlesh(new Flesh(grant.attr("id")));
-                    }
-                }
+
+                grantList = XmlParser.parseExclusiveGrants(exclusive);
+
+                if (!element.attr("name").isEmpty()) statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
+                else statList = XmlParser.parseExclusiveStats(exclusive, "Species");
             }
-            else if (element.attr("id").equals(this.subId) && element.attr("type").equals("Race") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
-                Element descriptionXML = element.select("description").first();
+            else if (element.attr("id").equals(this.subId) && element.attr("type").toLowerCase().equals("race") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
+                Element descriptionXML = element.selectFirst("description");
+                Element exclusive = element.selectFirst("exclusive");
 
                 setRaceTitle(element.attr("name"));
                 setRaceDescription(descriptionXML.html().trim());
+
+                ArrayList<Grant> array = XmlParser.parseExclusiveGrants(exclusive);
+                try {
+                    for (Grant granter: array) {
+                        grantList.add(granter);
+                    }
+                } catch (NullPointerException e) {
+                }
+                
+                ArrayList<OtherStat> arrayList;
+                if (!element.attr("name").isEmpty()) 
+                    arrayList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
+                else 
+                    arrayList = XmlParser.parseExclusiveStats(exclusive, "Race");
+
+                if (arrayList != null) {
+                    statList.addAll(arrayList);
+                }
             }
         }
     }
@@ -95,6 +130,7 @@ public class Species {
      * returns the id of species
      * @return id
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -105,7 +141,7 @@ public class Species {
      */
     public void setId(String id) {
         this.id = id;
-        checkIfId();
+        checkId();
     }
 
     /**
@@ -146,7 +182,7 @@ public class Species {
      */
     public void setSubId(String subId) {
         this.subId = subId;
-        checkIfSubId();
+        checkSubId();
     }
 
     /**
@@ -203,5 +239,54 @@ public class Species {
      */
     public void setFlesh(Flesh flesh) {
         this.flesh = flesh;
+    }
+
+    /**
+     * Returns the Grants hash map, to be used by Character.java
+     * @return map of grant list for Species
+     */
+    @Override
+    public ArrayList<Grant> getGrantList() {
+        return grantList;
+    }
+
+    /**
+     * Returns the stats array list, to be used by Character.java
+     * @return array of stat list for Species
+     */
+    @Override
+    public ArrayList<OtherStat> getStatList() {
+        return statList;
+    }
+
+    @Override
+    public void reCheck() {
+        checkId();
+    }
+
+    @Override
+    public Boolean hasStatList() {
+        try {
+            return this.statList != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean hasGrantList() {
+        try {
+            return this.grantList != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    public Boolean hasFlesh() {
+        try {
+            return this.flesh != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 }

@@ -11,7 +11,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="1160.0" prefHeight="100.0" prefWidth="1160.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
@@ -22,7 +24,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../images/noverita.png" />
+                        <Image url="@../images/noveritaBackground.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -93,13 +95,40 @@
          <children>
             <ToolBar>
               <items>
-                <Button fx:id="btHome" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleHomeClick" styleClass="headerTitle" text="HOME" />
-                  <Button fx:id="btChar" mnemonicParsing="false" onMouseClicked="#handleCharClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="CHARACTER" />
-                  <Button fx:id="btEquip" mnemonicParsing="false" onMouseClicked="#handleEquipClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="EQUIPMENT" />
-                  <Button fx:id="btArche" mnemonicParsing="false" onMouseClicked="#handleArcheClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="ARCHETYPE" />
-                  <Button fx:id="btView" mnemonicParsing="false" onMouseClicked="#handleViewClick" style="-fx-opacity: 0.8;" styleClass="headerTitle" text="VIEW" />
+                <Button fx:id="btHome" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#handleHomeClick" styleClass="headerTitle" text="HOME" />
+                  <Button fx:id="btChar" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#handleCharClick" styleClass="headerTitle" text="CHARACTER" />
+                  <Button fx:id="btEquip" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#handleEquipClick" styleClass="headerTitle" text="EQUIPMENT" />
+                  <Button fx:id="btArche" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#handleArcheClick" styleClass="headerTitle" text="ARCHETYPE" />
+                  <Button fx:id="btView" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#handleViewClick" styleClass="headerTitle" text="VIEW" />
               </items>
             </ToolBar>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="headCharInfoHold" layoutX="750.0" layoutY="35.0" prefHeight="60.0" prefWidth="400.0" visible="false">
+         <children>
+            <Pane fx:id="imageContainer" layoutX="340.0" prefHeight="60.0" prefWidth="60.0" styleClass="imageCharHold">
+               <children>
+                  <ImageView fx:id="imageHeaderChar" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" styleClass="headerCharImage">
+                     <image>
+                        <Image url="@../images/noveritaBackground.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <VBox alignment="TOP_RIGHT" layoutX="10.0" prefHeight="60.0" prefWidth="320.0">
+               <children>
+                  <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Text fx:id="textCharacterTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headCharacterTitle" text="Character Title" />
+                     </children>
+                  </StackPane>
+                  <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Text fx:id="textCharacterDesc" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headCharacterText" text="Text" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </children>

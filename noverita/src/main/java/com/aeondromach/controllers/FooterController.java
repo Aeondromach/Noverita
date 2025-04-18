@@ -33,6 +33,9 @@ public class FooterController {
     protected void initialize() {
         Platform.runLater(() -> {
             Stage stage = (Stage) pathHold.getScene().getWindow();
+
+            footerPane.prefWidthProperty().bind(stage.widthProperty());
+
             pathHold.translateXProperty().bind(stage.widthProperty().subtract(pathHold.prefWidthProperty()).divide(2).subtract(pathHold.getLayoutX()));
  
             verHold.translateXProperty().bind(stage.widthProperty().subtract(verHold.prefWidthProperty()).subtract(verHold.getLayoutX()));

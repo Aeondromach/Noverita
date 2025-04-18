@@ -21,9 +21,9 @@
          <content>
             <BorderPane id="charHubMainPane">
                <left>
-                  <AnchorPane id="sidePaneCharHub" fx:id="sidePaneCharHub" prefWidth="370.0" styleClass="bodyPane" BorderPane.alignment="CENTER">
+                  <AnchorPane id="sidePaneCharHub" fx:id="sidePaneCharHub" prefWidth="370.0" style="-fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER">
                      <children>
-                        <GridPane maxWidth="370.0" minWidth="370.0" prefWidth="370.0">
+                        <GridPane maxHeight="50.0" maxWidth="370.0" minHeight="50.0" minWidth="370.0" prefHeight="50.0" prefWidth="370.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="40.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="270.0" percentWidth="80.0" prefWidth="270.0" />
@@ -40,7 +40,7 @@
                               </StackPane>
                               <StackPane alignment="CENTER_LEFT" style="-fx-padding: 0;" GridPane.columnIndex="2">
                                  <children>
-                                    <Button id="reloadButton" mnemonicParsing="false" onMouseClicked="#handleRefreshClick" text="⟳" />
+                                    <Button id="reloadButton" fx:id="btRefresh" mnemonicParsing="false" onMouseClicked="#handleRefreshClick" text="⟳" />
                                  </children>
                               </StackPane>
                            </children>
@@ -56,6 +56,10 @@
                            </children>
                         </StackPane>
                      </children>
+                     <styleClass>
+                        <String fx:value="bodyPane" />
+                        <String fx:value="sidePaneBorder" />
+                     </styleClass>
                   </AnchorPane>
                </left>
                <center>

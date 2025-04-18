@@ -24,7 +24,7 @@
 
 .titleButton {
     -fx-padding: 0;
-    -fx-text-fill: -primaryTextColor;
+    -fx-text-fill: -headerTextColor;
     -fx-font-size: 17px;
     -fx-background-radius: none;
     -fx-background-insets: none;
@@ -63,12 +63,12 @@
 }
 
 #noveritaText {
-    -fx-fill: -primaryTextColor;
+    -fx-fill: -headerTextColor;
     -fx-font-size: 16px;
 }
 
 .footText {
-    -fx-fill: -primaryTextColor;
+    -fx-fill: -headerTextColor;
     -fx-font-size: 13px;
 }
 
@@ -85,11 +85,15 @@
 }
 
 .headerTitle {
-    -fx-text-fill: -primaryTextColor;
+    -fx-text-fill: -headerTextColor;
     -fx-font-size: 26px;
     -fx-background-color: none;
     -fx-background-insets: 0;
     -fx-padding: 15 10 5 10;
+}
+
+.headerTitle:disabled {
+    -fx-opacity: 0.5;
 }
 
 .tool-bar {
@@ -103,7 +107,7 @@
 }
 
 .menu .label {
-    -fx-text-fill: -primaryTextColor !important;
+    -fx-text-fill: -headerTextColor !important;
     -fx-background-color: none;
 }
 
@@ -123,7 +127,7 @@
 }
 
 .menu-item {
-    -fx-text-fill: -primaryTextColor !important;
+    -fx-text-fill: -headerTextColor !important;
     -fx-background-color: -backgroundSec;
 }
 
@@ -138,4 +142,24 @@
 /* Style for MenuItems when selected */
 .menu-item:selected {
     -fx-background-color: -hover; /* Background when selected */
+}
+
+.headCharacterTitle {
+    -fx-fill: -headerTextColor;
+    -fx-font-size: 18px;
+}
+
+.headCharacterText {
+    -fx-fill: -headerTextColor;
+    -fx-font-size: 16px;
+}
+
+.imageCharHold {
+    -fx-background-color: -backgroundTer;
+}
+
+.circle-border {
+    -fx-stroke: -brightPrimary;
+    -fx-stroke-width: 1;
+    -fx-fill: transparent;
 }

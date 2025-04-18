@@ -53,7 +53,7 @@
 
 .tab .tab-label { 
     -fx-alignment: CENTER;
-    -fx-text-fill: -primaryTextColor;
+    -fx-text-fill: -headerTextColor;
     -fx-opacity: 0.8;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
@@ -127,7 +127,9 @@
 }
 
 .charHold {
-    -fx-border-color: -quartaryColor;
+    -fx-background-color: -backgroundTer;
+    -fx-effect: dropshadow( three-pass-box, -brightSecondary, 10.0, 0.0, 0.0, 0.0);
+    -fx-border-color: -brightSecondary; /* -quartaryColor */
     -fx-border-insets: 0;
     -fx-border-width: 1;
     -fx-padding: 0;
@@ -137,7 +139,8 @@
 }
 
 .charHold:hover {
-    -fx-border-color: -tertiaryColor;
+    -fx-effect: dropshadow( three-pass-box, -brightPrimary, 10.0, 0.0, 0.0, 0.0);
+    -fx-border-color: -brightPrimary; /* -quartaryColor */
 }
 
 .bodyScrollPane {
@@ -145,8 +148,17 @@
     -fx-border-color: transparent;
 }
 
+.noBorder {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+.sidePaneBorder {
+    -fx-border-color: -backgroundTer;
+}
+
 .charHighlight {
-    -fx-background-color: rgba(0, 0, 0, 0.75);
+    -fx-background-color: -backgroundQuad;
     -fx-padding: 4px 8px;
 }
 
@@ -184,6 +196,14 @@
 
 .statBlock {
     -fx-background-color: -backgroundSec;
+
+    -fx-min-height: 190;
+    -fx-pref-height: 190;
+    -fx-max-height: 190;
+
+    -fx-min-width: 165;
+    -fx-pref-width: 165;
+    -fx-max-width: 165;
 }
 
 .statTitle {
@@ -191,6 +211,11 @@
     -fx-min-height: 50;
     -fx-max-height: 50;
     -fx-alignment: BOTTOM_CENTER;
+}
+
+.statTitleText {
+    -fx-fill: -primaryTextColor;
+    -fx-font-size: 18px;
 }
 
 .statText {
@@ -201,15 +226,16 @@
 .statButton {
     -fx-rotate: 90;
     -fx-background-color: transparent;
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
     -fx-text-fill: -primaryTextColor;
     -fx-padding: 20 25;
+    -fx-text-overrun: clip;
 }
 
 .statNum {
-    -fx-pref-width: 130;
-    -fx-max-width: 130;
-    -fx-min-width: 130;
+    -fx-pref-width: 95;
+    -fx-max-width: 95;
+    -fx-min-width: 95;
 
     -fx-pref-height: 65;
     -fx-max-height: 65;
@@ -218,6 +244,61 @@
     -fx-alignment: CENTER;
     -fx-background-color: -background;
     -fx-text-fill: -secondaryTextColor;
+    -fx-font-size: 19px;
+}
+
+.statInput {
+    -fx-pref-width: 55;
+    -fx-max-width: 55;
+    -fx-min-width: 55;
+
+    -fx-alignment: CENTER;
+    -fx-background-color: transparent;
+    -fx-text-fill: -secondaryTextColor;
     -fx-prompt-text-fill: -secondaryTextColor;
-    -fx-font-size: 24px;
+    -fx-font-size: 16px;
+}
+
+.rightHandV {
+    -fx-pref-width: 55;
+    -fx-max-width: 55;
+    -fx-min-width: 55;
+}
+
+.table {
+    -fx-padding: 20;
+}
+
+.tableHead {
+    -fx-background-color: -primaryColor;
+    -fx-border-color: -colorBorder;
+    -fx-border-width: 1 1 0 1;
+}
+
+.tableElem {
+    -fx-background-color: -secondaryColor;
+    -fx-border-color: -colorBorder;
+    -fx-border-width: 0 1 0 1;
+}
+
+.tableFinal {
+    -fx-border-width: 0 1 1 1 !important;
+}
+
+.tableHeadText {
+    -fx-font-size: 12;
+    -fx-fill: -headerTextColor;
+    -fx-font-weight: bold;
+}
+
+.tableText {
+    -fx-font-size: 12;
+    -fx-fill: -headerTextColor;
+    -fx-font-weight: bold;
+}
+
+.tableSource {
+    -fx-font-size: 12;
+    -fx-fill: -headerTextColor;
+    -fx-font-weight: bold;
 }

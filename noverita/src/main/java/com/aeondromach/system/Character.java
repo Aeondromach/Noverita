@@ -16,9 +16,19 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import com.aeondromach.system.minor.Grant;
+import com.aeondromach.system.minor.OtherStat;
+import com.aeondromach.system.parsers.XmlParser;
+
+import javafx.scene.image.Image;
 
 public class Character {
     private String filePath;
+    private Image image;
+    private int rank;
+    private String squad;
 
     // Personal Info
     private String name;
@@ -34,6 +44,7 @@ public class Character {
     // Stats
     private final Integer[] baseStats = new Integer[6];
     private final ArrayList<OtherStat> otherStats = new ArrayList<>();
+    private final ArrayList<Grant> grantList = new ArrayList<>();
     private final Integer[] finalStats = new Integer[6];
 
     private int statPoints;
@@ -75,11 +86,20 @@ public class Character {
      * The constructor for the character
      * @param filePath the character's filepath to be read
      */
-    public Character(String filePath) {
+    public Character(String filePath, Image image) {
         try {
             this.filePath = filePath;
-            Document doc = Jsoup.parse(Files.readString(Paths.get(filePath))); 
-            this.name = "Test Char";
+            Document doc = Jsoup.parse(Files.readString(Paths.get(filePath)));
+            Element character = doc.selectFirst("character");
+            Element information = doc.selectFirst("information");
+            if (information.selectFirst("name").ownText().trim() != null) this.name = information.selectFirst("name").ownText().trim();
+            else this.name = "Enygma";
+            this.rank = Integer.parseInt(information.selectFirst("rank").ownText().trim());
+            this.squad = information.selectFirst("squad").ownText().trim();
+            Element charPortrait = information.selectFirst("charPortrait");
+            this.species = new Species(information.selectFirst("species").attr("id"), information.selectFirst("race").attr("id"));
+            this.image = XmlParser.findImage(charPortrait);
+
             this.baseStats[0] = 10;
             this.baseStats[1] = 10;
             this.baseStats[2] = 10;
@@ -99,10 +119,11 @@ public class Character {
             this.ideal = "Believes short people are evil";
             this.bond = "Strives to be the best a person can be.";
             this.flaw = "Hates short people";
-            this.species = new Species("ID_SPECIES_HUMAN", "ID_RACE_HUMAN_PURE");
+
+            runSetOtherStats();
         } catch (IOException e) {
-            
         }
+        
     }
 
     /* --------- */
@@ -281,96 +302,16 @@ public class Character {
      * Return the strength of the character
      * @return strength
      */
-    public int getBaseSTR() {
-        return baseStats[0];
+    public int getBaseStat(int index) {
+        return baseStats[index];
     }
 
     /**
      * Set the strength of the character
      * @param base strength
      */
-    public void setBaseSTR(int base) {
-        this.baseStats[0] = setBaseStat(base);
-    }
-
-    /**
-     * Return the dexterity of the character
-     * @return dexterity
-     */
-    public int getBaseDEX() {
-        return baseStats[1];
-    }
-
-    /**
-     * Set the dexterity of the character
-     * @param base dexterity
-     */
-    public void setBaseDEX(int base) {
-        this.baseStats[1] = setBaseStat(base);
-    }
-
-    /**
-     * Return the constitution of the character
-     * @return constitution
-     */
-    public int getBaseCON() {
-        return baseStats[2];
-    }
-
-    /**
-     * Set the constitution of the character
-     * @param base constitution
-     */
-    public void setBaseCON(int base) {
-        this.baseStats[2] = setBaseStat(base);
-    }
-
-    /**
-     * Return the intelligence of the character
-     * @return intelligence
-     */
-    public int getBaseINT() {
-        return baseStats[3];
-    }
-
-    /**
-     * Set the intelligence of the character
-     * @param base intelligence
-     */
-    public void setBaseINT(int base) {
-        this.baseStats[3] = setBaseStat(base);
-    }
-
-    /**
-     * Return the wisdom of the character
-     * @return wisdom
-     */
-    public int getBaseWIS() {
-        return baseStats[4];
-    }
-
-    /**
-     * Set the wisdom of the character
-     * @param base wisdom
-     */
-    public void setBaseWIS(int base) {
-        this.baseStats[4] = setBaseStat(base);
-    }
-
-    /**
-     * Return the charisma of the character
-     * @return charisma
-     */
-    public int getBaseCHA() {
-        return baseStats[5];
-    }
-
-    /**
-     * Set the charisma of the character
-     * @param base charisma
-     */
-    public void setBaseCHA(int base) {
-        this.baseStats[5] = setBaseStat(base);
+    public void setBaseStat(int base, int index) {
+        if (index >= 0 && index <= 5) this.baseStats[index] = setBaseStat(base);
     }
 
     /**
@@ -442,78 +383,10 @@ public class Character {
      * Return the final strength after adding up all other bonuses
      * @return final strength
      */
-    public int getFinalSTR() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[0] = baseStats[0] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[0];
-    }
-
-    /**
-     * Return the final dexterity after adding up all other bonuses
-     * @return final dexterity
-     */
-    public int getFinalDEX() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[1] = baseStats[1] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[1];
-    }
-
-    /**
-     * Return the final constitution after adding up all other bonuses
-     * @return final constitution
-     */
-    public int getFinalCON() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[2] = baseStats[2] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[2];
-    }
-
-    /**
-     * Return the final intelligence after adding up all other bonuses
-     * @return final intelligence
-     */
-    public int getFinalINT() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[3] = baseStats[3] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[3];
-    }
-
-    /**
-     * Return the final wisdom after adding up all other bonuses
-     * @return final wisdom
-     */
-    public int getFinalWIS() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[4] = baseStats[4] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[4];
-    }
-
-    /**
-     * Return the final charisma after adding up all other bonuses
-     * @return final charisma
-     */
-    public int getFinalCHA() {
-        int finalMod = 0;
-        for (OtherStat stat: otherStats) {
-            finalMod += stat.getMod();
-        }
-        finalStats[5] = baseStats[5] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[5];
+    public int getFinalStat(int index) {
+        int finalMod = setFinalMod(index);
+        finalStats[index] = baseStats[index] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
+        return finalStats[index];
     }
 
     /* -------- */
@@ -616,5 +489,66 @@ public class Character {
      */
     public Species getSpecies() {
         return this.species;
+    }
+
+    public void setGrants() {
+        if (this.grantList != null || !this.grantList.isEmpty()) grantList.clear();
+        if (this.species.hasGrantList()) for (Grant grant: this.species.getGrantList()) this.grantList.add(grant);
+        if (this.species.hasFlesh() && this.species.getFlesh().hasGrantList()) for (Grant grant: this.species.getFlesh().getGrantList()) this.grantList.add(grant);
+
+        for (Grant grant: this.grantList) {
+            switch (grant.getType()) {
+                case "":
+                    
+                    break;
+                default:
+                    break; //Put error message here
+            }
+        }
+    }
+
+    private int setFinalMod(int index) {
+        int finalMod = 0;
+
+        for (OtherStat stat: otherStats) {
+            if (stat.getStat() == index) finalMod += stat.getMod();
+            else if (stat.getStat() == 8) finalMod += stat.getMod();
+        }
+
+        return finalMod;
+    }
+
+    public void setOtherStats() {
+        if (this.otherStats != null || !this.otherStats.isEmpty()) otherStats.clear();
+        if (this.species.hasStatList()) for (OtherStat speciesStat: this.species.getStatList()) this.otherStats.add(speciesStat);
+        if (this.species.hasFlesh() && this.species.getFlesh().hasStatList()) for (OtherStat fleshStat: this.species.getFlesh().getStatList()) this.otherStats.add(fleshStat);
+    }
+
+    private void runSetOtherStats() {
+        setOtherStats();
+    }
+
+    public ArrayList<OtherStat> getOtherStats() {
+        return this.otherStats;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public Boolean hasSpecies() {
+        return this.species != null;
     }
 }

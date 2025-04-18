@@ -1,0 +1,12 @@
+.root {
+    -primaryColor: rgb(31, 18, 43);
+    -secondaryColor: rgb(14, 14, 14);
+    -tertiaryColor: aliceblue;
+    -quartaryColor: rgb(140, 148, 155);
+
+    -brightPrimary: rgb(81, 47, 112);
+    -brightSecondary: rgb(115, 81, 148);
+
+    -headerTextColor: aliceblue;
+    -favoriteTextColor: gold;
+}

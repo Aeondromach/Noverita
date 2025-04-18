@@ -23,10 +23,11 @@
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <right>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                  <VBox fx:id="speciesSidePane" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" BorderPane.alignment="CENTER">
                      <styleClass>
                         <String fx:value="sidePane" />
                         <String fx:value="bodyPane" />
+                        <String fx:value="sidePaneBorder" />
                      </styleClass>
                      <children>
                         <StackPane prefHeight="60.0" prefWidth="200.0">
@@ -34,10 +35,24 @@
                               <Text fx:id="speciesTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Species Name" />
                            </children>
                         </StackPane>
-                        <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="338.0" styleClass="bodyPane" />
+                        <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="338.0" styleClass="bodyPane">
+                           <content>
+                              <VBox fx:id="speciesSidePaneV" prefWidth="369.0" />
+                           </content></ScrollPane>
                      </children>
                   </VBox>
                </right>
+               <center>
+                  <ScrollPane fx:id="speciesScroll" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <VBox fx:id="speciesVbox" alignment="TOP_CENTER" prefWidth="786.0" />
+                     </content>
+                     <styleClass>
+                        <String fx:value="bodyAppPane" />
+                        <String fx:value="noBorder" />
+                     </styleClass>
+                  </ScrollPane>
+               </center>
             </BorderPane>
          </content>
     </Tab>
@@ -58,82 +73,202 @@
                         <Insets left="40.0" right="40.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" spacing="28.0">
+                  <HBox alignment="CENTER" spacing="20.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Strength Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Strength" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Strength" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tStr" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btStrIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfStr" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btStrIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btStrIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfStr" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btStrIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        </HBox> <!-- Strength End -->
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Dexterity Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Dexterity" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Dexterity" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tDex" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btDexIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfDex" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btDexIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btDexIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfDex" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btDexIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        </HBox> <!-- Dexterity End -->
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Constitution Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Constitution" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Constitution" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tCon" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btConIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfCon" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btConIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btConIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfCon" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btConIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        </HBox> <!-- Constitution End -->
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Intelligence Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Intelligence" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Intelligence" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tInt" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btIntIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfInt" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btIntIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btIntIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfInt" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btIntIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        </HBox> <!-- Intelligence End -->
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Wisdom Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Wisdom" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Wisdom" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tWis" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btWisIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfWis" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btWisIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btWisIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfWis" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btWisIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                           <VBox alignment="TOP_CENTER" maxHeight="250.0" maxWidth="160.0" minHeight="250.0" minWidth="160.0" prefHeight="250.0" prefWidth="160.0" styleClass="statBlock">
+                        </HBox> <!-- Wisdom End -->
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="statBlock"> <!-- Charisma Start -->
                            <children>
-                              <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Charisma" />
+                                    <StackPane prefHeight="160.0" prefWidth="200.0" styleClass="statTitle">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statTitleText" text="Charisma" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="statNum">
+                                       <children>
+                                          <Text fx:id="tCha" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="statText" text="Num" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="45.0" />
+                                       </VBox.margin>
+                                    </StackPane>
                                  </children>
-                              </StackPane>
-                              <Button fx:id="btChaIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
-                              <TextField fx:id="tfCha" onAction="#handleStatInput" styleClass="statNum" />
-                              <Button fx:id="btChaIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="rightHandV">
+                                 <children>
+                                    <Button fx:id="btChaIncUp" mnemonicParsing="false" onMouseClicked="#handleIncrementUp" styleClass="statButton" text="&lt;" />
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="tfCha" onAction="#handleStatInput" styleClass="statInput" />
+                                       </children>
+                                    </StackPane>
+                                    <Button fx:id="btChaIncDown" mnemonicParsing="false" onMouseClicked="#handleIncrementDown" styleClass="statButton" text="&gt;" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </HBox> <!-- Charisma End -->
                </children>
             </VBox>
          </content>
