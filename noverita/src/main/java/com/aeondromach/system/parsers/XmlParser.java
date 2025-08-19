@@ -174,7 +174,7 @@ public abstract class XmlParser {
             String fileName = localPathTag.substring(lastSlashIndex);
 
             Path filePath = Paths.get(localPathTag); // Convert the string path into a Path object
-            Path customFilePath = Paths.get(Settings.getSetting(Settings.CustomSettings.BASE_PATH) + "\\charPortraits\\" + fileName);
+            Path customFilePath = Paths.get(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH) + "\\" + fileName);
             if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
                 return new Image(new File(localPathTag).toURI().toString());
             }

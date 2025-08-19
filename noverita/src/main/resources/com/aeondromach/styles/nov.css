@@ -275,14 +275,35 @@
     -fx-border-width: 1 1 0 1;
 }
 
-.tableElem {
-    -fx-background-color: -secondaryColor;
+.tableHeadClosed {
+    -fx-background-color: -primaryColor;
     -fx-border-color: -colorBorder;
+    -fx-border-width: 1 1 1 1;
+}
+
+.tableElem {
+    -fx-border-color: -colorBorder;
+    -fx-padding: 0;
+}
+
+.tableElemOdd {
+    -fx-background-color: -background;
+}
+
+.tableElemEven {
+    -fx-background-color: -backgroundTer;
+}
+
+.tableMid {
     -fx-border-width: 0 1 0 1;
 }
 
 .tableFinal {
-    -fx-border-width: 0 1 1 1 !important;
+    -fx-border-width: 0 1 1 1;
+}
+
+.tableElem:hover {
+    -fx-background-color: -hoverPrimary;
 }
 
 .tableHeadText {

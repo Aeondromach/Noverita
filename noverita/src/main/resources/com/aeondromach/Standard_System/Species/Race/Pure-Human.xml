@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elements>
-    <element name="Pure" type="Race" source="Noverita" id="ID_RACE_HUMAN_PURE">
+    <element name="Pure" type="Race" source="Noverita" id="ID_RACE_HUMAN_PURE" parent="ID_SPECIES_HUMAN">
 		<description>
 			<p>Pure humans are exactly that, purely human. They are the most common type of Human along Terra, with over 99% of the population being purely human.</p>
 		</description>

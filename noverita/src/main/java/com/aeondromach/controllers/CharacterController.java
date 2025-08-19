@@ -24,6 +24,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -60,6 +61,7 @@ public class CharacterController {
 
     private Table speciesTable;
     private Table raceTable;
+    private final VBox raceHold = new VBox();
 
     /**
      * Takes instantiated Novcontroller and links self to it.
@@ -76,6 +78,9 @@ public class CharacterController {
         Platform.runLater(() -> {
             Stage stage = (Stage) character.getScene().getWindow();
             character.prefWidthProperty().bind(stage.widthProperty().subtract(.001));
+
+            speciesVbox.prefWidthProperty().bind(character.widthProperty().subtract(speciesSidePane.widthProperty()));
+            speciesVbox.maxWidthProperty().bind(character.widthProperty().subtract(speciesSidePane.widthProperty()));
         });
     }
 
@@ -91,24 +96,53 @@ public class CharacterController {
     }
 
     public void setTables() {
-        setSpeciesTable();
+        speciesVbox.getChildren().addAll(setSpeciesTable(), raceHold);
     }
 
-    private void setSpeciesTable() {
-        speciesTable = new Table(IdClassList.getIdMap("SPECIES"), "species", "Species", this::speciesClick, this::speciesDualClick);
+    private VBox setSpeciesTable() {
+        speciesVbox.getChildren().clear(); // Deletes previous table instances
+
+        speciesTable = new Table("SPECIES", "species", "Species", this::speciesClick, this::speciesDualClick);
         VBox speciesTableBox = speciesTable.setTable();
         speciesTableBox.prefWidthProperty().bind(speciesVbox.widthProperty().subtract(10));
-        speciesVbox.getChildren().add(speciesTableBox);
+
+        return speciesTableBox;
     }
 
-    private void speciesClick(String id) {
+    private void speciesClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
         Element element = XmlParser.getElement(IdClassList.getIdMap("SPECIES"), id);
         speciesTitle.setText(element.attr("name"));
         speciesSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap("SPECIES")));
     }
 
-    private void speciesDualClick(String id) {
-        System.out.println(id + " | " + id);
+    private void speciesDualClick(String id, AnchorPane tableElem) {
+        com.aeondromach.system.Character curChar = nov.getCharacter();
+
+        curChar.getSpecies().setId(id);
+        raceHold.getChildren().clear();
+        setRaceTable(id);
+    }
+
+    private void setRaceTable(String id) {
+        raceTable = new Table("RACE", "race", "Race", this::raceClick, this::raceDualClick, id);
+        VBox raceTableBox = raceTable.setTable();
+        
+        if (raceTable.hasParent()) {
+            raceTableBox.prefWidthProperty().bind(speciesVbox.widthProperty().subtract(10));
+            raceHold.getChildren().add(raceTableBox);
+        }
+    }
+
+    private void raceClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        Element element = XmlParser.getElement(IdClassList.getIdMap("RACE"), id);
+        speciesTitle.setText(element.attr("name"));
+        speciesSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap("RACE")));
+    }
+
+    private void raceDualClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        com.aeondromach.system.Character curChar = nov.getCharacter();
+
+        curChar.getSpecies().setSubId(id);
     }
 
     /**

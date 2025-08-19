@@ -23,6 +23,10 @@ public abstract class Messages {
         alert.showAndWait();
     }
 
+    public static void debugAlertRemoveOnLaunch(String title, String header, String content) {
+        errorAlert(title, header, content);
+    }
+
     public static void errorAlert(String title, String header, String content, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR - " + title);

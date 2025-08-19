@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<TabPane id="charBod" fx:id="character" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1160.0" prefHeight="430.0" prefWidth="1160.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.CharacterController">
+<TabPane id="charBod" fx:id="character" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1160.0" prefHeight="430.0" prefWidth="1160.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.CharacterController">
   <tabs>
     <Tab text="Species">
          <content>
@@ -43,7 +43,7 @@
                   </VBox>
                </right>
                <center>
-                  <ScrollPane fx:id="speciesScroll" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="speciesScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <content>
                         <VBox fx:id="speciesVbox" alignment="TOP_CENTER" prefWidth="786.0" />
                      </content>

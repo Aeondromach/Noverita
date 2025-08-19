@@ -38,7 +38,7 @@ public class App extends Application {
     private BorderPane mainPane;
     private double mainHeight, mainWidth;
     private static Parent root;
-    private static String[] styles = new String[1];
+    private static final String[] styles = new String[1];
 
     /**
      * Initial set-up of Noverita

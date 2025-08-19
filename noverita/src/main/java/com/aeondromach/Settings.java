@@ -95,6 +95,7 @@ public abstract class Settings {
                     customSettings.put(CustomSettings.BASE_PATH.getKey(), CustomSettings.BASE_PATH.getDefaultValue());
                     customSettings.put(CustomSettings.CHAR_PATH.getKey(), CustomSettings.CHAR_PATH.getDefaultValue());
                     customSettings.put(CustomSettings.CUSTOM_PATH.getKey(), CustomSettings.CUSTOM_PATH.getDefaultValue());
+                    customSettings.put(CustomSettings.PORTRAIT_PATH.getKey(), CustomSettings.PORTRAIT_PATH.getDefaultValue());
     
                 Map<String, Map<String, Object>> setterMap = new HashMap<>();
                     setterMap.put("general", generalSettings);
@@ -226,9 +227,10 @@ public abstract class Settings {
     }
 
     public enum CustomSettings {
-        CHAR_PATH("character folder path", /*System.getProperty("user.home") + "\\documents\\Noverita"*/ "C:\\Users\\AdamE.2026\\OneDrive\\Evelyn\\Noverita Characters"),
+        CHAR_PATH("character folder path", System.getProperty("user.home") + "\\documents\\Noverita\\characters"),
         BASE_PATH("base path", System.getProperty("user.home") + "\\documents\\Noverita"),
-        CUSTOM_PATH("custom folder", /*System.getProperty("user.home") + "\\documents\\Noverita\\custom"*/ "C:\\Users\\AdamE.2026\\OneDrive\\Evelyn\\Noverita\\noverita\\src\\main\\resources\\com\\aeondromach\\Standard_System");
+        CUSTOM_PATH("custom folder", System.getProperty("user.home") + "\\documents\\Noverita\\custom"),
+        PORTRAIT_PATH("portrait path", System.getProperty("user.home") + "\\documents\\Noverita\\characters\\portraits");
 
         private final String key;
         private final Object defaultValue;

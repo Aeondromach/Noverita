@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+    <!-- <info>
+		<name>Human</name>
+	</info> -->
+
+	<element name="Human Test 1" type="Species" source="Noverita" id="ID_SPECIES_HUMAN_2">
+		<description>
+			<p>Humans are the most vast species in Veritas, they are diverse yet united. Humans don't really have any one weakness, as they change so much from location to location. Most humans can be found living in urban territories along water sources, especially Ocean-sides. Human cultures tend to vary by continent, though cultures really don't tend to be the exact same person to person.</p>
+		</description>
+		<inclusive>
+			<stat name="omni" value="2" cloak="CLASS_CLOAK_BASE_STATS" />
+            <stat name="omni" value="1" cloak="CLASS_CLOAK_BASE_STATS" />
+			<stat name="run speed" value="30" bonus="base" />
+			<grant type="Size" id="ID_SIZE_MEDIUM" />
+			<grant type="Vision" id="ID_VISION_NORMALVISION" />
+			<grant type="Language" id="ID_LANGUAGE_AENGLISC" />
+		</inclusive>
+		<exclusive>
+			<grant type="Flesh" id="ID_FLESH_ORGANIC" />
+			<grant type="Species Specialty" id="ID_SPECIES_SPECIALTY_INDOMITABLE_WILL" />
+			<grant type="Species Hunger" id="ID_SPECIES_HUNGER_HUMAN" />
+		</exclusive>
+	</element>
+
+
+	<element name="Indomitable Will" type="Species Specialty" id="ID_SPECIES_SPECIALTY_INDOMITABLE_WILL">
+		<description>
+			<p>Humans are among the most durable, yet fragile species across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
+		</description>♫
+		<choices>
+			<choice name="Impact" type="Resistance" id="ID_DAMAGE_RESISTANCE_IMPACT"/>
+			<choice name="Puncture" type="Resistance" id="ID_DAMAGE_RESISTANCE_PUNCTURE"/>
+			<choice name="Slash" type="Resistance" id="ID_DAMAGE_RESISTANCE_SLASH"/>
+		</choices>
+	</element>
+
+	<element name="Human Hunger" type="Species Hunger" id="ID_SPECIES_HUNGER_HUMAN">
+		<description>
+			<p>By Human standards, Humans obviously eat an average amount of food. Hunger in a campaign will typically be decided by the GM, but the general concensus is that the average daily meal will be 1 ration and 1 gallon of water.</p>
+		</description>
+	</element>
+</elements>

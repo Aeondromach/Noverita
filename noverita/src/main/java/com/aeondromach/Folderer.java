@@ -13,7 +13,7 @@ public class Folderer {
             Settings.readConfigFile();
         }
         else {
-            Messages.warningAlert("Creating Settings file - REMOVE ON FULL RELEASE", "No settings.json file found, creating.", "Settings.json file created:\n" + DOCUMENT_PATH + "\\Noverita\\settings.json");
+            Messages.debugAlertRemoveOnLaunch("Creating Settings file - REMOVE ON FULL RELEASE", "No settings.json file found, creating.", "Settings.json file created:\n" + DOCUMENT_PATH + "\\Noverita\\settings.json");
             if (!Files.exists(Paths.get(DOCUMENT_PATH + "\\Noverita"))) {
                 try {
                     Files.createDirectories(Paths.get(DOCUMENT_PATH + "\\Noverita"));
@@ -22,6 +22,22 @@ public class Folderer {
             }
             Settings.saveSettings();
             Settings.readConfigFile();
+        }
+
+        checkForPath(Settings.CustomSettings.CUSTOM_PATH, "custom");
+
+        checkForPath(Settings.CustomSettings.CHAR_PATH, "character");
+
+        checkForPath(Settings.CustomSettings.PORTRAIT_PATH, "portrait");
+    }
+
+    private static void checkForPath(Settings.CustomSettings pathEnum, String pathName) {
+        if (!Files.exists(Paths.get("" + Settings.getSetting(pathEnum)))) {
+            Messages.debugAlertRemoveOnLaunch("Creating " + pathName + " folder - REMOVE ON FULL RELEASE", "No " + pathName + " folder found, creating.", pathName + " folder created:\n" + Settings.getSetting(pathEnum));
+            try {
+                Files.createDirectories(Paths.get("" + Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH)));
+            } catch (IOException e) {
+            }
         }
     }
 
