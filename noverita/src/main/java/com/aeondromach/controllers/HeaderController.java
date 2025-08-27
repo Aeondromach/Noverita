@@ -545,7 +545,7 @@ public class HeaderController {
     public void setHeadCharInfo() {
         imageHeaderChar.setImage(character.getImage());
         textCharacterTitle.setText(character.getName() + " ([Archetype])");
-        textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getSpecies().getRaceTitle() + " " + character.getSpecies().getTitle() + " [Specialization]");
+        textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getAspect().getTitle() + " " + character.getForm().getTitle() + " [Specialization]");
     }
 
     public void setHeadCharVisible(Boolean check) {

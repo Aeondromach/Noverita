@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 
 import com.aeondromach.constructors.Table;
 import com.aeondromach.system.IdClassList;
+import com.aeondromach.system.IdClassList.IdType;
 import com.aeondromach.system.parsers.HtmlParser;
 import com.aeondromach.system.parsers.XmlParser;
 
@@ -48,20 +49,20 @@ public class CharacterController {
 
     @FXML private TabPane character;
 
-    @FXML private Text speciesTitle;
+    @FXML private Text formTitle;
 
     @FXML private Text textPoints;
 
-    @FXML private VBox speciesSidePane;
-    @FXML private VBox speciesSidePaneV;
+    @FXML private VBox formSidePane;
+    @FXML private VBox formSidePaneV;
 
-    @FXML private ScrollPane speciesScroll;
-    @FXML private VBox speciesVbox;
-    @FXML private VBox speciesSideBarHtml;
+    @FXML private ScrollPane formScroll;
+    @FXML private VBox formVbox;
+    @FXML private VBox formSideBarHtml;
 
-    private Table speciesTable;
-    private Table raceTable;
-    private final VBox raceHold = new VBox();
+    private Table formTable;
+    private Table aspectTable;
+    private final VBox aspectHold = new VBox();
 
     /**
      * Takes instantiated Novcontroller and links self to it.
@@ -79,8 +80,8 @@ public class CharacterController {
             Stage stage = (Stage) character.getScene().getWindow();
             character.prefWidthProperty().bind(stage.widthProperty().subtract(.001));
 
-            speciesVbox.prefWidthProperty().bind(character.widthProperty().subtract(speciesSidePane.widthProperty()));
-            speciesVbox.maxWidthProperty().bind(character.widthProperty().subtract(speciesSidePane.widthProperty()));
+            formVbox.prefWidthProperty().bind(character.widthProperty().subtract(formSidePane.widthProperty()));
+            formVbox.maxWidthProperty().bind(character.widthProperty().subtract(formSidePane.widthProperty()));
         });
     }
 
@@ -96,53 +97,53 @@ public class CharacterController {
     }
 
     public void setTables() {
-        speciesVbox.getChildren().addAll(setSpeciesTable(), raceHold);
+        formVbox.getChildren().addAll(setFormTable(), aspectHold);
     }
 
-    private VBox setSpeciesTable() {
-        speciesVbox.getChildren().clear(); // Deletes previous table instances
+    private VBox setFormTable() {
+        formVbox.getChildren().clear(); // Deletes previous table instances
 
-        speciesTable = new Table("SPECIES", "species", "Species", this::speciesClick, this::speciesDualClick);
-        VBox speciesTableBox = speciesTable.setTable();
-        speciesTableBox.prefWidthProperty().bind(speciesVbox.widthProperty().subtract(10));
+        formTable = new Table(IdClassList.IdType.FORM, "form", "Form", this::formClick, this::formDualClick);
+        VBox formTableBox = formTable.setTable();
+        formTableBox.prefWidthProperty().bind(formVbox.widthProperty().subtract(10));
 
-        return speciesTableBox;
+        return formTableBox;
     }
 
-    private void speciesClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
-        Element element = XmlParser.getElement(IdClassList.getIdMap("SPECIES"), id);
-        speciesTitle.setText(element.attr("name"));
-        speciesSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap("SPECIES")));
+    private void formClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        Element element = XmlParser.getElement(IdClassList.getIdMap(IdType.FORM), id);
+        formTitle.setText(element.attr("name"));
+        formSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap(IdType.FORM)));
     }
 
-    private void speciesDualClick(String id, AnchorPane tableElem) {
+    private void formDualClick(String id, AnchorPane tableElem) {
         com.aeondromach.system.Character curChar = nov.getCharacter();
 
-        curChar.getSpecies().setId(id);
-        raceHold.getChildren().clear();
-        setRaceTable(id);
+        curChar.getForm().setId(id);
+        aspectHold.getChildren().clear();
+        setAspectTable(id);
     }
 
-    private void setRaceTable(String id) {
-        raceTable = new Table("RACE", "race", "Race", this::raceClick, this::raceDualClick, id);
-        VBox raceTableBox = raceTable.setTable();
+    private void setAspectTable(String id) {
+        aspectTable = new Table(IdClassList.IdType.ASPECT, "aspect", "Aspect", this::aspectClick, this::aspectDualClick, id);
+        VBox aspectTableBox = aspectTable.setTable();
         
-        if (raceTable.hasParent()) {
-            raceTableBox.prefWidthProperty().bind(speciesVbox.widthProperty().subtract(10));
-            raceHold.getChildren().add(raceTableBox);
+        if (aspectTable.hasParent()) {
+            aspectTableBox.prefWidthProperty().bind(formVbox.widthProperty().subtract(10));
+            aspectHold.getChildren().add(aspectTableBox);
         }
     }
 
-    private void raceClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
-        Element element = XmlParser.getElement(IdClassList.getIdMap("RACE"), id);
-        speciesTitle.setText(element.attr("name"));
-        speciesSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap("RACE")));
+    private void aspectClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        Element element = XmlParser.getElement(IdClassList.getIdMap(IdType.ASPECT), id);
+        formTitle.setText(element.attr("name"));
+        formSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap(IdType.ASPECT)));
     }
 
-    private void raceDualClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+    private void aspectDualClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
         com.aeondromach.system.Character curChar = nov.getCharacter();
 
-        curChar.getSpecies().setSubId(id);
+        curChar.getForm().getAspect().setId(id);
     }
 
     /**
@@ -439,11 +440,11 @@ public class CharacterController {
         return tCha;
     }
 
-    public void setSpeciesTitle(String title) {
-        speciesTitle.setText(title);
+    public void setFormTitle(String title) {
+        formTitle.setText(title);
     }
 
-    public void setSpeciesSidePaneWidth(double width) {
-        speciesSidePane.setPrefWidth(width);
+    public void setFormSidePaneWidth(double width) {
+        formSidePane.setPrefWidth(width);
     }
 }

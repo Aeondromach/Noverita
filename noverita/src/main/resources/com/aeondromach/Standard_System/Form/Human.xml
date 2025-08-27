@@ -4,9 +4,9 @@
 		<name>Human</name>
 	</info> -->
 
-	<element name="Human" type="Species" source="Noverita" id="ID_SPECIES_HUMAN">
+	<element name="Human" type="Form" source="Noverita" id="ID_ASPECT_HUMAN">
 		<description>
-			<p>Humans are the most vast species in Veritas, they are diverse yet united. Humans don't really have any one weakness, as they change so much from location to location. Most humans can be found living in urban territories along water sources, especially Ocean-sides. Human cultures tend to vary by continent, though cultures really don't tend to be the exact same person to person.</p>
+			<p>Humans are the most vast Aspect in Veritas, they are diverse yet united. Humans don't really have any one weakness, as they change so much from location to location. Most humans can be found living in urban territories along water sources, especially Ocean-sides. Human cultures tend to vary by continent, though cultures really don't tend to be the exact same person to person.</p>
 		</description>
 		<inclusive>
 			<stat name="omni" value="2" cloak="CLASS_CLOAK_BASE_STATS" />
@@ -18,15 +18,15 @@
 		</inclusive>
 		<exclusive>
 			<grant type="Flesh" id="ID_FLESH_ORGANIC" />
-			<grant type="Species Specialty" id="ID_SPECIES_SPECIALTY_INDOMITABLE_WILL" />
-			<grant type="Species Hunger" id="ID_SPECIES_HUNGER_HUMAN" />
+			<grant type="Aspect Specialty" id="ID_ASPECT_SPECIALTY_INDOMITABLE_WILL" />
+			<grant type="Aspect Hunger" id="ID_ASPECT_HUNGER_HUMAN" />
 		</exclusive>
 	</element>
 
 
-	<element name="Indomitable Will" type="Species Specialty" id="ID_SPECIES_SPECIALTY_INDOMITABLE_WILL">
+	<element name="Indomitable Will" type="Aspect Specialty" id="ID_ASPECT_SPECIALTY_INDOMITABLE_WILL">
 		<description>
-			<p>Humans are among the most durable, yet fragile species across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
+			<p>Humans are among the most durable, yet fragile Aspect across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
 		</description>♫
 		<choices>
 			<choice name="Impact" type="Resistance" id="ID_DAMAGE_RESISTANCE_IMPACT"/>
@@ -35,7 +35,7 @@
 		</choices>
 	</element>
 
-	<element name="Human Hunger" type="Species Hunger" id="ID_SPECIES_HUNGER_HUMAN">
+	<element name="Human Hunger" type="Aspect Hunger" id="ID_ASPECT_HUNGER_HUMAN">
 		<description>
 			<p>By Human standards, Humans obviously eat an average amount of food. Hunger in a campaign will typically be decided by the GM, but the general concensus is that the average daily meal will be 1 ration and 1 gallon of water.</p>
 		</description>

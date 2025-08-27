@@ -33,7 +33,7 @@ public class Table {
 
     private List<AnchorPane> tableElemList = new ArrayList<>();
 
-    public Table(String map, String title, String type, BiConsumer<String, AnchorPane> singleClick, BiConsumer<String, AnchorPane> doubleClick) {
+    public Table(IdClassList.IdType map, String title, String type, BiConsumer<String, AnchorPane> singleClick, BiConsumer<String, AnchorPane> doubleClick) {
         this.doubleClick = doubleClick;
         this.map = IdClassList.getIdMap(map);
         this.singleClick = singleClick;
@@ -41,7 +41,7 @@ public class Table {
         this.type = type;
     }
 
-    public Table(String map, String title, String type, BiConsumer<String, AnchorPane> singleClick, BiConsumer<String, AnchorPane> doubleClick, String searchTerm) {
+    public Table(IdClassList.IdType map, String title, String type, BiConsumer<String, AnchorPane> singleClick, BiConsumer<String, AnchorPane> doubleClick, String searchTerm) {
         this.doubleClick = doubleClick;
         this.map = IdClassList.getIdMap(map);
         this.singleClick = singleClick;

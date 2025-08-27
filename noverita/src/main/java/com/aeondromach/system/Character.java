@@ -67,8 +67,8 @@ public class Character {
     private String bond;
     private String flaw;
 
-    // Species
-    private Species species;
+    // Form
+    private Form form;
 
     // Settings
     // private Perset settings;
@@ -97,7 +97,7 @@ public class Character {
             this.rank = Integer.parseInt(information.selectFirst("rank").ownText().trim());
             this.squad = information.selectFirst("squad").ownText().trim();
             Element charPortrait = information.selectFirst("charPortrait");
-            this.species = new Species(information.selectFirst("species").attr("id"), information.selectFirst("race").attr("id"));
+            this.form = new Form(information.selectFirst("species").attr("id"), information.selectFirst("race").attr("id"));
             this.image = XmlParser.findImage(charPortrait);
 
             this.baseStats[0] = 10;
@@ -487,14 +487,14 @@ public class Character {
      * Return the species of the character
      * @return species
      */
-    public Species getSpecies() {
-        return this.species;
+    public Form getForm() {
+        return this.form;
     }
 
     public void setGrants() {
         if (this.grantList != null || !this.grantList.isEmpty()) grantList.clear();
-        if (this.species.hasGrantList()) for (Grant grant: this.species.getGrantList()) this.grantList.add(grant);
-        if (this.species.hasFlesh() && this.species.getFlesh().hasGrantList()) for (Grant grant: this.species.getFlesh().getGrantList()) this.grantList.add(grant);
+        if (this.form.hasGrantList()) for (Grant grant: this.form.getGrantList()) this.grantList.add(grant);
+        if (this.form.hasFlesh() && this.form.getFlesh().hasGrantList()) for (Grant grant: this.form.getFlesh().getGrantList()) this.grantList.add(grant);
 
         for (Grant grant: this.grantList) {
             switch (grant.getType()) {
@@ -520,8 +520,8 @@ public class Character {
 
     public void setOtherStats() {
         if (this.otherStats != null || !this.otherStats.isEmpty()) otherStats.clear();
-        if (this.species.hasStatList()) for (OtherStat speciesStat: this.species.getStatList()) this.otherStats.add(speciesStat);
-        if (this.species.hasFlesh() && this.species.getFlesh().hasStatList()) for (OtherStat fleshStat: this.species.getFlesh().getStatList()) this.otherStats.add(fleshStat);
+        if (this.form.hasStatList()) for (OtherStat speciesStat: this.form.getStatList()) this.otherStats.add(speciesStat);
+        if (this.form.hasFlesh() && this.form.getFlesh().hasStatList()) for (OtherStat fleshStat: this.form.getFlesh().getStatList()) this.otherStats.add(fleshStat);
     }
 
     private void runSetOtherStats() {
@@ -549,6 +549,6 @@ public class Character {
     }
 
     public Boolean hasSpecies() {
-        return this.species != null;
+        return this.form != null;
     }
 }

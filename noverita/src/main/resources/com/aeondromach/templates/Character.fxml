@@ -16,14 +16,14 @@
 
 <TabPane id="charBod" fx:id="character" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1160.0" prefHeight="430.0" prefWidth="1160.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.CharacterController">
   <tabs>
-    <Tab text="Species">
+    <Tab text="Form">
          <content>
             <VBox prefHeight="200.0" prefWidth="100.0" />
          </content>
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <right>
-                  <VBox fx:id="speciesSidePane" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" BorderPane.alignment="CENTER">
+                  <VBox fx:id="formSidePane" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" BorderPane.alignment="CENTER">
                      <styleClass>
                         <String fx:value="sidePane" />
                         <String fx:value="bodyPane" />
@@ -32,20 +32,20 @@
                      <children>
                         <StackPane prefHeight="60.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="speciesTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Species Name" />
+                              <Text fx:id="formTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Form Name" />
                            </children>
                         </StackPane>
                         <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="338.0" styleClass="bodyPane">
                            <content>
-                              <VBox fx:id="speciesSidePaneV" prefWidth="369.0" />
+                              <VBox fx:id="formSidePaneV" prefWidth="369.0" />
                            </content></ScrollPane>
                      </children>
                   </VBox>
                </right>
                <center>
-                  <ScrollPane fx:id="speciesScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="formScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <content>
-                        <VBox fx:id="speciesVbox" alignment="TOP_CENTER" prefWidth="786.0" />
+                        <VBox fx:id="formVbox" alignment="TOP_CENTER" prefWidth="786.0" />
                      </content>
                      <styleClass>
                         <String fx:value="bodyAppPane" />

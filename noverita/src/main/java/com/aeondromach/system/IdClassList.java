@@ -31,37 +31,48 @@ import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 
 public class IdClassList {
-    private static final Map<String, String> SPECIES = new HashMap<>();
-    private static final Map<String, String> SPECIES_SPECIALTY = new HashMap<>();
-    private static final Map<String, String> SPECIES_HUNGER = new HashMap<>();
-    private static final Map<String, String> RACE = new HashMap<>();
-    private static final Map<String, String> RACIAL_INTRINSIC = new HashMap<>();
-    private static final Map<String, String> RACIAL_SPECIALTY = new HashMap<>();
+    private static final Map<String, String> FORM = new HashMap<>();
+    private static final Map<String, String> FORM_SPECIALTY = new HashMap<>();
+    private static final Map<String, String> FORM_HUNGER = new HashMap<>();
+    private static final Map<String, String> ASPECT = new HashMap<>();
+    private static final Map<String, String> ASPECT_INTRINSIC = new HashMap<>();
+    private static final Map<String, String> ASPECT_SPECIALTY = new HashMap<>();
     private static final Map<String, String> FLESH = new HashMap<>();
     private static final Map<String, String> CLOAK = new HashMap<>();
+
+    public enum IdType {
+        FORM,
+        FORM_SPECIALTY,
+        FORM_HUNGER,
+        ASPECT,
+        ASPECT_INTRINSIC,
+        ASPECT_SPECIALTY,
+        FLESH,
+        CLOAK
+    }
 
     /**
      * Returns an ID map depending on the string grabber name
      * @param grabber the identifier for the map
      * @return the map of ids
      */
-    public static Map<String, String> getIdMap(String grabber) {
-        switch (grabber.toUpperCase()) {
-            case "SPECIES":
-                return SPECIES;
-            case "SPECIES_SPECIALTY":
-                return SPECIES_SPECIALTY;
-            case "SPECIES_HUNGER":
-                return SPECIES_HUNGER;
-            case "RACE":
-                return RACE;
-            case "RACIAL_INTRINSIC":
-                return RACIAL_INTRINSIC;
-            case "RACIAL_SPECIALTY":
-                return RACIAL_SPECIALTY;
-            case "FLESH":
+    public static Map<String, String> getIdMap(IdType grabber) {
+        switch (grabber) {
+            case FORM:
+                return FORM;
+            case FORM_SPECIALTY:
+                return FORM_SPECIALTY;
+            case FORM_HUNGER:
+                return FORM_HUNGER;
+            case ASPECT:
+                return ASPECT;
+            case ASPECT_INTRINSIC:
+                return ASPECT_INTRINSIC;
+            case ASPECT_SPECIALTY:
+                return ASPECT_SPECIALTY;
+            case FLESH:
                 return FLESH;
-            case "CLOAK":
+            case CLOAK:
                 return CLOAK;
             default:
                 return null;
@@ -111,12 +122,12 @@ public class IdClassList {
     }
 
     public static void resetMaps() {
-        SPECIES.clear();
-        SPECIES_HUNGER.clear();
-        SPECIES_SPECIALTY.clear();
-        RACE.clear();
-        RACIAL_INTRINSIC.clear();
-        RACIAL_SPECIALTY.clear();
+        FORM.clear();
+        FORM_HUNGER.clear();
+        FORM_SPECIALTY.clear();
+        ASPECT.clear();
+        ASPECT_INTRINSIC.clear();
+        ASPECT_SPECIALTY.clear();
         FLESH.clear();
         CLOAK.clear();
     }
@@ -160,26 +171,26 @@ public class IdClassList {
         Elements elements = doc.select("element[id]"); // Get all <element> tags with an "id" attribute
         for (Element element: elements) {
             if (!element.attr("id").isEmpty() && !element.attr("type").isEmpty()) {
-                switch (element.attr("type")) {
-                    case "Species":
-                        SPECIES.putIfAbsent(element.attr("id"), path);
+                switch (element.attr("type").toLowerCase()) {
+                    case "form":
+                        FORM.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Species Specialty":
-                        SPECIES_SPECIALTY.putIfAbsent(element.attr("id"), path);
+                    case "form specialty":
+                        FORM_SPECIALTY.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Species Hunger":
-                        SPECIES_HUNGER.putIfAbsent(element.attr("id"), path);
+                    case "form hunger":
+                        FORM_HUNGER.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Race":
-                        RACE.putIfAbsent(element.attr("id"), path);
+                    case "aspect":
+                        ASPECT.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Racial Intrinsic":
-                        RACIAL_INTRINSIC.putIfAbsent(element.attr("id"), path);
+                    case "aspect intrinsic":
+                        ASPECT_INTRINSIC.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Racial Specialty":
-                        RACIAL_SPECIALTY.putIfAbsent(element.attr("id"), path);
+                    case "aspect specialty":
+                        ASPECT_SPECIALTY.putIfAbsent(element.attr("id"), path);
                         break;
-                    case "Flesh":
+                    case "flesh":
                         FLESH.putIfAbsent(element.attr("id"), path);
                         break;
                     default:
