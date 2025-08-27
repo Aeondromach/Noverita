@@ -9,6 +9,7 @@ package com.aeondromach.controllers;
 
 import org.jsoup.nodes.Element;
 
+import com.aeondromach.Messages;
 import com.aeondromach.constructors.Table;
 import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.IdClassList.IdType;
@@ -97,7 +98,16 @@ public class CharacterController {
     }
 
     public void setTables() {
-        formVbox.getChildren().addAll(setFormTable(), aspectHold);
+        try {
+            formVbox.getChildren().addAll(setFormTable(), aspectHold);
+        } catch (NullPointerException e) {
+            try {
+                formVbox.getChildren().addAll(setFormTable());
+            } catch (NullPointerException e2) {
+                formVbox.getChildren().clear();
+                Messages.errorAlert("Forms and/or Aspects failed to load", "Forms and/or Aspects failed to load", "The forms and/or aspects files failed to load, check to make sure you are on an up to date build and recheck your custom path settings.");
+            }
+        }
     }
 
     private VBox setFormTable() {
@@ -125,7 +135,7 @@ public class CharacterController {
     }
 
     private void setAspectTable(String id) {
-        aspectTable = new Table(IdClassList.IdType.ASPECT, "aspect", "Aspect", this::aspectClick, this::aspectDualClick, id);
+        aspectTable = new Table(IdClassList.IdType.ASPECT, "aspect", "Aspect", this::aspectClick, this::aspectDualClick, id, IdClassList.IdType.FORM);
         VBox aspectTableBox = aspectTable.setTable();
         
         if (aspectTable.hasParent()) {

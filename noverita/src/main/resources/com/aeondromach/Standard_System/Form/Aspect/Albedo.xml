@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elements>
-    <element name="Pure" addParentTitle="true" type="Aspect" source="Noverita" id="ID_ASPECT_HUMAN_PURE" parent="ID_ASPECT_HUMAN">
+    <element name="Albedo" addParentTitle="true" type="Aspect" source="Noverita" id="ID_ASPECT_ALBEDO" parents="ID_FORM_HUMAN, ID_FORM_HUMAN_2">
 		<description>
 			<p>Pure humans are exactly that, purely human. They are the most common type of Human along Terra, with over 99% of the population being purely human.</p>
 		</description>

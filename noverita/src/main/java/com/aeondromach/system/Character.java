@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.aeondromach.system.exclusives.form.Form;
 import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.minor.OtherStat;
 import com.aeondromach.system.parsers.XmlParser;

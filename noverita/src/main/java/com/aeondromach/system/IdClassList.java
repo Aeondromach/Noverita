@@ -15,6 +15,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -77,6 +79,19 @@ public class IdClassList {
             default:
                 return null;
         }
+    }
+
+    public static ArrayList<Map<String,String>> getAllMaps() {
+        return new ArrayList<>(Arrays.asList(
+            FORM,
+            FORM_SPECIALTY,
+            FORM_HUNGER,
+            ASPECT,
+            ASPECT_INTRINSIC,
+            ASPECT_SPECIALTY,
+            FLESH,
+            CLOAK
+        ));
     }
     
     /**

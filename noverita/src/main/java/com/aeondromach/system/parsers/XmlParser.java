@@ -11,7 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,6 +27,7 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import com.aeondromach.App;
+import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.minor.Grant;
@@ -70,62 +71,35 @@ public class XmlParser {
         return null;
     }
 
-    public static ArrayList<Document> findAll(IdClassList.IdType map) {
-        ArrayList<Document> docs = new ArrayList<>();
-        for (String foundId: IdClassList.getIdMap(map).keySet()) {
-            Path filePath = Paths.get(IdClassList.getIdMap(map).get(foundId));
-            String path = IdClassList.getIdMap(map).get(foundId);
-
-            if (Files.exists(Paths.get(path)) && Files.isRegularFile(filePath) && !IdClassList.getIdMap(map).get(foundId).contains("com/aeondromach/Standard_System")) {
-                try {
-                    docs.add(Jsoup.parse(filePath.toFile(), "UTF-8")); // Directly parse the file
-                } catch (IOException e) {
-                }
-            } 
-            else if (path.startsWith("com")) { // Ensures it's a resource path
-                try (InputStream inputStream = IdClassList.class.getResourceAsStream("/" + path)) {
-                    if (inputStream != null) {
-                        Document doc = Jsoup.parse(inputStream, "UTF-8", "", Parser.xmlParser());
-
-                        docs.add(doc); // Directly parse the file
-                    } else {
-                    }
-                } catch (IOException e) {
-                }
+    public static String getParents(String id, Map<String, String> map) {
+        Document doc = check(id, map);
+        Elements elements = doc.select("element[id]");
+        for (Element element: elements) {
+            if (element.attr("id").toLowerCase().equals(id.toLowerCase())) {
+                return element.attr("parents");
             }
         }
-        
-        if (!docs.isEmpty()) return docs;
-        else return null;
+        return null;
     }
 
-    public static ArrayList<Document> findAll(Map<String, String> map) {
-        ArrayList<Document> docs = new ArrayList<>();
-        for (String foundId: map.keySet()) {
-            Path filePath = Paths.get(map.get(foundId));
-            String path = map.get(foundId);
-
-            if (Files.exists(Paths.get(path)) && Files.isRegularFile(filePath) && !map.get(foundId).contains("com/aeondromach/Standard_System")) {
-                try {
-                    docs.add(Jsoup.parse(filePath.toFile(), "UTF-8")); // Directly parse the file
-                } catch (IOException e) {
-                }
-            } 
-            else if (path.startsWith("com")) { // Ensures it's a resource path
-                try (InputStream inputStream = IdClassList.class.getResourceAsStream("/" + path)) {
-                    if (inputStream != null) {
-                        Document doc = Jsoup.parse(inputStream, "UTF-8", "", Parser.xmlParser());
-
-                        docs.add(doc); // Directly parse the file
-                    } else {
-                    }
-                } catch (IOException e) {
-                }
+    public static String getChildren(String id, Map<String, String> map) {
+        Document doc = check(id, map);
+        Elements elements = doc.select("element[id]");
+        for (Element element: elements) {
+            if (element.attr("id").toLowerCase().equals(id.toLowerCase())) {
+                return element.attr("children");
             }
         }
-        
-        if (!docs.isEmpty()) return docs;
-        else return null;
+        return null;
+    }
+
+    public static boolean isChildOrParent(String targetId, String parentChildIds) {
+        for (String parentChildId: parentChildIds.split(",")) {
+            if (targetId.equals(parentChildId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Document check(String id, Map<String, String> map) {
@@ -233,25 +207,26 @@ public class XmlParser {
             String fileName = localPathTag.substring(lastSlashIndex);
 
             Path filePath = Paths.get(localPathTag); // Convert the string path into a Path object
-            Path customFilePath = Paths.get(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH) + "\\" + fileName);
+            Path portraitPath = Paths.get(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH) + "");
             if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
                 return new Image(new File(localPathTag).toURI().toString());
             }
-            else if (Files.exists(customFilePath) && Files.isRegularFile(customFilePath)) {
-                return new Image(new File(customFilePath.toString()).toURI().toString());
-            }
             else {
-                Element base64 = portrait.selectFirst("base64");
+                try {
+                    Optional<Path> match = Files.walk(portraitPath)
+                        .filter(p -> Files.isRegularFile(p) && p.getFileName().toString().equals(fileName)).findFirst();
 
-                return doBase64(base64);
+                    if (match.isPresent()) {
+                        return new Image(match.get().toUri().toString());
+                    }
+                } catch (IOException e) {
+                    Messages.errorAlert("Error parsing portrait folder", "IOException occured in Portrait Path!", "IOException occured in the portrait path, are you sure the portrait path exists?");
+                }
             }
         }
-        else {
+        Element base64 = portrait.selectFirst("base64");
 
-            Element base64 = portrait.selectFirst("base64");
-
-            return doBase64(base64);
-        }
+        return doBase64(base64);
     }
 
     /**

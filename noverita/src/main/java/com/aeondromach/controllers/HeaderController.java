@@ -11,9 +11,13 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import com.aeondromach.Messages;
+import com.aeondromach.Settings;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -330,7 +334,17 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuOpenImagesFolder(ActionEvent event) {
-        System.out.println("Open Images Folder");
+        try {
+            File folder = new File(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH) + "");
+            if (folder.exists() && folder.isDirectory()) {
+                Desktop.getDesktop().open(folder);
+            }
+            else {
+                Messages.errorAlert("Failed to open Image folder", "Failed to open Image folder", "We failed to open the images folder, maybe try checking portrait path settings?");
+            }
+        } catch (IOException e) {
+            Messages.errorAlert("Failed to open Image folder", "Failed to open Image folder", "We failed to open the images folder, maybe try checking portrait path settings?");
+        }
     }
 
     /**

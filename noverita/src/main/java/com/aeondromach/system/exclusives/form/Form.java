@@ -5,7 +5,7 @@
  * The aspect object for Noverita
  */
 
-package com.aeondromach.system;
+package com.aeondromach.system.exclusives.form;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.abstracts.Exclusive;
 import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.parsers.XmlParser;
