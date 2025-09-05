@@ -307,7 +307,17 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuOpenHomeFolder(ActionEvent event) {
-        System.out.println("Open Home Folder");
+        try {
+            File folder = new File(Settings.getSetting(Settings.CustomSettings.BASE_PATH) + "");
+            if (folder.exists() && folder.isDirectory()) {
+                Desktop.getDesktop().open(folder);
+            }
+            else {
+                Messages.errorAlert("Failed to open Home folder", "Failed to open Home folder", "We failed to open the Home folder, maybe try checking portrait path settings?");
+            }
+        } catch (IOException e) {
+            Messages.errorAlert("Failed to open Home folder", "Failed to open Home folder", "We failed to open the Home folder, maybe try checking portrait path settings?");
+        }
     }
 
     /**
@@ -316,7 +326,9 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuSaveCharacter(ActionEvent event) {
-        System.out.println("Save NCF Character");
+        if (nov.getCharacter() != null) {
+            nov.saveCharacter();
+        }
     }
 
     /**
@@ -325,7 +337,9 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuSavePDF(ActionEvent event) {
-        System.out.println("Save PDF Character");
+        if (nov.getCharacter() != null) {
+            System.out.println("Save PDF Character");
+        }
     }
 
     /**
@@ -362,7 +376,19 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuCharFileLoc(ActionEvent event) {
-        System.out.println("Open Character Location");
+        if (nov.getCharacter() != null) {
+            try {
+                File charFile = new File(nov.getCharacter().getFilePath());
+                if (charFile.exists() && charFile.isFile()) {
+                    Desktop.getDesktop().open(charFile.getParentFile());
+                }
+                else {
+                    Messages.errorAlert("Failed to open Character file location", "Failed to open Character file location", "We failed to open the Character file location, maybe try checking portrait path settings?");
+                }
+            } catch (IOException e) {
+                Messages.errorAlert("Failed to open Character file location", "Failed to open Character file location", "We failed to open the Character file location, maybe try checking portrait path settings?");
+            }
+        }
     }
 
     /**
@@ -564,5 +590,15 @@ public class HeaderController {
 
     public void setHeadCharVisible(Boolean check) {
         headCharInfoHold.setVisible(check);
+    }
+
+    @FXML
+    protected void handleImportSettingsFile(ActionEvent event) {
+        System.out.println("Import Settings");
+    }
+
+    @FXML
+    protected void handleExportSettingsFile(ActionEvent event) {
+        System.out.println("Export Settings");
     }
 }

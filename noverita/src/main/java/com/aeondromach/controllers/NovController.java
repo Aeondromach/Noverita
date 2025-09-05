@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.App;
+import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 import static com.aeondromach.controllers.HeaderController.isMax;
 import com.aeondromach.system.CharView;
@@ -304,6 +305,12 @@ public class NovController {
      */
     public Character getCharacter() {
         return this.character;
+    }
+
+    public void saveCharacter() {
+        if (character != null) {
+            Messages.warningAlert("Save Character", "Save Character", "This feature is not yet implemented.");
+        }
     }
 
     /**

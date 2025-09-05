@@ -47,6 +47,9 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleImportSettingsFile" text="Import Settings File" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleExportSettingsFile" text="Export Settings File" />
                      </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
