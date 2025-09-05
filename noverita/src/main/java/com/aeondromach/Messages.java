@@ -65,6 +65,17 @@ public abstract class Messages {
         alert.showAndWait();
     }
 
+    public static void novAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        setAlert(alert);
+
+        alert.showAndWait();
+    }
+
     public static void yesNoAlert(String title, String header, String content, @SuppressWarnings("exports") Image image, Runnable yesAction, Runnable noAction) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(title);

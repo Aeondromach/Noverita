@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public abstract class Settings {
     private static final String EXTERNAL_PATH = System.getProperty("user.home") + "\\documents\\Noverita\\settings.json";
+    private static final String NOV_SETTINGS_KEY = "\"noverita\" : \"nov&2n98s!n3_3@vnsk?3\"";
     private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     public static Map<String, Map<String, Object>> settingsMap;
     
@@ -38,10 +39,17 @@ public abstract class Settings {
     private static void processFileData(byte[] data) {
         try {
             String content = new String(data, StandardCharsets.UTF_8);
-            ObjectMapper objectMapperer = new ObjectMapper();
+            if (content.contains(NOV_SETTINGS_KEY)) {
+                System.out.println(content);
+                ObjectMapper objectMapperer = new ObjectMapper();
 
-            // Convert JSON to a Map with Sections as Keys
-            settingsMap = objectMapperer.readValue(content, Map.class);
+                // Convert JSON to a Map with Sections as Keys
+                settingsMap = objectMapperer.readValue(content, Map.class);
+            }
+            else {
+                Messages.errorAlert("Settings refused to load.", "Config loading error", 
+                        "The settings file appears to be corrupted or from an incompatible version of Noverita.");
+            }
         } catch (IOException e) {
             Messages.errorAlert("Settings could not be parsed.", "Error L152: JSON Parsing Error", 
                     "Failed to parse the settings file.", e);
@@ -101,6 +109,7 @@ public abstract class Settings {
                     setterMap.put("general", generalSettings);
                     setterMap.put("display", displaySettings);
                     setterMap.put("custom", customSettings);
+                objectMapper.writeValue(file, NOV_SETTINGS_KEY + ",\n");
                 objectMapper.writeValue(file, setterMap);
             } catch (IOException e) {
                 Messages.errorAlert("Settings could not be saved.", "Error L159: JSON Writing Error", 
@@ -146,6 +155,29 @@ public abstract class Settings {
             return ((CustomSettings) setting).getDefaultValue();
         }
         throw new IllegalArgumentException("Unknown setting type: " + App.class.getSimpleName());
+    }
+
+    public static void importSettings(File file) {
+        try (InputStream inputStream = new FileInputStream(file)) {
+            byte[] data = inputStream.readAllBytes();
+            processFileData(data);
+            Messages.novAlert("Settings imported successfully.", "Import Complete", 
+                    "The settings have been successfully imported from:\n" + file.getAbsolutePath());
+        } catch (IOException e) {
+            Messages.errorAlert("Settings refused to load.", "Error L151: Config loading error", 
+                    "Issue with loading the requested settings file (IOException)", e);
+        }
+    }
+
+    public static void exportSettings(File file) {
+        try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8)) {
+            objectMapper.writeValue(fileWriter, settingsMap);
+            Messages.novAlert("Settings exported successfully.", "Export Complete", 
+                    "The settings have been successfully exported to:\n" + file.getAbsolutePath());
+        } catch (IOException e) {
+            Messages.errorAlert("Settings could not be saved.", "Error L153: JSON Writing Error", 
+                    "Failed to save the updated settings file.", e);
+        }
     }
 
     public enum GeneralSettings {

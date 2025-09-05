@@ -34,6 +34,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -592,13 +593,44 @@ public class HeaderController {
         headCharInfoHold.setVisible(check);
     }
 
+    /**
+     * Takes a json file from user's choice and imports the settings into the app.
+     * @param event
+     */
     @FXML
     protected void handleImportSettingsFile(ActionEvent event) {
-        System.out.println("Import Settings");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Settings File");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("JSON Files", "*.json")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                Settings.importSettings(selectedFile);
+            }
+            catch (Exception e) {
+                Messages.errorAlert("Failed to Import Settings", "An error occurred while importing settings.", "Please ensure the file is a valid JSON settings file.\n\nDetails: " + e.getMessage());
+            }
+        }
     }
 
     @FXML
     protected void handleExportSettingsFile(ActionEvent event) {
-        System.out.println("Export Settings");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Settings File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        fileChooser.setInitialFileName("settings.json");
+
+        File fileToSave = fileChooser.showSaveDialog(null);
+        if (fileToSave != null) {
+            try {
+                Settings.exportSettings(fileToSave);
+            }
+            catch (Exception e) {
+                Messages.errorAlert("Failed to Export Settings", "An error occurred while exporting settings.", "Please ensure you have permission to save to the selected location.\n\nDetails: " + e.getMessage());
+            }
+        }
     }
 }
