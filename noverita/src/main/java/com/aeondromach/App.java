@@ -305,7 +305,8 @@ public class App extends Application {
      * @return fxml file with .fxml ending
      * @throws IOException
      */
-    private static Parent loadFXML(String fxml) throws IOException {
+    @SuppressWarnings("exports")
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }

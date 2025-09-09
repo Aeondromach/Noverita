@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.aeondromach.App;
 import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 
@@ -24,6 +25,9 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -35,8 +39,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HeaderController {
@@ -277,7 +283,24 @@ public class HeaderController {
     @FXML
     protected void handleSettingsClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY)){
-            System.out.println("Settings Button Clicked");
+            try {
+                Parent root = App.loadFXML("Settings");
+
+                Stage settingsStage = new Stage();
+                settingsStage.setTitle("Settings");
+                settingsStage.setScene(new Scene(root));
+                settingsStage.initModality(Modality.WINDOW_MODAL);
+                root.setStyle(App.getTheme());
+
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                settingsStage.initOwner(currentStage);
+                settingsStage.initStyle(StageStyle.TRANSPARENT);
+                
+
+                settingsStage.show();
+            } catch (IOException e) {
+                Messages.errorAlert("Failed to open Settings", "Failed to open Settings", "We failed to open the settings window, please try again." + e.getMessage());
+            }
         }
     }
 

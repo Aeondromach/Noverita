@@ -61,6 +61,7 @@ public class NovController {
     @FXML private EquipmentController equipmentController;
     @FXML private ArchetypeController archetypeController;
     @FXML private ViewController viewController;
+    @FXML private SettingsController settingsController;
 
     protected static final String NAME = getProperty("app.name");
     protected static final String VERSION = getProperty("app.version");

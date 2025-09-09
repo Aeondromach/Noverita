@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane id="mainAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: none;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.SettingsController">
+   <top>
+      <BorderPane id="headsHeader" fx:id="titleBar" minHeight="32.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress" styleClass="heads" stylesheets="@styles/heads.css" BorderPane.alignment="CENTER">
+         <right>
+            <AnchorPane id="titleButtonHold" minHeight="32.0" minWidth="36.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button id="closeButton" fx:id="closeBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleCloseClick" prefHeight="32.0" prefWidth="36.0" styleClass="titleButton" text="✕" />
+               </children>
+            </AnchorPane>
+         </right>
+         <left>
+            <StackPane id="titleHold" prefHeight="32.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="noveritaText" strokeType="OUTSIDE" strokeWidth="0.0" text="Noverita Settings" />
+               </children>
+            </StackPane>
+         </left>
+      </BorderPane>
+   </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="@styles/nov.css" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
