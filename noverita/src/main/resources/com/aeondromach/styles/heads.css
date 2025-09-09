@@ -111,6 +111,11 @@
     -fx-background-color: none;
 }
 
+.menu-item .label {
+    -fx-text-fill: -secondaryTextColor !important;
+    -fx-background-color: none;
+}
+
 .menu {
     -fx-background-color: none;
 }

@@ -80,7 +80,7 @@ public class HomeController {
      */
     private void birthCharacters() {
         // String filePath = "filePath";
-        characters.clear();
+        if (characters != null) characters.clear();
         characters = nov.readCharViews();
     }
 

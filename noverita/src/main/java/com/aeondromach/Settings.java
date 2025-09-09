@@ -157,10 +157,31 @@ public abstract class Settings {
         throw new IllegalArgumentException("Unknown setting type: " + App.class.getSimpleName());
     }
 
+    public static void checkUserPaths() {
+        String currentUser = System.getProperty("user.name");
+
+        for (CustomSettings setting : CustomSettings.values()) {
+            Object rawPath = getSetting(setting);
+            if (rawPath instanceof String) {
+                String path = (String) rawPath;
+                // Look for something like C:\Users\OldUser\
+                String updatedPath = path.replaceAll("C:\\\\Users\\\\[^\\\\]+", "C:\\\\Users\\\\" + currentUser);
+
+                // Only update if the path actually changed
+                if (!path.equals(updatedPath)) {
+                    setSetting(setting, updatedPath);
+                }
+            }
+        }
+    }
+
     public static void importSettings(File file) {
         try (InputStream inputStream = new FileInputStream(file)) {
             byte[] data = inputStream.readAllBytes();
             processFileData(data);
+            checkUserPaths();
+            saveSettings();
+            System.out.println(objectMapper);
             Messages.novAlert("Settings imported successfully.", "Import Complete", 
                     "The settings have been successfully imported from:\n" + file.getAbsolutePath());
         } catch (IOException e) {
