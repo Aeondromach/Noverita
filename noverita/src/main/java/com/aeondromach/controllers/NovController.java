@@ -293,6 +293,10 @@ public class NovController {
         character = new Character(filePath, image);
     }
 
+    public void updateHeaderDescription() {
+        headerController.setHeadCharDescription();
+    }
+
     /**
      * Clear the current character
      */
@@ -342,7 +346,7 @@ public class NovController {
         character.setStatPoints();
         characterController.getPointText().setText(character.getStatPoints() + "/27");
 
-        if (character.hasSpecies()) {
+        if (character.hasForm()) {
             
         }
     }

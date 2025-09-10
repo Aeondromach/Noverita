@@ -98,7 +98,7 @@ public class Character {
             this.rank = Integer.parseInt(information.selectFirst("rank").ownText().trim());
             this.squad = information.selectFirst("squad").ownText().trim();
             Element charPortrait = information.selectFirst("charPortrait");
-            this.form = new Form(information.selectFirst("species").attr("id"), information.selectFirst("race").attr("id"));
+            this.form = new Form(information.selectFirst("form").attr("id"), information.selectFirst("aspect").attr("id"));
             this.image = XmlParser.findImage(charPortrait);
 
             this.baseStats[0] = 10;
@@ -386,7 +386,7 @@ public class Character {
      */
     public int getFinalStat(int index) {
         int finalMod = setFinalMod(index);
-        finalStats[index] = baseStats[index] + finalMod; // Also needs Species, ASI, Expertise/Mastery, Archetype, etc.
+        finalStats[index] = baseStats[index] + finalMod; // Also needs Form, ASI, Expertise/Mastery, Archetype, etc.
         return finalStats[index];
     }
 
@@ -481,12 +481,12 @@ public class Character {
     }
 
     /* ------- */
-    /* Species */
+    /* Form */
     /* ------- */
 
     /**
-     * Return the species of the character
-     * @return species
+     * Return the form of the character
+     * @return form
      */
     public Form getForm() {
         return this.form;
@@ -495,7 +495,7 @@ public class Character {
     public void setGrants() {
         if (this.grantList != null || !this.grantList.isEmpty()) grantList.clear();
         if (this.form.hasGrantList()) for (Grant grant: this.form.getGrantList()) this.grantList.add(grant);
-        if (this.form.hasFlesh() && this.form.getFlesh().hasGrantList()) for (Grant grant: this.form.getFlesh().getGrantList()) this.grantList.add(grant);
+        if (this.form.hasFlesh() && this.form.getFLESH().hasGrantList()) for (Grant grant: this.form.getFLESH().getGrantList()) this.grantList.add(grant);
 
         for (Grant grant: this.grantList) {
             switch (grant.getType()) {
@@ -521,8 +521,8 @@ public class Character {
 
     public void setOtherStats() {
         if (this.otherStats != null || !this.otherStats.isEmpty()) otherStats.clear();
-        if (this.form.hasStatList()) for (OtherStat speciesStat: this.form.getStatList()) this.otherStats.add(speciesStat);
-        if (this.form.hasFlesh() && this.form.getFlesh().hasStatList()) for (OtherStat fleshStat: this.form.getFlesh().getStatList()) this.otherStats.add(fleshStat);
+        if (this.form.hasStatList()) for (OtherStat formStat: this.form.getStatList()) this.otherStats.add(formStat);
+        if (this.form.hasFlesh() && this.form.getFLESH().hasStatList()) for (OtherStat fleshStat: this.form.getFLESH().getStatList()) this.otherStats.add(fleshStat);
     }
 
     private void runSetOtherStats() {
@@ -549,7 +549,7 @@ public class Character {
         this.rank = rank;
     }
 
-    public Boolean hasSpecies() {
+    public Boolean hasForm() {
         return this.form != null;
     }
 }

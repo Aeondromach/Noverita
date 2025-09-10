@@ -25,7 +25,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,6 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
@@ -54,7 +54,7 @@ public class HeaderController {
     @FXML private Button btSet;
     @FXML private Button btWeb;
 
-    @FXML private AnchorPane headCharInfoHold;
+    @FXML private HBox headCharInfoHold;
     @FXML private ImageView imageHeaderChar;
     @FXML private Pane imageContainer;
     @FXML private Text textCharacterTitle;
@@ -282,7 +282,7 @@ public class HeaderController {
      */
     @FXML
     protected void handleSettingsClick(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
             try {
                 Parent root = App.loadFXML("Settings");
 
@@ -310,7 +310,7 @@ public class HeaderController {
      */
     @FXML
     protected void handleWebClick(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
             try {
                 URI uri = new URI("https://novera.aeondromach.com");
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
@@ -330,20 +330,18 @@ public class HeaderController {
      * @param event
      */
     @FXML
-    protected void handleMenuOpenHomeFolder(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY)){
-            try {
-                File folder = new File(Settings.getSetting(Settings.CustomSettings.BASE_PATH) + "");
-                if (folder.exists() && folder.isDirectory()) {
-                    Desktop.getDesktop().open(folder);
-                }
-                else {
-                    Messages.errorAlert("Failed to open Home folder", "Failed to open Home folder", "We failed to open the Home folder, maybe try checking portrait path settings?");
-                }
-            } 
-            catch (IOException e) {
+    protected void handleMenuOpenHomeFolder(ActionEvent event) {
+        try {
+            File folder = new File(Settings.getSetting(Settings.CustomSettings.BASE_PATH) + "");
+            if (folder.exists() && folder.isDirectory()) {
+                Desktop.getDesktop().open(folder);
+            }
+            else {
                 Messages.errorAlert("Failed to open Home folder", "Failed to open Home folder", "We failed to open the Home folder, maybe try checking portrait path settings?");
             }
+        } 
+        catch (IOException e) {
+            Messages.errorAlert("Failed to open Home folder", "Failed to open Home folder", "We failed to open the Home folder, maybe try checking portrait path settings?");
         }
     }
 
@@ -352,8 +350,8 @@ public class HeaderController {
      * @param event
      */
     @FXML
-    protected void handleMenuSaveCharacter(MouseEvent event) {
-        if (nov.getCharacter() != null && event.getButton().equals(MouseButton.PRIMARY)) {
+    protected void handleMenuSaveCharacter(ActionEvent event) {
+        if (nov.getCharacter() != null) {
             nov.saveCharacter();
         }
     }
@@ -363,8 +361,8 @@ public class HeaderController {
      * @param event
      */
     @FXML
-    protected void handleMenuSavePDF(MouseEvent event) {
-        if (nov.getCharacter() != null && event.getButton().equals(MouseButton.PRIMARY)) {
+    protected void handleMenuSavePDF(ActionEvent event) {
+        if (nov.getCharacter() != null) {
             System.out.println("Save PDF Character");
         }
     }
@@ -610,9 +608,24 @@ public class HeaderController {
     }
 
     public void setHeadCharInfo() {
+        setHeadCharImage();
+        setHeadCharTitle();
+        setHeadCharDescription(); 
+    }
+
+    public void setHeadCharImage() {
         imageHeaderChar.setImage(character.getImage());
+    }
+
+    public void setHeadCharTitle() {
         textCharacterTitle.setText(character.getName() + " ([Archetype])");
-        textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getAspect().getTitle() + " " + character.getForm().getTitle() + " [Specialization]");
+    }
+
+    public void setHeadCharDescription() {
+        if (character.getForm().getASPECT().getId() != null)
+            textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getASPECT().getTitle() + " " + character.getForm().getTitle() + " [Specialization]");
+        else
+            textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getTitle() + " [Specialization]");
     }
 
     public void setHeadCharVisible(Boolean check) {
@@ -624,42 +637,38 @@ public class HeaderController {
      * @param event
      */
     @FXML
-    protected void handleImportSettingsFile(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Import Settings File");
-            fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JSON Files", "*.json")
-            );
+    protected void handleImportSettingsFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Settings File");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("JSON Files", "*.json")
+        );
 
-            File selectedFile = fileChooser.showOpenDialog(null);
-            if (selectedFile != null) {
-                try {
-                    Settings.importSettings(selectedFile);
-                }
-                catch (Exception e) {
-                    Messages.errorAlert("Failed to Import Settings", "An error occurred while importing settings.", "Please ensure the file is a valid JSON settings file.\n\nDetails: " + e.getMessage());
-                }
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                Settings.importSettings(selectedFile);
+            }
+            catch (Exception e) {
+                Messages.errorAlert("Failed to Import Settings", "An error occurred while importing settings.", "Please ensure the file is a valid JSON settings file.\n\nDetails: " + e.getMessage());
             }
         }
     }
 
     @FXML
-    protected void handleExportSettingsFile(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Export Settings File");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-            fileChooser.setInitialFileName("settings.json");
+    protected void handleExportSettingsFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Settings File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        fileChooser.setInitialFileName("settings.json");
 
-            File fileToSave = fileChooser.showSaveDialog(null);
-            if (fileToSave != null) {
-                try {
-                    Settings.exportSettings(fileToSave);
-                }
-                catch (Exception e) {
-                    Messages.errorAlert("Failed to Export Settings", "An error occurred while exporting settings.", "Please ensure you have permission to save to the selected location.\n\nDetails: " + e.getMessage());
-                }
+        File fileToSave = fileChooser.showSaveDialog(null);
+        if (fileToSave != null) {
+            try {
+                Settings.exportSettings(fileToSave);
+            }
+            catch (Exception e) {
+                Messages.errorAlert("Failed to Export Settings", "An error occurred while exporting settings.", "Please ensure you have permission to save to the selected location.\n\nDetails: " + e.getMessage());
             }
         }
     }

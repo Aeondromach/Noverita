@@ -22,11 +22,11 @@ public class Form extends Exclusive {
     private String title;
     private String description;
 
-    private Aspect aspect;
-    private Flesh flesh;
+    private final Aspect ASPECT;
+    private final Flesh FLESH;
 
-    public Aspect getAspect() {
-        return aspect;
+    public Aspect getASPECT() {
+        return ASPECT;
     }
 
     /**
@@ -38,12 +38,13 @@ public class Form extends Exclusive {
         setMapSignifier(IdClassList.IdType.FORM);
         this.id = id;
 
-        this.aspect = new Aspect(null);
-        this.flesh = new Flesh(null);
+        this.ASPECT = new Aspect(null);
+        this.FLESH = new Flesh(null);
 
         this.grantList = new ArrayList<>();
         this.statList = new ArrayList<>();
 
+        this.ASPECT.setId(aspectId, id);
         checkId();
     }
 
@@ -83,13 +84,13 @@ public class Form extends Exclusive {
      * returns the flesh of aspect
      * @return flesh
      */
-    public Flesh getFlesh() {
-        return flesh;
+    public Flesh getFLESH() {
+        return FLESH;
     }
 
     public Boolean hasFlesh() {
         try {
-            return this.flesh != null;
+            return this.FLESH != null;
         } catch (NullPointerException e) {
             return false;
         }
@@ -97,7 +98,7 @@ public class Form extends Exclusive {
 
     public Boolean hasAspect() {
         try {
-            return this.aspect != null;
+            return this.ASPECT != null;
         } catch (NullPointerException e) {
             return false;
         }
@@ -105,6 +106,9 @@ public class Form extends Exclusive {
 
     @Override
     protected void parseXML(Document doc) {
+        this.grantList.clear();
+        this.statList.clear();
+
         Elements elements = doc.select("element[id]");
         for (Element element: elements) {
             if (element.attr("id").equals(this.id) && element.attr("type").toLowerCase().equals("form") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
@@ -118,15 +122,23 @@ public class Form extends Exclusive {
                 grantList = XmlParser.parseExclusiveGrants(exclusive);
                 for (Grant grant: grantList) {
                     if (grant.getId().startsWith("ID_FLESH")) {
-                        this.flesh.setId(grant.getId());
+                        this.FLESH.setId(grant.getId());
                         grantList.remove(grant);
-                        return;
+                        break;
                     }
                 }
 
                 if (!element.attr("name").isEmpty()) statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
                 else statList = XmlParser.parseExclusiveStats(exclusive, "Form");
+                if (!isAspectChild()) this.ASPECT.setId(null, id);
             }
         }
+    }
+
+    private boolean isAspectChild() {
+        String requisites = XmlParser.getChildrenOf(id, IdClassList.getIdMap(IdClassList.IdType.FORM));
+        String parents = XmlParser.getParentsOf(this.ASPECT.getId(), IdClassList.getIdMap(IdClassList.IdType.ASPECT));
+
+        return XmlParser.isChildOrParent(this.ASPECT.getId(), requisites) || XmlParser.isChildOrParent(id, parents);
     }
 }

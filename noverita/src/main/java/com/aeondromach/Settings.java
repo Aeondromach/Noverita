@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public abstract class Settings {
     private static final String EXTERNAL_PATH = System.getProperty("user.home") + "\\documents\\Noverita\\settings.json";
-    private static final String NOV_SETTINGS_KEY = "\"noverita\" : \"nov&2n98s!n3_3@vnsk?3\"";
     private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     public static Map<String, Map<String, Object>> settingsMap;
+    private static String content;
     
     public static void readConfigFile() {
         File externalFile = new File(EXTERNAL_PATH);
@@ -38,18 +38,11 @@ public abstract class Settings {
     @SuppressWarnings("unchecked")
     private static void processFileData(byte[] data) {
         try {
-            String content = new String(data, StandardCharsets.UTF_8);
-            if (content.contains(NOV_SETTINGS_KEY)) {
-                System.out.println(content);
-                ObjectMapper objectMapperer = new ObjectMapper();
+            content = new String(data, StandardCharsets.UTF_8);
+            ObjectMapper objectMapperer = new ObjectMapper();
 
-                // Convert JSON to a Map with Sections as Keys
-                settingsMap = objectMapperer.readValue(content, Map.class);
-            }
-            else {
-                Messages.errorAlert("Settings refused to load.", "Config loading error", 
-                        "The settings file appears to be corrupted or from an incompatible version of Noverita.");
-            }
+            // Convert JSON to a Map with Sections as Keys
+            settingsMap = objectMapperer.readValue(content, Map.class);
         } catch (IOException e) {
             Messages.errorAlert("Settings could not be parsed.", "Error L152: JSON Parsing Error", 
                     "Failed to parse the settings file.", e);
@@ -81,7 +74,7 @@ public abstract class Settings {
     }
 
     private static void saveSettingsToFile() {
-        if (Files.exists(Paths.get(EXTERNAL_PATH)) && Files.isRegularFile(Paths.get(EXTERNAL_PATH))) {
+        if (Files.exists(Paths.get(EXTERNAL_PATH)) && Files.isRegularFile(Paths.get(EXTERNAL_PATH)) && settingsMap != null) {
             try (FileWriter file = new FileWriter(EXTERNAL_PATH, StandardCharsets.UTF_8)) {
                 objectMapper.writeValue(file, settingsMap);
             } catch (IOException e) {
@@ -91,25 +84,32 @@ public abstract class Settings {
         }
         else {
             try (FileWriter file = new FileWriter(EXTERNAL_PATH, StandardCharsets.UTF_8)) {
+
+                Map<String, Object> noveritaSettings = new HashMap<>();
+                for (NoveritaSettings settings: NoveritaSettings.values()) {
+                    noveritaSettings.put(settings.getKey(), settings.getDefaultValue());
+                }
+
                 Map<String, Object> generalSettings = new HashMap<>();
-                    generalSettings.put(GeneralSettings.CHARLOADALERT.getKey(), GeneralSettings.CHARLOADALERT.getDefaultValue());
+                for (GeneralSettings settings: GeneralSettings.values()) {
+                    generalSettings.put(settings.getKey(), settings.getDefaultValue());
+                }
     
                 Map<String, Object> displaySettings = new HashMap<>();
-                    displaySettings.put(DisplaySettings.CHAR_VIEW_SIZE.getKey(), DisplaySettings.CHAR_VIEW_SIZE.getDefaultValue());
-                    displaySettings.put(DisplaySettings.DARK_MODE.getKey(), DisplaySettings.DARK_MODE.getDefaultValue());
-                    displaySettings.put(DisplaySettings.THEME.getKey(), DisplaySettings.THEME.getDefaultValue());
+                for (DisplaySettings settings: DisplaySettings.values()) {
+                    displaySettings.put(settings.getKey(), settings.getDefaultValue());
+                }
     
                 Map<String, Object> customSettings = new HashMap<>();
-                    customSettings.put(CustomSettings.BASE_PATH.getKey(), CustomSettings.BASE_PATH.getDefaultValue());
-                    customSettings.put(CustomSettings.CHAR_PATH.getKey(), CustomSettings.CHAR_PATH.getDefaultValue());
-                    customSettings.put(CustomSettings.CUSTOM_PATH.getKey(), CustomSettings.CUSTOM_PATH.getDefaultValue());
-                    customSettings.put(CustomSettings.PORTRAIT_PATH.getKey(), CustomSettings.PORTRAIT_PATH.getDefaultValue());
+                for (CustomSettings settings: CustomSettings.values()) {
+                    customSettings.put(settings.getKey(), settings.getDefaultValue());
+                }
     
                 Map<String, Map<String, Object>> setterMap = new HashMap<>();
+                    setterMap.put("noverita", noveritaSettings);
                     setterMap.put("general", generalSettings);
                     setterMap.put("display", displaySettings);
                     setterMap.put("custom", customSettings);
-                objectMapper.writeValue(file, NOV_SETTINGS_KEY + ",\n");
                 objectMapper.writeValue(file, setterMap);
             } catch (IOException e) {
                 Messages.errorAlert("Settings could not be saved.", "Error L159: JSON Writing Error", 
@@ -178,12 +178,22 @@ public abstract class Settings {
     public static void importSettings(File file) {
         try (InputStream inputStream = new FileInputStream(file)) {
             byte[] data = inputStream.readAllBytes();
-            processFileData(data);
-            checkUserPaths();
-            saveSettings();
-            System.out.println(objectMapper);
-            Messages.novAlert("Settings imported successfully.", "Import Complete", 
-                    "The settings have been successfully imported from:\n" + file.getAbsolutePath());
+
+            content = new String(data, StandardCharsets.UTF_8);
+            if (content.contains("\"import check\":\"OAK25\"")) {
+                processFileData(data);
+                checkUserPaths();
+                saveSettings();
+                System.out.println(objectMapper);
+                Messages.novAlert("Settings imported successfully.", "Import Complete", 
+                        "The settings have been successfully imported from:\n" + file.getAbsolutePath());
+            }
+            else {
+                Messages.errorAlert("Settings refused to import.", "Error L150: Import Check Failed", 
+                        "The selected settings file is incompatible with this version of Noverita.");
+            }
+
+           
         } catch (IOException e) {
             Messages.errorAlert("Settings refused to load.", "Error L151: Config loading error", 
                     "Issue with loading the requested settings file (IOException)", e);
@@ -199,6 +209,48 @@ public abstract class Settings {
             Messages.errorAlert("Settings could not be saved.", "Error L153: JSON Writing Error", 
                     "Failed to save the updated settings file.", e);
         }
+    }
+
+    public static void checkMissingOrBadValues() {
+        Map<String, Map<String, Object>> validSettings = new HashMap<>();
+
+        // Build the correct structure from enums
+        Map<String, Object> noveritaSettings = new HashMap<>();
+        for (NoveritaSettings setting : NoveritaSettings.values()) {
+            noveritaSettings.put(setting.getKey(), 
+                settingsMap.getOrDefault("noverita", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
+        Map<String, Object> generalSettings = new HashMap<>();
+        for (GeneralSettings setting : GeneralSettings.values()) {
+            generalSettings.put(setting.getKey(), 
+                settingsMap.getOrDefault("general", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
+        Map<String, Object> displaySettings = new HashMap<>();
+        for (DisplaySettings setting : DisplaySettings.values()) {
+            displaySettings.put(setting.getKey(), 
+                settingsMap.getOrDefault("display", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
+        Map<String, Object> customSettings = new HashMap<>();
+        for (CustomSettings setting : CustomSettings.values()) {
+            customSettings.put(setting.getKey(), 
+                settingsMap.getOrDefault("custom", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
+        // Put back into a cleaned map
+        validSettings.put("noverita", noveritaSettings);
+        validSettings.put("general", generalSettings);
+        validSettings.put("display", displaySettings);
+        validSettings.put("custom", customSettings);
+
+        // Replace old map with cleaned version
+        settingsMap = validSettings;
+
+        // Save changes if corrections were made
+        saveSettingsToFile();
+        readConfigFile();
     }
 
     public enum GeneralSettings {
@@ -222,6 +274,36 @@ public abstract class Settings {
 
         public static GeneralSettings fromKey(String key) {
             for (GeneralSettings setting : values()) {
+                if (setting.key.equalsIgnoreCase(key)) {
+                    return setting;
+                }
+            }
+            throw new IllegalArgumentException("Unknown key: " + key);
+        }
+    }
+
+    public enum NoveritaSettings {
+        DO_NOT_CHANGE("do not change this category", true),
+        SETTINGS_ID("import check", "OAK25");
+
+        private final String key;
+        private final Object defaultValue;
+
+        NoveritaSettings(String key, Object defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Object getDefaultValue() {
+            return defaultValue;
+        }
+
+        public static NoveritaSettings fromKey(String key) {
+            for (NoveritaSettings setting : values()) {
                 if (setting.key.equalsIgnoreCase(key)) {
                     return setting;
                 }

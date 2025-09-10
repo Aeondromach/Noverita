@@ -11,6 +11,7 @@ public class Folderer {
     public static void checkSettings() {
         if (Files.exists(Paths.get(DOCUMENT_PATH + "\\Noverita\\settings.json")) && Files.isRegularFile(Paths.get(DOCUMENT_PATH + "\\Noverita\\settings.json"))) {
             Settings.readConfigFile();
+            Settings.checkMissingOrBadValues();
         }
         else {
             Messages.debugAlertRemoveOnLaunch("Creating Settings file - REMOVE ON FULL RELEASE", "No settings.json file found, creating.", "Settings.json file created:\n" + DOCUMENT_PATH + "\\Noverita\\settings.json");

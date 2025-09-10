@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+    <element name="Albedo Test 2" addParentTitle="true" type="Aspect" source="Noverita" id="ID_ASPECT_ALBEDO_2" parents="ID_FORM_HUMAN, ID_FORM_HUMAN_2">
+		<description>
+			<p>Pure humans are exactly that, purely human. They are the most common type of Human along Terra, with over 99% of the population being purely human.</p>
+		</description>
+		<exclusive>
+			<grant type="Aspect Intrinsic" id="ID_ASPECT_INTRINSIC_BASE_ESCAPE" />
+			<grant type="Aspect Specialty" id="ID_ASPECT_SPECIALTY_ALL_ROUNDER" />
+            <grant type="Proficiency" value="omni"/>
+		</exclusive>
+	</element>
+
+	<element name="Base Escape" type="Aspect Intrinsic" id="ID_ASPECT_INTRINSIC_BASE_ESCAPE">
+		<description>
+			<p>Humans are among the most durable, yet fragile race across Veritas, Because of this, choose one Physical Damage Type to be considered resistant to.
+		</description>
+        <exclusive>
+            <grant type="ID_SAVE_THROW_STRENGTH" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_DEXTERITY" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_CONSTITUTION" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_INTELLIGENCE" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_WISDOM" bonus="minimum" value="1" />
+            <grant type="ID_SAVE_THROW_CHARISMA" bonus="minimum" value="1" />
+        </exclusive>
+	</element>
+
+	<element name="All-Rounder" type="Aspect Specialty" id="ID_ASPECT_SPECIALTY_ALL_ROUNDER" usurp="Base Stats">
+		<description>
+			<p>Pure Humans are some of the most well rounded species and even race in known space, because of this, they gain 1 to every stat, plus an addition 1 to one stat of their choice.</p>
+		</description>
+        <exclusive>
+            <stat name="all" value="1" />
+            <stat name="omni" value="1" />
+        </exclusive>
+	</element>
+</elements>

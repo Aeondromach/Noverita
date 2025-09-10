@@ -86,7 +86,7 @@
 
 .headerTitle {
     -fx-text-fill: -headerTextColor;
-    -fx-font-size: 26px;
+    -fx-font-size: 25px;
     -fx-background-color: none;
     -fx-background-insets: 0;
     -fx-padding: 15 10 5 10;
@@ -151,12 +151,12 @@
 
 .headCharacterTitle {
     -fx-fill: -headerTextColor;
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
 }
 
 .headCharacterText {
     -fx-fill: -headerTextColor;
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
 }
 
 .imageCharHold {

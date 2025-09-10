@@ -71,7 +71,7 @@ public class XmlParser {
         return null;
     }
 
-    public static String getParents(String id, Map<String, String> map) {
+    public static String getParentsOf(String id, Map<String, String> map) {
         Document doc = check(id, map);
         Elements elements = doc.select("element[id]");
         for (Element element: elements) {
@@ -82,7 +82,7 @@ public class XmlParser {
         return null;
     }
 
-    public static String getChildren(String id, Map<String, String> map) {
+    public static String getChildrenOf(String id, Map<String, String> map) {
         Document doc = check(id, map);
         Elements elements = doc.select("element[id]");
         for (Element element: elements) {
@@ -94,8 +94,9 @@ public class XmlParser {
     }
 
     public static boolean isChildOrParent(String targetId, String parentChildIds) {
+        parentChildIds = parentChildIds.replace(" ", ""); // Remove any spaces
         for (String parentChildId: parentChildIds.split(",")) {
-            if (targetId.equals(parentChildId)) {
+            if (targetId.toLowerCase().equals(parentChildId.toLowerCase())) {
                 return true;
             }
         }

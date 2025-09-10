@@ -132,6 +132,7 @@ public class CharacterController {
         curChar.getForm().setId(id);
         aspectHold.getChildren().clear();
         setAspectTable(id);
+        nov.updateHeaderDescription();
     }
 
     private void setAspectTable(String id) {
@@ -153,7 +154,8 @@ public class CharacterController {
     private void aspectDualClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
         com.aeondromach.system.Character curChar = nov.getCharacter();
 
-        curChar.getForm().getAspect().setId(id);
+        curChar.getForm().getASPECT().setId(id);
+        nov.updateHeaderDescription();
     }
 
     /**
