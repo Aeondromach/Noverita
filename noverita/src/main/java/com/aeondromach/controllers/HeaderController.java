@@ -36,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -295,10 +296,13 @@ public class HeaderController {
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 settingsStage.initOwner(currentStage);
                 settingsStage.initStyle(StageStyle.TRANSPARENT);
-                
+
+                settingsStage.getScene().setFill(Color.TRANSPARENT);
 
                 settingsStage.show();
+                nov.addAction("Entered Settings");
             } catch (IOException e) {
+                e.printStackTrace();
                 Messages.errorAlert("Failed to open Settings", "Failed to open Settings", "We failed to open the settings window, please try again." + e.getMessage());
             }
         }

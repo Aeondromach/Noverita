@@ -3,6 +3,7 @@ package com.aeondromach;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
@@ -137,6 +138,9 @@ public abstract class Messages {
         alert.getDialogPane().setMinHeight(200);
         alert.getDialogPane().setMinWidth(600);
 
+        Parent root = stage.getScene().getRoot();
+
+        root.setStyle(App.getTheme());
         alert.getDialogPane().getScene().getStylesheets().add(App.class.getResource("styles/alert.css").toString());
     }
 }

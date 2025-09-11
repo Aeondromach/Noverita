@@ -1,7 +1,31 @@
 .root {
     /* Permanent */
     -hover: #7a7a7a;
-    -borderColor: rgba(100, 100, 100, 1);;
+    -borderColor: rgba(100, 100, 100, 1);
+
+    /* Testing, Remove this section if not needed */
+    -primaryColor: rgb(31, 18, 43);
+    -secondaryColor: rgb(14, 14, 14);
+    -tertiaryColor: aliceblue;
+    -quartaryColor: rgb(140, 148, 155);
+
+    -background: rgb(20, 20, 26);
+    -backgroundSec: rgb(16, 16, 22);
+    -backgroundTer: rgb(12, 12, 18);
+    -backgroundQuad: rgba(0, 0, 0, 0.85);
+
+    -primaryTextColor: aliceblue;
+    -secondaryTextColor: rgb(165, 165, 165);
+    -headerTextColor: aliceblue;
+    -favoriteTextColor: gold;
+
+    -brightPrimary: rgb(81, 47, 112);
+    -brightSecondary: rgb(115, 81, 148);
+    
+    -hoverPrimary: rgba(115, 81, 148, 0.3);
+    -hoverSecondary: rgba(115, 81, 148, 0.3);
+
+    -colorBorder: rgb(91, 52, 127);
 }
 
 #mainAppPane {
@@ -10,4 +34,5 @@
     -fx-padding: 0;
     -fx-border-insets: 0;
     -fx-background-insets: 0;
+    /* -fx-background-color: none !important; */
 }

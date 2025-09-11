@@ -397,7 +397,7 @@ public class App extends Application {
             if (darkmode) { 
                 backPrim += "rgb(20, 20, 26);"; backSec += "rgb(16, 16, 22);";
                 backTer += "rgb(12, 12, 18);"; backQuad += "rgba(0, 0, 0, 0.85);";
-                textPrim += "aliceblue;"; textSec += "whitesmoke;";
+                textPrim += "aliceblue;"; textSec += "rgb(165, 165, 165);";
             }
             else { 
                 backPrim += "rgb(250, 240, 250);"; backSec  += "rgb(240, 230, 240);";
@@ -502,13 +502,14 @@ public class App extends Application {
 
                 primary += (customColors.get(0) + ";"); secondary += (customColors.get(1) + ";");
                 tertiary += (customColors.get(2) + ";"); quartary += (customColors.get(3) + ";");
-                bPrim += (customColors.get(4) + ";"); bSec += (customColors.get(5) + ";");
 
-                textPrim += (customColors.get(6) + ";"); textSec += (customColors.get(7) + ";");
-                textHead += (customColors.get(8) + ";"); textFav += (customColors.get(9) + ";");
+                backPrim += (customColors.get(4) + ";"); backSec += (customColors.get(5) + ";");
+                backTer += (customColors.get(6) + ";"); backQuad += (customColors.get(7) + ";");
 
-                backPrim += (customColors.get(10) + ";"); backSec += (customColors.get(11) + ";");
-                backTer += (customColors.get(12) + ";"); backQuad += (customColors.get(13) + ";");
+                textPrim += (customColors.get(8) + ";"); textSec += (customColors.get(9) + ";");
+                textHead += (customColors.get(10) + ";"); textFav += (customColors.get(11) + ";");
+
+                bPrim += (customColors.get(12) + ";"); bSec += (customColors.get(13) + ";");
 
                 hPrim += (customColors.get(14) + ";"); hSec += (customColors.get(15) + ";");
                 colorBorder += (customColors.get(16) + ";");

@@ -1,5 +1,4 @@
-@import url("alert-themes/alert-dark.css");
-@import url("alert-themes/alert-theme.css");
+@import url("variables.css");
 
 /**Costumization of The Bar where the buttons are located**/
 .dialog-pane > .button-bar > .container {

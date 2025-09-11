@@ -323,3 +323,158 @@
     -fx-fill: -headerTextColor;
     -fx-font-weight: bold;
 }
+
+.settingsHeaderVBox {
+    -fx-background-color: -backgroundSec;
+}
+
+.settingsHeader {
+    -fx-padding: 0 8px 0 0;
+    -fx-pref-height: 30px;
+    -fx-text-fill: -primaryTextColor;
+    -fx-opacity: 0.85;
+    -fx-background-color: none;
+    -fx-font-size: 16px;
+}
+
+.settingsHeader:selected {
+    -fx-opacity: 1;
+}
+
+.settingsBody {
+    -fx-pref-width: 375px;
+    -fx-pref-height: 550px;
+    -fx-hbar-policy: NEVER;
+}
+
+.settingsBodyVBox {
+    -fx-pref-width: 340px;
+    -fx-background-color: -background;
+    -fx-padding: 10px 5px;
+}
+
+.settingsBoolHBox {
+    -fx-spacing: 5px;
+}
+
+.settingsBoolVBox {
+    -fx-padding: 8px 5px;
+}
+
+.settingsCheckBox {
+    -fx-scale-y: 1.3;
+    -fx-scale-x: 1.3;
+}
+
+.settingsCheckBox .box {
+    -fx-background-color: -backgroundQuad;
+    -fx-border-color: -brightSecondary;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.settingsCheckBox:selected .mark {
+    -fx-background-color: -brightSecondary;
+}
+
+.settingsCheckBox:selected .box {
+    -fx-background-color: -backgroundQuad;
+    -fx-border-color: -brightPrimary;
+}
+
+.settingsCheckBoxFake {
+    -fx-min-width: 18px;
+    -fx-pref-width: 18px;
+}
+
+.settingsBodyTitle {
+    -fx-fill: -primaryTextColor;
+    -fx-font-size: 16px;
+}
+
+.settingsBodyDescription {
+    -fx-text-fill: -secondaryTextColor;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 3px !important;
+    -fx-wrap-text: true;
+}
+
+.settingsBodyColorDesc {
+    -fx-text-fill: -primaryTextColor;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 3px !important;
+    -fx-wrap-text: true;
+}
+
+#themeColorHold {
+    -fx-padding: 0 10px 5px;
+}
+
+.themeButton {
+    -signal: 50px;
+    -fx-min-height: -signal;
+    -fx-pref-width: -signal;
+    -fx-valignment: CENTER !important;
+    -fx-halignment: CENTER !important;
+
+    -fx-border-color: -hover;
+    -fx-border-radius: 5px;
+
+    -fx-background-insets: 1px;
+    -fx-background-radius: 4px;
+}
+
+.themeButton:selected {
+    -fx-border-color: -brightPrimary;
+}
+
+#theme1 { -fx-background-color: rgb(31, 18, 43); }
+#theme2 { -fx-background-color: rgb(55, 67, 55); }
+#theme3 { -fx-background-color: rgb(210, 150, 174); }
+#theme4 { -fx-background-color: rgb(126, 34, 34); }
+#theme5 { -fx-background-color: rgb(63, 79, 107); }
+#theme6 { -fx-background-color: rgb(102, 51, 27); }
+#theme7 { -fx-background-color: rgb(86, 64, 104); }
+#theme8 { -fx-background-color: rgb(77, 91, 65); }
+
+.settingsCustomThemePicker {
+    -fx-pref-width: 150px;
+    -fx-background-color: -backgroundTer;
+    -fx-border-color: -brightSecondary;
+    -fx-border-radius: 5px;
+}
+
+.color-picker .color-picker-label {
+    -fx-text-fill: -secondaryTextColor;
+}
+
+.color-palette {
+    -fx-background-color: rgb(12, 12, 18);
+    -fx-border-color: -brightSecondary;
+}
+
+.color-palette .color-square {
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.color-palette .separator {
+    -fx-background-color: -brightPrimary;
+}
+
+.color-palette .hyperlink {
+    -fx-text-fill: pink;
+}
+
+.custom-color-dialog {
+    -fx-background-color: rgb(12, 12, 18);
+}
+.colorSeperatorHold {
+    -fx-padding: 10px 0;
+    -fx-alignment: CENTER;
+}
+
+.colorSeperator {
+    -fx-background-color: -brightSecondary;
+    -fx-max-width: 250px;
+}

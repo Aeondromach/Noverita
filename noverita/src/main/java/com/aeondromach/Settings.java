@@ -180,7 +180,7 @@ public abstract class Settings {
             byte[] data = inputStream.readAllBytes();
 
             content = new String(data, StandardCharsets.UTF_8);
-            if (content.contains("\"import check\":\"OAK25\"")) {
+            if (content.replace(" ", "").contains("\"importcheck\":\"OAK25\"")) {
                 processFileData(data);
                 checkUserPaths();
                 saveSettings();
@@ -321,15 +321,23 @@ public abstract class Settings {
                 "rgb(14, 14, 14)", // secondary
                 "aliceblue", // tertiary
                 "rgb(140, 148, 155)", // quartary
-                "rgb(81, 47, 112)", // b primary
-                "rgb(115, 81, 148)", // b secondary
+
+                "rgb(20, 20, 26)", // background primary
+                "rgb(16, 16, 22)", // background secondary
+                "rgb(12, 12, 18)", // background tertiary
+                "rgba(0, 0, 0, 0.85)", // background quartary
+
                 "aliceblue", // text primary
-                "whitesmoke", // text secondary
+                "rgb(165, 165, 165)", // text secondary
                 "aliceblue", // text header
                 "gold", // text favorite
-                "rgb(20, 20, 26)", // background primary
+                
+                "rgb(81, 47, 112)", // b primary
+                "rgb(115, 81, 148)", // b secondary
+
                 "rgba(115, 81, 148, 0.3)", // hover primary
                 "rgba(115, 81, 148, 0.3)", // hover secondary
+
                 "rgb(91, 52, 127)" // color border
             )
         )), // Length 10
