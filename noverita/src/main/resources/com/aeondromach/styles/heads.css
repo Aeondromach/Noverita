@@ -90,7 +90,7 @@
 
 .headerTitle {
     -fx-text-fill: -headerTextColor;
-    -fx-font-size: 25px;
+    -fx-font-size: 24px;
     -fx-background-color: none;
     -fx-background-insets: 0;
     -fx-padding: 15 10 5 10;
