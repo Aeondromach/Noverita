@@ -100,6 +100,7 @@ public class NovController {
      */
     @FXML
     protected void initialize() {
+        App.setNovController(this);
         headerController.init(this);
         footerController.init(this);
         homeController.init(this);
@@ -349,5 +350,9 @@ public class NovController {
         if (character.hasForm()) {
             
         }
+    }
+
+    public void refreshHubCharacters() {
+        homeController.setHubField();
     }
 }

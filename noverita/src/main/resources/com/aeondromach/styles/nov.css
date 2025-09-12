@@ -478,3 +478,21 @@
     -fx-background-color: -brightSecondary;
     -fx-max-width: 250px;
 }
+
+.settingsSlider {
+    -fx-fill: -brightPrimary;
+}
+
+.settingsButton {
+    -fx-background-color: -backgroundSec;
+    -fx-border-color: -brightSecondary;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: -primaryTextColor;
+    -fx-font-size: 14px;
+    -fx-padding: 5 15;
+}
+
+.settingsButton:pressed {
+    -fx-border-color: -brightPrimary;
+}

@@ -12,7 +12,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static com.aeondromach.controllers.HeaderController.isMax;
+import com.aeondromach.controllers.NovController;
 import static com.aeondromach.controllers.NovController.isHover;
+import com.aeondromach.controllers.SettingsController;
 import com.aeondromach.system.IdClassList;
 
 import javafx.application.Application;
@@ -39,6 +41,8 @@ public class App extends Application {
     private double mainHeight, mainWidth;
     private static Parent root;
     private static final String[] styles = new String[1];
+    private static NovController novController;
+    private static SettingsController settingsController;
 
     /**
      * Initial set-up of Noverita
@@ -522,5 +526,23 @@ public class App extends Application {
         fullStyle = primary + secondary + tertiary + quartary + bPrim + bSec + textPrim + textSec + textFav + textHead + backPrim + backSec + backTer + backQuad + hPrim + hSec + colorBorder;
 
         return fullStyle;
+    }
+
+    public static void setSettingsController(@SuppressWarnings("exports") SettingsController controller) {
+        settingsController = controller;
+    }
+
+    public static void setNovController(@SuppressWarnings("exports") NovController controller) {
+        novController = controller;
+    }
+
+    @SuppressWarnings("exports")
+    public static NovController getNovController() {
+        return novController; 
+    }
+
+    @SuppressWarnings("exports")
+    public static SettingsController getSettingsController() {
+        return settingsController;
     }
 }

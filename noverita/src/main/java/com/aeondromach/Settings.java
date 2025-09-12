@@ -123,27 +123,32 @@ public abstract class Settings {
     }
 
     public static Object getSetting(Enum<?> setting) {
-        String sectionName = setting.getClass().getSimpleName().replace("Settings", "").toLowerCase();
-        String key = "";
-    
-        // Get the key and default value from the Enum
-        Object defaultValue = null;
-        if (setting instanceof GeneralSettings) {
-            key = ((GeneralSettings) setting).getKey();
-            defaultValue = ((GeneralSettings) setting).getDefaultValue();
-        } else if (setting instanceof DisplaySettings) {
-            key = ((DisplaySettings) setting).getKey();
-            defaultValue = ((DisplaySettings) setting).getDefaultValue();
-        } else if (setting instanceof CustomSettings) {
-            key = ((CustomSettings) setting).getKey();
-            defaultValue = ((CustomSettings) setting).getDefaultValue();
+        try {
+            String sectionName = setting.getClass().getSimpleName().replace("Settings", "").toLowerCase();
+            String key = "";
+        
+            // Get the key and default value from the Enum
+            Object defaultValue = null;
+            if (setting instanceof GeneralSettings) {
+                key = ((GeneralSettings) setting).getKey();
+                defaultValue = ((GeneralSettings) setting).getDefaultValue();
+            } else if (setting instanceof DisplaySettings) {
+                key = ((DisplaySettings) setting).getKey();
+                defaultValue = ((DisplaySettings) setting).getDefaultValue();
+            } else if (setting instanceof CustomSettings) {
+                key = ((CustomSettings) setting).getKey();
+                defaultValue = ((CustomSettings) setting).getDefaultValue();
+            }
+        
+            // Fetch the setting, or return the default if missing
+            Object value = settingsMap.getOrDefault(sectionName, Map.of()).getOrDefault(key, defaultValue);
+        
+            // Type-safe return
+            return value;
+        } catch (NullPointerException e) {
+            saveSettingsToFile();
+            return getDefaultSetting(setting);
         }
-    
-        // Fetch the setting, or return the default if missing
-        Object value = settingsMap.getOrDefault(sectionName, Map.of()).getOrDefault(key, defaultValue);
-    
-        // Type-safe return
-        return value;
     }
 
     public static Object getDefaultSetting(Enum<?> setting) {
@@ -211,6 +216,7 @@ public abstract class Settings {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void checkMissingOrBadValues() {
         Map<String, Map<String, Object>> validSettings = new HashMap<>();
 
@@ -237,6 +243,10 @@ public abstract class Settings {
         for (CustomSettings setting : CustomSettings.values()) {
             customSettings.put(setting.getKey(), 
                 settingsMap.getOrDefault("custom", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
+        if (((ArrayList<String>) displaySettings.get("custom themes")).size() < 17) {
+            displaySettings.put("custom themes", DisplaySettings.CUSTOM_THEMES.getDefaultValue());
         }
 
         // Put back into a cleaned map

@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -50,6 +51,7 @@
                   <ToggleButton fx:id="customHeader" mnemonicParsing="false" onMouseClicked="#handleCustomClick" styleClass="settingsHeader" text="Custom" />
                   <ToggleButton fx:id="characterHeader" mnemonicParsing="false" onMouseClicked="#handleCharacterClick" styleClass="settingsHeader" text="Character" />
                   <ToggleButton fx:id="pdfHeader" mnemonicParsing="false" onMouseClicked="#handlePDFClick" styleClass="settingsHeader" text="PDF" />
+                  <ToggleButton fx:id="aboutHeader" mnemonicParsing="false" onMouseClicked="#handlePDFClick" styleClass="settingsHeader" text="About" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -61,7 +63,7 @@
                <children>
                   <ScrollPane fx:id="generalScrollPane" prefHeight="200.0" prefWidth="200.0">
                      <content>
-                        <VBox fx:id="generalVBox" styleClass="settingsBodyVBox">
+                        <VBox styleClass="settingsBodyVBox">
                            <children>
                               <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="General Settings" />
                               <Label styleClass="settingsBodyDescription" text="Settings that do not fit a specific label" />
@@ -92,7 +94,7 @@
                   </ScrollPane>
                   <ScrollPane fx:id="displayScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
-                        <VBox fx:id="generalVBox1" styleClass="settingsBodyVBox">
+                        <VBox styleClass="settingsBodyVBox">
                            <children>
                               <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Display Settings" />
                               <Label styleClass="settingsBodyDescription" text="Settings that change how the software appears" />
@@ -140,6 +142,20 @@
                                     </HBox>
                                  </children>
                               </VBox>
+                              <VBox style="-fx-padding: 10px 5px 0;" styleClass="settingsBodyVBox">
+                                 <children>
+                                    <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Character Block Size" />
+                                    <Label styleClass="settingsBodyDescription" text="How big should Characters be in the Nexus?" />
+                                    <Slider fx:id="charBlockSizeSlider" blockIncrement="25.0" max="200.0" min="100.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="settingsSlider" value="175.0" />
+                                    <Pane prefHeight="10.0" />
+                                    <StackPane>
+                                       <children>
+                                          <Button fx:id="charHubRefreshBt" mnemonicParsing="false" styleClass="settingsButton" text="Refresh Character Hub" />
+                                       </children>
+                                    </StackPane>
+                                    <Pane prefHeight="10.0" />
+                                 </children>
+                              </VBox>
                               <VBox styleClass="settingsBodyVBox">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="15.0" styleClass="settingsBoolHBox">
@@ -156,11 +172,11 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox fx:id="customThemesHold" style="-fx-padding: 0 5px;" styleClass="settingsBoolVBox">
+                              <VBox fx:id="customThemesHold" style="-fx-padding: 0 5px;" styleClass="settingsBoolVBox" visible="false">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="primaryThemePicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -170,7 +186,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="secondaryThemePicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -180,7 +196,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="tertiaryThemePicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -190,7 +206,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="quartaryThemePicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -205,7 +221,7 @@
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="primaryBackgroundPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -215,7 +231,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="secondaryBackgroundPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -225,7 +241,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="tertiaryBackgroundPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -235,7 +251,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="quartaryBackgroundPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -250,7 +266,7 @@
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="primaryTextPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -260,7 +276,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="secondaryTextPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -270,7 +286,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="headerTextPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -280,7 +296,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="favoriteTextPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -295,7 +311,7 @@
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="primaryBrightPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -305,7 +321,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="secondaryBrightPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -320,7 +336,7 @@
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="primaryHoverPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -330,7 +346,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="secondaryHoverPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -345,7 +361,7 @@
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" styleClass="settingsBodyVBox">
                                        <children>
-                                          <ColorPicker promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
+                                          <ColorPicker fx:id="colorBorderPicker" onAction="#handleColorPickerAction" promptText="Primary Theme Color" styleClass="settingsCustomThemePicker">
                                              <value>
                                                 <Color red="0.12156862765550613" green="0.07058823853731155" blue="0.16862745583057404" />
                                              </value>
@@ -366,7 +382,7 @@
                   </ScrollPane>
                   <ScrollPane fx:id="customScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
-                        <VBox fx:id="generalVBox2" styleClass="settingsBodyVBox" />
+                        <VBox styleClass="settingsBodyVBox" />
                      </content>
                      <styleClass>
                         <String fx:value="settingsBody" />
@@ -376,7 +392,7 @@
                   </ScrollPane>
                   <ScrollPane fx:id="characterScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
-                        <VBox fx:id="generalVBox3" styleClass="settingsBodyVBox" />
+                        <VBox styleClass="settingsBodyVBox" />
                      </content>
                      <styleClass>
                         <String fx:value="settingsBody" />
@@ -386,7 +402,17 @@
                   </ScrollPane>
                   <ScrollPane fx:id="pdfScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
-                        <VBox fx:id="generalVBox4" styleClass="settingsBodyVBox" />
+                        <VBox styleClass="settingsBodyVBox" />
+                     </content>
+                     <styleClass>
+                        <String fx:value="settingsBody" />
+                        <String fx:value="bodyScrollPane" />
+                        <String fx:value="bodyAppPane" />
+                     </styleClass>
+                  </ScrollPane>
+                  <ScrollPane fx:id="aboutScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                     <content>
+                        <VBox styleClass="settingsBodyVBox" />
                      </content>
                      <styleClass>
                         <String fx:value="settingsBody" />
