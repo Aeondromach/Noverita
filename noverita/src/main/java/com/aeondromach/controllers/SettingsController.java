@@ -3,11 +3,15 @@ package com.aeondromach.controllers;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import com.aeondromach.App;
 import com.aeondromach.Settings;
+import com.aeondromach.system.IdClassList;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,11 +21,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -91,6 +98,21 @@ public class SettingsController {
 
     @FXML private CheckBox charLoadCheck;
 
+    @FXML private Button baseFolderButton;
+    @FXML private Button customFolderButton;
+    @FXML private Button characterFolderButton;
+    @FXML private Button imagesFolderButton;
+
+    @FXML private TextField baseFolderField;
+    @FXML private TextField customFolderField;
+    @FXML private TextField characterFolderField;
+    @FXML private TextField imagesFolderField;
+
+    @FXML private StackPane baseFolderPane;
+    @FXML private StackPane customFolderPane;
+    @FXML private StackPane characterFolderPane;
+    @FXML private StackPane imagesFolderPane;
+
     private double mousePosX, mousePosY;
     private NovController nov;
 
@@ -103,6 +125,23 @@ public class SettingsController {
         nov = App.getNovController();
         App.setTheme();
         Platform.runLater(() -> {
+            Collections.addAll(HEADERS,
+                generalHeader,
+                displayHeader,
+                customHeader,
+                characterHeader,
+                pdfHeader,
+                aboutHeader
+            );
+            Collections.addAll(SCROLL_PANES,
+                generalScrollPane,
+                displayScrollPane,
+                customScrollPane,
+                characterScrollPane,
+                pdfScrollPane,
+                aboutScrollPane
+            );
+
             charLoadCheck.setSelected((Boolean) Settings.getSetting(Settings.GeneralSettings.CHARLOADALERT));
             darkModeCheck.setSelected((Boolean) Settings.getSetting(Settings.DisplaySettings.DARK_MODE));
             int theme = (Integer) Settings.getSetting(Settings.DisplaySettings.THEME);
@@ -169,60 +208,58 @@ public class SettingsController {
                     ));
                 }
             }
+
+            setFolderButtons(baseFolderButton, baseFolderPane);
+            setFolderButtons(customFolderButton, customFolderPane);
+            setFolderButtons(characterFolderButton, characterFolderPane);
+            setFolderButtons(imagesFolderButton, imagesFolderPane);
+
+            baseFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.BASE_PATH)));
+            customFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH)));
+            characterFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.CHAR_PATH)));
+            imagesFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH)));
+        });
+    }
+
+    private void setFolderButtons(Button button, StackPane stackPane) {
+        button.setOnMouseEntered(e -> {
+            button.getStyleClass().add("settingsHoverCondition");
+            stackPane.getStyleClass().add("settingsHoverCondition");
+        });
+
+        button.setOnMouseExited(e -> {
+            button.getStyleClass().remove("settingsHoverCondition");
+            stackPane.getStyleClass().remove("settingsHoverCondition");
+        });
+
+        stackPane.setOnMouseEntered(e -> {
+            button.getStyleClass().add("settingsHoverCondition");
+            stackPane.getStyleClass().add("settingsHoverCondition");
+        });
+
+        stackPane.setOnMouseExited(e -> {
+            button.getStyleClass().remove("settingsHoverCondition");
+            stackPane.getStyleClass().remove("settingsHoverCondition");
         });
     }
 
     @FXML
-    protected void handleGeneralClick(MouseEvent event) {
-        setActiveHeader(generalHeader, generalScrollPane);
-    }
+    protected void handleHeaderClick(MouseEvent event) {
+        ToggleButton tButton = (ToggleButton) event.getSource();
+        ScrollPane sPane;
 
-    @FXML
-    protected void handleDisplayClick(MouseEvent event) {
-        setActiveHeader(displayHeader, displayScrollPane);
-    }
+        if (tButton.equals(generalHeader)) sPane = generalScrollPane;
+        else if (tButton.equals(displayHeader)) sPane = displayScrollPane;
+        else if (tButton.equals(customHeader)) sPane = customScrollPane;
+        else if (tButton.equals(characterHeader)) sPane = characterScrollPane;
+        else if (tButton.equals(pdfHeader)) sPane = pdfScrollPane;
+        else if (tButton.equals(aboutHeader)) sPane = aboutScrollPane;
+        else return;
 
-    @FXML
-    protected void handleCustomClick(MouseEvent event) {
-        setActiveHeader(customHeader, customScrollPane);
-    }
-
-    @FXML
-    protected void handleCharacterClick(MouseEvent event) {
-        setActiveHeader(characterHeader, characterScrollPane);
-    }
-
-    @FXML
-    protected void handlePDFClick(MouseEvent event) {
-        setActiveHeader(pdfHeader, pdfScrollPane);
-    }
-
-    @FXML
-    protected void handleAboutClick(MouseEvent event) {
-        setActiveHeader(aboutHeader, aboutScrollPane);
+        setActiveHeader(tButton, sPane);
     }
 
     private void setActiveHeader(ToggleButton activeHeader, ScrollPane activeScrollPane) {
-        if (HEADERS.isEmpty()) {
-            Collections.addAll(HEADERS,
-                generalHeader,
-                displayHeader,
-                customHeader,
-                characterHeader,
-                pdfHeader
-            );
-        }
-
-        if (SCROLL_PANES.isEmpty()) {
-            Collections.addAll(SCROLL_PANES,
-                generalScrollPane,
-                displayScrollPane,
-                customScrollPane,
-                characterScrollPane,
-                pdfScrollPane
-            );
-        }
-
         for (ToggleButton header : HEADERS) {
             if (header.equals(activeHeader)) {
                 header.setSelected(true);
@@ -456,5 +493,83 @@ public class SettingsController {
 
         Stage stage = (Stage) titleBar.getScene().getWindow();
         stage.getScene().getRoot().setStyle(App.getTheme());
+    }
+
+    @FXML
+    protected void handleFolderButtonClick(MouseEvent event) {
+        Button button = (Button) event.getSource();
+
+        if (button.equals(baseFolderButton)) {
+            folderSelected(
+                String.valueOf(Settings.getSetting(Settings.CustomSettings.BASE_PATH)),
+                Settings.CustomSettings.BASE_PATH,
+                baseFolderField
+            );
+        } else if (button.equals(customFolderButton)) {
+            folderSelected(
+                String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH)),
+                Settings.CustomSettings.CUSTOM_PATH,
+                customFolderField
+            );
+            IdClassList.resetMaps();
+            IdClassList.setIds(Paths.get(String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH))));
+        } else if (button.equals(characterFolderButton)) {
+            folderSelected(
+                String.valueOf(Settings.getSetting(Settings.CustomSettings.CHAR_PATH)),
+                Settings.CustomSettings.CHAR_PATH,
+                characterFolderField
+            );
+            nov.refreshHubCharacters();
+        } else if (button.equals(imagesFolderButton)) {
+            folderSelected(
+                String.valueOf(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH)),
+                Settings.CustomSettings.PORTRAIT_PATH,
+                imagesFolderField
+            );
+            nov.refreshHubCharacters();
+        }
+    }
+
+    private void folderSelected(String folderPath, Settings.CustomSettings settings, TextField field) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose Export Folder");
+
+        File file = new File(folderPath);
+        if (!file.exists()) file = new File(System.getProperty("user.home"));
+
+        directoryChooser.setInitialDirectory(file);
+
+        File selectedDirectory;
+        selectedDirectory = directoryChooser.showDialog(null);
+
+        if (selectedDirectory != null) {
+            try {
+                Settings.setSetting(settings, selectedDirectory.getCanonicalPath());
+                Settings.saveSettings();
+
+                field.setText(folderPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    protected void handleFolderTextFieldEnter(ActionEvent event) {
+        TextField field = (TextField) event.getSource();
+
+        if (field.equals(baseFolderField)) {
+            Settings.setSetting(Settings.CustomSettings.BASE_PATH, field.getText());
+        } else if (field.equals(customFolderField)) {
+            Settings.setSetting(Settings.CustomSettings.CUSTOM_PATH, field.getText());
+            IdClassList.resetMaps();
+            IdClassList.setIds(Paths.get(String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH))));
+        } else if (field.equals(characterFolderField)) {
+            Settings.setSetting(Settings.CustomSettings.CHAR_PATH, field.getText());
+            nov.refreshHubCharacters();
+        } else if (field.equals(imagesFolderField)) {
+            Settings.setSetting(Settings.CustomSettings.PORTRAIT_PATH, field.getText());
+            nov.refreshHubCharacters();
+        }
     }
 }

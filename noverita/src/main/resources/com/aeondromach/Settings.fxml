@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -46,12 +47,12 @@
          <left>
             <VBox alignment="TOP_RIGHT" prefWidth="120.0" styleClass="settingsHeaderVBox" BorderPane.alignment="CENTER_LEFT">
                <children>
-                  <ToggleButton fx:id="generalHeader" mnemonicParsing="false" onMouseClicked="#handleGeneralClick" selected="true" styleClass="settingsHeader" text="General" />
-                  <ToggleButton fx:id="displayHeader" mnemonicParsing="false" onMouseClicked="#handleDisplayClick" styleClass="settingsHeader" text="Display" />
-                  <ToggleButton fx:id="customHeader" mnemonicParsing="false" onMouseClicked="#handleCustomClick" styleClass="settingsHeader" text="Custom" />
-                  <ToggleButton fx:id="characterHeader" mnemonicParsing="false" onMouseClicked="#handleCharacterClick" styleClass="settingsHeader" text="Character" />
-                  <ToggleButton fx:id="pdfHeader" mnemonicParsing="false" onMouseClicked="#handlePDFClick" styleClass="settingsHeader" text="PDF" />
-                  <ToggleButton fx:id="aboutHeader" mnemonicParsing="false" onMouseClicked="#handlePDFClick" styleClass="settingsHeader" text="About" />
+                  <ToggleButton fx:id="generalHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" selected="true" styleClass="settingsHeader" text="General" />
+                  <ToggleButton fx:id="displayHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Display" />
+                  <ToggleButton fx:id="customHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Custom" />
+                  <ToggleButton fx:id="characterHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Character" />
+                  <ToggleButton fx:id="pdfHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="PDF" />
+                  <ToggleButton fx:id="aboutHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="About" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -382,7 +383,76 @@
                   </ScrollPane>
                   <ScrollPane fx:id="customScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
-                        <VBox styleClass="settingsBodyVBox" />
+                        <VBox styleClass="settingsBodyVBox">
+                           <children>
+                              <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Folder Settings" />
+                              <Label styleClass="settingsBodyDescription" text="Settings that effects what content Noverita pulls." />
+                              <Pane prefHeight="10.0" />
+                              <VBox styleClass="settingsFolderVBox">
+                                 <children>
+                                    <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Base Folder Path" />
+                                    <Label styleClass="settingsBodyDescription" text="Where should the app's base folder live?" />
+                                    <HBox alignment="CENTER" styleClass="settingsFolderSelecter">
+                                       <children>
+                                          <Button fx:id="baseFolderButton" alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#handleFolderButtonClick" styleClass="settingsButtonFolder" text="📁" textAlignment="CENTER" />
+                                          <StackPane fx:id="baseFolderPane" styleClass="settingsFolderStackPane">
+                                             <children>
+                                                <TextField fx:id="baseFolderField" onAction="#handleFolderTextFieldEnter" promptText="C:\Users\Path\To\Base" styleClass="settingsTextField" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox styleClass="settingsFolderVBox">
+                                 <children>
+                                    <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Custom Folder Path" />
+                                    <Label styleClass="settingsBodyDescription" text="Where should the app pull custom files from?" />
+                                    <HBox alignment="CENTER" styleClass="settingsFolderSelecter">
+                                       <children>
+                                          <Button fx:id="customFolderButton" mnemonicParsing="false" onMouseClicked="#handleFolderButtonClick" styleClass="settingsButtonFolder" text="📁" textAlignment="CENTER" />
+                                          <StackPane fx:id="customFolderPane" styleClass="settingsFolderStackPane">
+                                             <children>
+                                                <TextField fx:id="customFolderField" onAction="#handleFolderTextFieldEnter" promptText="C:\Users\Path\To\Custom" styleClass="settingsTextField" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox styleClass="settingsFolderVBox">
+                                 <children>
+                                    <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Character Folder Path" />
+                                    <Label styleClass="settingsBodyDescription" text="Where should characters be stored?" />
+                                    <HBox alignment="CENTER" styleClass="settingsFolderSelecter">
+                                       <children>
+                                          <Button fx:id="characterFolderButton" mnemonicParsing="false" onMouseClicked="#handleFolderButtonClick" styleClass="settingsButtonFolder" text="📁" textAlignment="CENTER" />
+                                          <StackPane fx:id="characterFolderPane" styleClass="settingsFolderStackPane">
+                                             <children>
+                                                <TextField fx:id="characterFolderField" onAction="#handleFolderTextFieldEnter" promptText="C:\Users\Path\To\Characters" styleClass="settingsTextField" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox styleClass="settingsFolderVBox">
+                                 <children>
+                                    <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Images Folder Path" />
+                                    <Label styleClass="settingsBodyDescription" text="Where should images be stored?" />
+                                    <HBox alignment="CENTER" styleClass="settingsFolderSelecter">
+                                       <children>
+                                          <Button fx:id="imagesFolderButton" mnemonicParsing="false" onMouseClicked="#handleFolderButtonClick" styleClass="settingsButtonFolder" text="📁" textAlignment="CENTER" />
+                                          <StackPane fx:id="imagesFolderPane" styleClass="settingsFolderStackPane">
+                                             <children>
+                                                <TextField fx:id="imagesFolderField" onAction="#handleFolderTextFieldEnter" promptText="C:\Users\Path\To\Images" styleClass="settingsTextField" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></VBox>
                      </content>
                      <styleClass>
                         <String fx:value="settingsBody" />

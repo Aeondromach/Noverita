@@ -496,3 +496,65 @@
 .settingsButton:pressed {
     -fx-border-color: -brightPrimary;
 }
+
+.settingsPadder {
+    -fx-padding: 10px 5px;
+}
+
+.settingsButtonFolder {
+    -fx-pref-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-alignment: CENTER;
+
+    -fx-background-color: -backgroundQuad;
+    -fx-text-fill: -primaryTextColor;
+    -fx-background-radius: 8px 0 0 8px;
+    
+    -fx-border-color: -brightSecondary;
+    -fx-border-width: 1px 0 1px 1px;
+    -fx-border-radius: 8px 0 0 8px;
+    -fx-background-insets: 1 0 1 1;
+}
+
+.settingsFolderSelecter {
+    -fx-padding: 5px 0;
+    -fx-alignment: CENTER;
+}
+
+.settingsFolderStackPane {
+    -fx-background-color: -backgroundTer;
+    -fx-pref-width: 290px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30;
+    -fx-border-color: -brightSecondary;
+    -fx-border-width: 1px 1px 1px 0;
+    -fx-border-radius: 0 8px 8px 0;
+}
+
+.settingsTextField {
+    -fx-text-fill: -secondaryTextColor;
+    -fx-font-size: 13px;
+    -fx-wrap-text: false;
+    -fx-background-color: transparent;
+
+    -fx-background-insets: 0 8px 0 5px;
+    -fx-highlight-fill: -brightSecondary;
+}
+
+.settingsFolderVBox {
+    -fx-padding: 10px 5px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.settingsHoverCondition {
+    -fx-border-color: -brightPrimary;
+}
+
+.settingsButtonFolder:hover {
+    -fx-cursor: HAND;
+}
+
+.settingsButtonFolder:pressed {
+    -fx-font-size: 11px;
+    -fx-alignment: BOTTOM_CENTER;
+}
