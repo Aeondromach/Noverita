@@ -7,11 +7,13 @@
 
 package com.aeondromach.system.parsers;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +36,8 @@ import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.minor.OtherStat;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritablePixelFormat;
 
 public class XmlParser {
     /**
@@ -248,6 +252,24 @@ public class XmlParser {
             }
         }
         return null;  // In case of error, return null
+    }
+
+    public static String getBase64OfImage(Image image, String base64) {
+        if (image != null && image.getUrl() != null) {
+            PixelReader pixelReader = image.getPixelReader();
+
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+
+            byte[] buffer = new byte[width * height * 4];
+            pixelReader.getPixels(0, 0, width, height, WritablePixelFormat.getByteBgraInstance(), buffer, 0, width * 4);
+
+            return Base64.getEncoder().encodeToString(buffer);
+        }
+        else if (image.getUrl() == null) {
+            return base64;
+        }
+        return null;
     }
 
     public static Element getElement(Map<String, String> map, String id) {

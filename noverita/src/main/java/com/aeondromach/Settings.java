@@ -191,7 +191,7 @@ public abstract class Settings {
                 saveSettings();
                 System.out.println(objectMapper);
                 Messages.novAlert("Settings imported successfully.", "Import Complete", 
-                        "The settings have been successfully imported from:\n" + file.getAbsolutePath());
+                        "The settings have been successfully imported from:\n" + file.getAbsolutePath() + " \nPlease verify that file paths are correct.");
             }
             else {
                 Messages.errorAlert("Settings refused to import.", "Error L150: Import Check Failed", 
@@ -383,7 +383,8 @@ public abstract class Settings {
         CHAR_PATH("character folder path", System.getProperty("user.home") + "\\documents\\Noverita\\characters"),
         BASE_PATH("base path", System.getProperty("user.home") + "\\documents\\Noverita"),
         CUSTOM_PATH("custom folder", System.getProperty("user.home") + "\\documents\\Noverita\\custom"),
-        PORTRAIT_PATH("portrait path", System.getProperty("user.home") + "\\documents\\Noverita\\characters\\portraits");
+        PORTRAIT_PATH("portrait path", System.getProperty("user.home") + "\\documents\\Noverita\\characters\\portraits"),
+        BASE64("base64 enable", true);
 
         private final String key;
         private final Object defaultValue;

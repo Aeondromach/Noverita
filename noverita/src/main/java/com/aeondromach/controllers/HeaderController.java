@@ -15,10 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import com.aeondromach.App;
 import com.aeondromach.Messages;
 import com.aeondromach.Settings;
+import com.aeondromach.system.IdClassList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -652,6 +654,9 @@ public class HeaderController {
         if (selectedFile != null) {
             try {
                 Settings.importSettings(selectedFile);
+                IdClassList.resetMaps();
+                IdClassList.setIds(Paths.get(String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH))));
+                nov.refreshHubCharacters();
             }
             catch (Exception e) {
                 Messages.errorAlert("Failed to Import Settings", "An error occurred while importing settings.", "Please ensure the file is a valid JSON settings file.\n\nDetails: " + e.getMessage());

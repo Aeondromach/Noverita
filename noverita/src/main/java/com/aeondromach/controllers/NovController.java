@@ -10,6 +10,8 @@ package com.aeondromach.controllers;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -315,7 +317,43 @@ public class NovController {
 
     public void saveCharacter() {
         if (character != null) {
-            Messages.warningAlert("Save Character", "Save Character", "This feature is not yet implemented.");
+            Document doc = new Document(character.getFilePath());
+            Element characterTag = doc.appendElement("character");
+
+            Element informationTag = characterTag.appendElement("information");
+                Element nameTag = informationTag.appendElement("name");
+                Element formTag = informationTag.appendElement("form");
+                Element aspectTag = informationTag.appendElement("aspect");
+                Element variantTag = informationTag.appendElement("variant");
+                Element squadTag = informationTag.appendElement("squad");
+                Element rankTag = informationTag.appendElement("rank");
+                Element charPortraitTag = informationTag.appendElement("charPortrait");
+                    Element localTag = charPortraitTag.appendElement("local");
+                    Element base64Tag = charPortraitTag.appendElement("base64");
+
+            nameTag.text(character.getName());
+            formTag.text(character.getForm().getTitle());
+            formTag.attr("id", character.getForm().getId());
+            aspectTag.text(character.getForm().getASPECT().getTitle());
+            aspectTag.attr("id", character.getForm().getASPECT().getId());
+            variantTag.attr("id", "");
+            variantTag.text("");
+            squadTag.text(character.getSquad());
+            rankTag.text(String.valueOf(character.getRank()));
+
+            localTag.text(character.getImage().getUrl());
+            if ((Boolean) Settings.getSetting(Settings.CustomSettings.BASE64)) base64Tag.text("<![CDATA[" + XmlParser.getBase64OfImage(character.getImage(), character.getBase64()) + "]]>");
+
+            doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+            doc.outputSettings().escapeMode(org.jsoup.nodes.Entities.EscapeMode.xhtml);
+            doc.outputSettings().prettyPrint(true);
+
+            File file = new File(character.getFilePath());
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + doc.outerHtml());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
