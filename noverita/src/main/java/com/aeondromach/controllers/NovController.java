@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.stream.Stream;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -165,7 +166,7 @@ public class NovController {
 
                     if (name == null) nameTag = "Enygma";
                     else nameTag = name.ownText();
-                    if (archetype == null) archetypeTag = "Typical";
+                    if (archetype == null) archetypeTag = "";
                     else archetypeTag = archetype.ownText();
                     if (squad == null || squad.ownText().isBlank()) squadTag = "Characters";
                     else squadTag = squad.ownText();
@@ -293,7 +294,7 @@ public class NovController {
      * @param filePath the path to the ncf file
      */
     public void createCharacter(String filePath, Image image) {
-        character = new Character(filePath, image);
+        character = new Character(filePath);
     }
 
     public void updateHeaderDescription() {
@@ -330,27 +331,72 @@ public class NovController {
                 Element charPortraitTag = informationTag.appendElement("charPortrait");
                     Element localTag = charPortraitTag.appendElement("local");
                     Element base64Tag = charPortraitTag.appendElement("base64");
+            Element inclusiveTag = characterTag.appendElement("inclusive");
+                Element statTag = inclusiveTag.appendElement("stats");
+            Element exclusiveTag = characterTag.appendElement("exclusive");
 
-            nameTag.text(character.getName());
-            formTag.text(character.getForm().getTitle());
-            formTag.attr("id", character.getForm().getId());
-            aspectTag.text(character.getForm().getASPECT().getTitle());
-            aspectTag.attr("id", character.getForm().getASPECT().getId());
+            if (character.getName() != null) nameTag.text(character.getName());
+            else nameTag.text("");
+
+            if (character.hasForm()) {
+                formTag.text(character.getForm().getTitle());
+                formTag.attr("id", character.getForm().getId());
+            }
+            else {
+                formTag.text("");
+                formTag.attr("id", "");
+            }
+
+            if (character.getForm().hasAspect()) {
+                aspectTag.text(character.getForm().getASPECT().getTitle());
+                aspectTag.attr("id", character.getForm().getASPECT().getId());
+            }
+            else {
+                aspectTag.text("");
+                aspectTag.attr("id", "");
+            }
+
             variantTag.attr("id", "");
             variantTag.text("");
-            squadTag.text(character.getSquad());
+
+            if (character.getSquad() != null) squadTag.text(character.getSquad());
+            else squadTag.text("Unsorted Characters");
+
             rankTag.text(String.valueOf(character.getRank()));
 
-            localTag.text(character.getImage().getUrl());
-            if ((Boolean) Settings.getSetting(Settings.CustomSettings.BASE64)) base64Tag.text("<![CDATA[" + XmlParser.getBase64OfImage(character.getImage(), character.getBase64()) + "]]>");
+            if (character.getImage().getUrl() != null)
+                localTag.text(character.getImage().getUrl().replace("file:/", ""));
+            if ((Boolean) Settings.getSetting(Settings.SaveLoadSettings.BASE64)) {
+                String base64 = XmlParser.getBase64OfImage(character.getImage());
+                base64Tag.appendChild(new DataNode(base64));
+            }
 
-            doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
-            doc.outputSettings().escapeMode(org.jsoup.nodes.Entities.EscapeMode.xhtml);
-            doc.outputSettings().prettyPrint(true);
+            statTag.text(
+                character.getBaseStat(0) + "," + 
+                character.getBaseStat(1) + "," + 
+                character.getBaseStat(2) + "," + 
+                character.getBaseStat(3) + "," +
+                character.getBaseStat(4) + "," + 
+                character.getBaseStat(5));
+
+            doc.outputSettings()
+                .syntax(Document.OutputSettings.Syntax.xml)
+                .escapeMode(org.jsoup.nodes.Entities.EscapeMode.xhtml)
+                .prettyPrint(true)
+                .indentAmount(4);
+
+            String xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + doc.outerHtml();
+
+            xmlContent = xmlContent.replaceAll(
+                "(?s)<(\\w+)([^>]*)>\\s*([^<>\n]+)\\s*</\\1>",
+                "<$1$2>$3</$1>"
+            );
 
             File file = new File(character.getFilePath());
             try (FileWriter fileWriter = new FileWriter(file)) {
-                fileWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + doc.outerHtml());
+                fileWriter.write(xmlContent);
+                if ((Boolean) Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE)) refreshHubCharacters();
+                System.out.println(Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE));
             } catch (IOException e) {
                 e.printStackTrace();
             }

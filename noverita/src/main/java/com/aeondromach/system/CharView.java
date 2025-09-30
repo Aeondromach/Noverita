@@ -30,7 +30,7 @@ public class CharView {
         this.name = name;
         
         if (archetype != null) this.ARCHETYPE = archetype;
-        else this.ARCHETYPE = "Typical";
+        else this.ARCHETYPE = "";
 
         this.SQUAD = squad;
         this.RANK = rank;

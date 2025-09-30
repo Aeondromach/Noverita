@@ -39,22 +39,31 @@ public class Flesh extends Exclusive {
      */
     @Override
     protected void parseXML(Document doc) {
-        Elements elements = doc.select("element[id]");
-        for (Element element: elements) {
-            if (element.attr("id").equals(id) && element.attr("type").toLowerCase().equals("flesh") && !element.attr("name").isEmpty()) {
-                Element exclusive = element.selectFirst("exclusive");
+        this.grantList.clear();
+        this.statList.clear();
 
-                grantList = XmlParser.parseExclusiveGrants(exclusive);
-
-                statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
-
-                    // if (grant.attr("id").startsWith("ID_DAMAGE_TYPE_")) {
-                    //     DamageType.setResistance(DamageType.getDamageType(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
-                    // }
-                    // else if (grant.attr("id").startsWith("ID_DAMAGE_CATEGORY_")) {
-                    //     DamageType.setResistances(DamageType.getDamageCategory(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
-                    // }
+        if (doc != null) {
+            Elements elements = doc.select("element[id]");
+            for (Element element: elements) {
+                if (element.attr("id").equals(id) && element.attr("type").toLowerCase().equals("flesh") && !element.attr("name").isEmpty()) {
+                    Element exclusive = element.selectFirst("exclusive");
+    
+                    grantList = XmlParser.parseExclusiveGrants(exclusive);
+    
+                    statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
+    
+                        // if (grant.attr("id").startsWith("ID_DAMAGE_TYPE_")) {
+                        //     DamageType.setResistance(DamageType.getDamageType(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
+                        // }
+                        // else if (grant.attr("id").startsWith("ID_DAMAGE_CATEGORY_")) {
+                        //     DamageType.setResistances(DamageType.getDamageCategory(grant.attr("id")), ResistanceLevel.getResistanceLevel(grant.attr("value")));
+                        // }
+                }
             }
         }
+    }
+
+    @Override
+    protected void resetUniqueStats() {
     }
 }

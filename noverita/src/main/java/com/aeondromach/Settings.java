@@ -62,6 +62,8 @@ public abstract class Settings {
             key = ((GeneralSettings) setting).getKey();
         } else if (setting instanceof DisplaySettings) {
             key = ((DisplaySettings) setting).getKey();
+        } else if (setting instanceof SaveLoadSettings) {
+            key = ((SaveLoadSettings) setting).getKey();
         } else if (setting instanceof CustomSettings) {
             key = ((CustomSettings) setting).getKey();
         }
@@ -99,6 +101,11 @@ public abstract class Settings {
                 for (DisplaySettings settings: DisplaySettings.values()) {
                     displaySettings.put(settings.getKey(), settings.getDefaultValue());
                 }
+
+                Map<String, Object> saveLoadSettings = new HashMap<>();
+                for (SaveLoadSettings settings: SaveLoadSettings.values()) {
+                    saveLoadSettings.put(settings.getKey(), settings.getDefaultValue());
+                }
     
                 Map<String, Object> customSettings = new HashMap<>();
                 for (CustomSettings settings: CustomSettings.values()) {
@@ -109,6 +116,7 @@ public abstract class Settings {
                     setterMap.put("noverita", noveritaSettings);
                     setterMap.put("general", generalSettings);
                     setterMap.put("display", displaySettings);
+                    setterMap.put("saveload", saveLoadSettings);
                     setterMap.put("custom", customSettings);
                 objectMapper.writeValue(file, setterMap);
             } catch (IOException e) {
@@ -135,6 +143,9 @@ public abstract class Settings {
             } else if (setting instanceof DisplaySettings) {
                 key = ((DisplaySettings) setting).getKey();
                 defaultValue = ((DisplaySettings) setting).getDefaultValue();
+            } else if (setting instanceof SaveLoadSettings) {
+                key = ((SaveLoadSettings) setting).getKey();
+                defaultValue = ((SaveLoadSettings) setting).getDefaultValue();
             } else if (setting instanceof CustomSettings) {
                 key = ((CustomSettings) setting).getKey();
                 defaultValue = ((CustomSettings) setting).getDefaultValue();
@@ -156,6 +167,8 @@ public abstract class Settings {
             return ((GeneralSettings) setting).getDefaultValue();
         } else if (setting instanceof DisplaySettings) {
             return ((DisplaySettings) setting).getDefaultValue();
+        } else if (setting instanceof SaveLoadSettings) {
+            return ((SaveLoadSettings) setting).getDefaultValue();
         } else if (setting instanceof CustomSettings) {
             return ((CustomSettings) setting).getDefaultValue();
         }
@@ -239,6 +252,12 @@ public abstract class Settings {
                 settingsMap.getOrDefault("display", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
         }
 
+        Map<String, Object> saveLoadSettings = new HashMap<>();
+        for (SaveLoadSettings setting : SaveLoadSettings.values()) {
+            saveLoadSettings.put(setting.getKey(), 
+                settingsMap.getOrDefault("saveload", Map.of()).getOrDefault(setting.getKey(), setting.getDefaultValue()));
+        }
+
         Map<String, Object> customSettings = new HashMap<>();
         for (CustomSettings setting : CustomSettings.values()) {
             customSettings.put(setting.getKey(), 
@@ -253,6 +272,7 @@ public abstract class Settings {
         validSettings.put("noverita", noveritaSettings);
         validSettings.put("general", generalSettings);
         validSettings.put("display", displaySettings);
+        validSettings.put("saveload", saveLoadSettings);
         validSettings.put("custom", customSettings);
 
         // Replace old map with cleaned version
@@ -379,12 +399,41 @@ public abstract class Settings {
         }
     }
 
+    public enum SaveLoadSettings {
+        BASE64("base64 enable", true),
+        RELOAD_ON_SAVE("reload on save", false);
+
+        private final String key;
+        private final Object defaultValue;
+
+        SaveLoadSettings(String key, Object defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Object getDefaultValue() {
+            return defaultValue;
+        }
+
+        public static SaveLoadSettings fromKey(String key) {
+            for (SaveLoadSettings setting : values()) {
+                if (setting.key.equalsIgnoreCase(key)) {
+                    return setting;
+                }
+            }
+            throw new IllegalArgumentException("Unknown key: " + key);
+        }
+    }
+
     public enum CustomSettings {
         CHAR_PATH("character folder path", System.getProperty("user.home") + "\\documents\\Noverita\\characters"),
         BASE_PATH("base path", System.getProperty("user.home") + "\\documents\\Noverita"),
         CUSTOM_PATH("custom folder", System.getProperty("user.home") + "\\documents\\Noverita\\custom"),
-        PORTRAIT_PATH("portrait path", System.getProperty("user.home") + "\\documents\\Noverita\\characters\\portraits"),
-        BASE64("base64 enable", true);
+        PORTRAIT_PATH("portrait path", System.getProperty("user.home") + "\\documents\\Noverita\\characters\\portraits");        
 
         private final String key;
         private final Object defaultValue;

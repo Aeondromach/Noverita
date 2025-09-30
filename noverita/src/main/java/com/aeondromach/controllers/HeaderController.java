@@ -27,10 +27,12 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -621,6 +623,23 @@ public class HeaderController {
 
     public void setHeadCharImage() {
         imageHeaderChar.setImage(character.getImage());
+
+        Image img = character.getImage();
+        double viewWidth = imageContainer.getWidth();
+        double viewHeight = imageContainer.getHeight();
+
+        double imgWidth = img.getWidth();
+        double imgHeight = img.getHeight();
+
+        double scale = Math.min(imgWidth / viewWidth, imgHeight / viewHeight);
+        double x = (imgWidth - viewWidth * scale) / 2;
+        double y = (imgHeight - viewHeight * scale) / 2;
+
+        imageHeaderChar.setViewport(new Rectangle2D(x, y, viewWidth * scale, viewHeight * scale));
+
+        // imageHeaderChar.setPreserveRatio(true);
+        // imageHeaderChar.setFitHeight(imageContainer.getHeight() * 1.5);
+        // imageHeaderChar.setFitWidth(imageContainer.getWidth());
     }
 
     public void setHeadCharTitle() {
@@ -628,10 +647,18 @@ public class HeaderController {
     }
 
     public void setHeadCharDescription() {
-        if (character.getForm().getASPECT().getId() != null)
-            textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getASPECT().getTitle() + " " + character.getForm().getTitle() + " [Specialization]");
-        else
-            textCharacterDesc.setText("Rank " + character.getRank() + " " + character.getForm().getTitle() + " [Specialization]");
+        String formName;
+        String rank = String.valueOf(character.getRank());
+        String aspectName;
+        String specializationName = "[Specialization]";
+
+        if (character.getForm().getTitle() == null) formName = "";
+        else formName = character.getForm().getTitle() + " ";
+
+        if (character.getForm().getASPECT().getTitle() == null) aspectName = "";
+        else aspectName = character.getForm().getASPECT().getTitle() + " ";
+
+        textCharacterDesc.setText("Rank " + rank + " " + aspectName + formName + specializationName);
     }
 
     public void setHeadCharVisible(Boolean check) {

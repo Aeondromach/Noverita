@@ -90,7 +90,7 @@ public class Form extends Exclusive {
 
     public Boolean hasFlesh() {
         try {
-            return this.FLESH != null;
+            return (this.FLESH.getId() != null);
         } catch (NullPointerException e) {
             return false;
         }
@@ -98,7 +98,7 @@ public class Form extends Exclusive {
 
     public Boolean hasAspect() {
         try {
-            return this.ASPECT != null;
+            return (this.ASPECT.getId() != null && this.ASPECT.getTitle() != null && this.ASPECT.getDescription() != null);
         } catch (NullPointerException e) {
             return false;
         }
@@ -109,36 +109,46 @@ public class Form extends Exclusive {
         this.grantList.clear();
         this.statList.clear();
 
-        Elements elements = doc.select("element[id]");
-        for (Element element: elements) {
-            if (element.attr("id").equals(this.id) && element.attr("type").toLowerCase().equals("form") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
-                Element descriptionXML = element.selectFirst("description");
+        if (doc != null) {
+            Elements elements = doc.select("element[id]");
+            for (Element element: elements) {
+                if (element.attr("id").equals(this.id) && element.attr("type").toLowerCase().equals("form") && !element.attr("name").isEmpty() && !element.select("description").isEmpty()) {
+                    Element descriptionXML = element.selectFirst("description");
 
-                setTitle(element.attr("name"));
-                setDescription(descriptionXML.html().trim());
-
-                Element exclusive = element.selectFirst("exclusive");
-
-                grantList = XmlParser.parseExclusiveGrants(exclusive);
-                for (Grant grant: grantList) {
-                    if (grant.getId().startsWith("ID_FLESH")) {
-                        this.FLESH.setId(grant.getId());
-                        grantList.remove(grant);
-                        break;
+                    setTitle(element.attr("name"));
+                    setDescription(descriptionXML.html().trim());
+    
+                    Element exclusive = element.selectFirst("exclusive");
+    
+                    grantList = XmlParser.parseExclusiveGrants(exclusive);
+                    for (Grant grant: grantList) {
+                        if (grant.getId().startsWith("ID_FLESH")) {
+                            this.FLESH.setId(grant.getId());
+                            grantList.remove(grant);
+                            break;
+                        }
                     }
+    
+                    if (!element.attr("name").isEmpty()) statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
+                    else statList = XmlParser.parseExclusiveStats(exclusive, "Form");
+                    if (!isAspectChild()) this.ASPECT.setId(null, id);
                 }
-
-                if (!element.attr("name").isEmpty()) statList = XmlParser.parseExclusiveStats(exclusive, element.attr("name"));
-                else statList = XmlParser.parseExclusiveStats(exclusive, "Form");
-                if (!isAspectChild()) this.ASPECT.setId(null, id);
             }
         }
     }
 
     private boolean isAspectChild() {
-        String requisites = XmlParser.getChildrenOf(id, IdClassList.getIdMap(IdClassList.IdType.FORM));
-        String parents = XmlParser.getParentsOf(this.ASPECT.getId(), IdClassList.getIdMap(IdClassList.IdType.ASPECT));
+        String requisites = XmlParser.getFamilyOf(id, IdClassList.getIdMap(IdClassList.IdType.FORM), false);
+        String parents = XmlParser.getFamilyOf(this.ASPECT.getId(), IdClassList.getIdMap(IdClassList.IdType.ASPECT), true);
 
-        return XmlParser.isChildOrParent(this.ASPECT.getId(), requisites) || XmlParser.isChildOrParent(id, parents);
+        if (parents != null && requisites != null)
+            return XmlParser.isChildOrParent(this.ASPECT.getId(), requisites) || XmlParser.isChildOrParent(id, parents);
+        else return false;
+    }
+
+    @Override
+    protected void resetUniqueStats() {
+        this.title = null;
+        this.description = null;
     }
 }

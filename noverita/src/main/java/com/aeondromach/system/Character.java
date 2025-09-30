@@ -28,7 +28,6 @@ import javafx.scene.image.Image;
 public class Character {
     private String filePath;
     private Image image;
-    private String base64;
 
     private int rank;
     private String squad;
@@ -89,22 +88,19 @@ public class Character {
      * The constructor for the character
      * @param filePath the character's filepath to be read
      */
-    public Character(String filePath, Image image) {
+    public Character(String filePath) {
         try {
             this.filePath = filePath;
-            this.image= image;
             Document doc = Jsoup.parse(Files.readString(Paths.get(filePath)));
             Element character = doc.selectFirst("character");
-            Element information = doc.selectFirst("information");
+                Element information = character.selectFirst("information");
             if (information.selectFirst("name").ownText().trim() != null) this.name = information.selectFirst("name").ownText().trim();
             else this.name = "Enygma";
             this.rank = Integer.parseInt(information.selectFirst("rank").ownText().trim());
             this.squad = information.selectFirst("squad").ownText().trim();
-            Element charPortrait = information.selectFirst("charPortrait");
+            Element charPortrait = information.selectFirst("charportrait");
             this.form = new Form(information.selectFirst("form").attr("id"), information.selectFirst("aspect").attr("id"));
             this.image = XmlParser.findImage(charPortrait);
-            Element base64Tag = charPortrait.selectFirst("base64");
-            base64 = base64Tag.text().replace("<![CDATA[", "").replace("]]>", "");
 
             this.baseStats[0] = 10;
             this.baseStats[1] = 10;
@@ -555,18 +551,10 @@ public class Character {
     }
 
     public Boolean hasForm() {
-        return this.form != null;
+        return (this.form.getId() != null && this.form.getTitle() != null && this.form.getDescription() != null);
     }
 
     public String getSquad() {
         return this.squad;
-    }
-
-    public String getBase64() {
-        return base64;
-    }
-
-    public void setBase64(String base64) {
-        this.base64 = base64;
     }
 }

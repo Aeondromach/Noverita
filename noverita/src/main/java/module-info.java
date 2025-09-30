@@ -4,6 +4,7 @@ module com.aeondromach {
     requires java.desktop;
     requires javafx.graphics;
     requires javafx.base;
+    requires javafx.swing;
     requires org.jsoup;
     requires com.fasterxml.jackson.databind;
 

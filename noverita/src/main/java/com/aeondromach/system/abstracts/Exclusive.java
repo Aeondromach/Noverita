@@ -54,9 +54,19 @@ public abstract class Exclusive {
                 parseXML(XmlParser.check(this.id, mapSignifier));
             } 
             catch (NullPointerException e) {
+                e.printStackTrace();
             }
         }
     }
+
+    public void resetStats() {
+        this.id = null;
+        this.grantList.clear();
+        this.statList.clear();
+        resetUniqueStats();
+    }
+
+    protected abstract void resetUniqueStats();
 
     /**
      * Returns the Grants hash map, to be used by Character.java

@@ -9,6 +9,7 @@ package com.aeondromach.system.parsers;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,6 +41,7 @@ import com.aeondromach.system.minor.OtherStat;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritablePixelFormat;
+import javafx.embed.swing.SwingFXUtils;
 
 public class XmlParser {
     /**
@@ -75,25 +79,27 @@ public class XmlParser {
         return null;
     }
 
-    public static String getParentsOf(String id, Map<String, String> map) {
+    /**
+     * Returns ids that are attached to a child/parent through the child/parent's parent/children tag
+     * EX: ID_ASPECT_SOVEREIGN with the parent="ID_FORM_PROTEAN" tag will return Protean.
+     * @param id child/parent id
+     * @param map IdClassList map to be checked
+     * @param isChild is the input id a child?
+     * @return result parent/child ids
+     */
+    public static String getFamilyOf(String id, Map<String, String> map, boolean isChild) {
         Document doc = check(id, map);
+        if (doc == null) return null;
         Elements elements = doc.select("element[id]");
-        for (Element element: elements) {
-            if (element.attr("id").toLowerCase().equals(id.toLowerCase())) {
-                return element.attr("parents");
-            }
-        }
-        return null;
-    }
+        if (elements == null) return null;
 
-    public static String getChildrenOf(String id, Map<String, String> map) {
-        Document doc = check(id, map);
-        Elements elements = doc.select("element[id]");
         for (Element element: elements) {
             if (element.attr("id").toLowerCase().equals(id.toLowerCase())) {
-                return element.attr("children");
+                if (isChild) return element.attr("parents");
+                else if (!isChild) return element.attr("children");
             }
         }
+        
         return null;
     }
 
@@ -254,7 +260,7 @@ public class XmlParser {
         return null;  // In case of error, return null
     }
 
-    public static String getBase64OfImage(Image image, String base64) {
+    public static String getBase64OfImage(Image image) {
         if (image != null && image.getUrl() != null) {
             PixelReader pixelReader = image.getPixelReader();
 
@@ -267,7 +273,17 @@ public class XmlParser {
             return Base64.getEncoder().encodeToString(buffer);
         }
         else if (image.getUrl() == null) {
-            return base64;
+            try {
+                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, "png", outputStream);
+
+                return Base64.getEncoder().encodeToString(outputStream.toByteArray());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         return null;
     }
