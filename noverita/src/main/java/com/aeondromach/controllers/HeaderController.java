@@ -371,7 +371,11 @@ public class HeaderController {
     @FXML
     protected void handleMenuSavePDF(ActionEvent event) {
         if (nov.getCharacter() != null) {
-            System.out.println(com.aeondromach.system.Character.generateDefaultName());
+            String tString = "";
+            for (String string: com.aeondromach.system.Character.generateAscendantTitle(com.aeondromach.system.Character.ascendantGender.FEMALE)) {
+                tString += string + " ";
+            }
+            System.out.println(tString);
         }
     }
 

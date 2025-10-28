@@ -98,7 +98,7 @@
       </AnchorPane>
       <AnchorPane layoutY="42.0">
          <children>
-            <ToolBar>
+            <ToolBar prefHeight="56.0" prefWidth="791.0">
               <items>
                 <Button fx:id="btHome" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#handleHomeClick" styleClass="headerTitle" text="HOME" />
                   <Button fx:id="btChar" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#handleCharClick" styleClass="headerTitle" text="CHARACTER" />

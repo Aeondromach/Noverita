@@ -9,9 +9,6 @@ package com.aeondromach.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-import org.w3c.dom.CharacterData;
 
 import com.aeondromach.Messages;
 import com.aeondromach.Settings;
@@ -21,7 +18,6 @@ import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -29,10 +25,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TabPane;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -102,7 +94,7 @@ public class HomeController {
     private void buildCharacters(Stage stage) {
         vBoxSquadList.getChildren().clear();
         vBoxCharHub.getChildren().clear();
-
+        
         if (characters != null) {
             if (!SQUADS.isEmpty()) SQUADS.clear();
 
@@ -154,7 +146,6 @@ public class HomeController {
                 icon.setOnMouseExited(e -> {
                     onHoverExit();
                 });
-
 
                 title.setOnMouseExited(e -> {
                     onHoverExit();

@@ -115,6 +115,7 @@ public class SettingsController {
 
     private double mousePosX, mousePosY;
     private NovController nov;
+    private boolean hubNeedRefresh = false;
 
     /**
      * Runs initial Settings set up
@@ -163,10 +164,12 @@ public class SettingsController {
                 }
                 Settings.setSetting(Settings.DisplaySettings.CHAR_VIEW_SIZE, val);
                 Settings.saveSettings();
+                hubNeedRefresh = true;
             });
 
             charHubRefreshBt.setOnMouseClicked(e -> {
                 nov.refreshHubCharacters();
+                hubNeedRefresh = false;
             });
 
             Collections.addAll(COLOR_PICKERS,
@@ -284,7 +287,7 @@ public class SettingsController {
     @FXML
     protected void handleCloseClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY)){
-            nov.refreshHubCharacters();
+            if (hubNeedRefresh) nov.refreshHubCharacters();
 
             Stage stage = (Stage) closeBtn.getScene().getWindow();
             stage.close();
@@ -532,7 +535,7 @@ public class SettingsController {
 
     private void folderSelected(String folderPath, Settings.CustomSettings settings, TextField field) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choose Export Folder");
+        directoryChooser.setTitle("Choose Target Folder");
 
         File file = new File(folderPath);
         if (!file.exists()) file = new File(System.getProperty("user.home"));
@@ -547,7 +550,7 @@ public class SettingsController {
                 Settings.setSetting(settings, selectedDirectory.getCanonicalPath());
                 Settings.saveSettings();
 
-                field.setText(folderPath);
+                field.setText(selectedDirectory.getCanonicalPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }

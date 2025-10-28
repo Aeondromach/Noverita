@@ -7,7 +7,6 @@
 
 package com.aeondromach.system;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.aeondromach.Messages;
 import com.aeondromach.system.exclusives.form.Form;
 import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.minor.OtherStat;
@@ -33,6 +31,7 @@ public class Character {
 
     private int rank;
     private String squad;
+    private String ascendantTitle;
 
     // Appearance
     private String name;
@@ -110,7 +109,7 @@ public class Character {
 
             String[] statValues = stats.selectFirst("stats").ownText().split(",");
             for (int i = 0; i < statValues.length && i < 6; i++) {
-                this.baseStats[i] = Integer.parseInt(statValues[i].trim());
+                this.baseStats[i] = Integer.valueOf(statValues[i].trim());
             }
             this.statPoints = 27;
 
@@ -136,9 +135,9 @@ public class Character {
 
     public static String generateDefaultName() {
         String[] titles = {
-            "", "", "", "Roaming", "Strayed",
-            "Lost", "Errant", "Forsaken", "Unbound", "Tetherless",
-            "", "Journeyed", "Drifting", "", "Far-Flung"
+            "Rootless", "Grey-Walked", "Unmoored", "Roaming", "Strayed",
+            "Lost", "Errant", "Forsaken", "Unbound", "Untethered",
+            "Shunned", "Journeyed", "Remnant", "Faded", "Far-Flung"
         };
         String[] names = {
             "Vagrant", "Wanderer", "Hiker", "Drifter", "Peregrine",
@@ -151,9 +150,9 @@ public class Character {
             "Resolute", "Stoic", "Fleeting", "Wild", "Aimless"
         };
         String[] suffixes = {
-            "the Wilds", "Open Road", "", "the Unknown", "the Beyond",
-            "Nowhere", "Forgotten Paths", "", "the Lost Lands", "the Crossroads",
-            "Dust", "Dreams", "Kahndel", "Candelva", "No Name"
+            "the Wilds", "Open Road", "Inanis", "Nova Rheon", "Qiyah",
+            "Nowhere", "Neval", "the Forefather", "Khala", "the Crossroads",
+            "Karnoù", "Heimatstadt", "Kahndel", "Candelva", "No Name"
         };
         Random rand = new Random();
         int nameRoll = rand.nextInt(1, 5);
@@ -161,22 +160,121 @@ public class Character {
         int secondRoll = rand.nextInt(0, 15);
 
         switch (nameRoll) {
-            case 1:
+            case 1 -> {
                 return (titles[firstRoll] + " " + names[secondRoll]);
-            case 2:
+            }
+            case 2 -> {
                 return adjectives[firstRoll] + " " + names[secondRoll];
-            case 3:
+            }
+            case 3 -> {
                 return names[firstRoll] + " " + suffixes[secondRoll];
-            case 4:
+            }
+            case 4 -> {
                 return adjectives[firstRoll] + " " + names[secondRoll] + " of " + suffixes[rand.nextInt(0, 15)];
-            case 5:
+            }
+            case 5 -> {
                 return titles[firstRoll] + " " + names[secondRoll] + " of " + suffixes[rand.nextInt(0, 15)];
+            }
         }
         return "Vagrant";
     }
 
-    public static void generateAscendantTitle() {
+    public static String[] generateAscendantTitle(ascendantGender i) { 
+        return createAscendant(i);
+    }
 
+    public static String[] generateAscendantTitle() { 
+        Random rand = new Random();
+        int randInt = rand.nextInt(0, 3);
+        switch (randInt) {
+            case 0 -> {
+                return createAscendant(ascendantGender.MALE);
+            }
+            case 1 -> {
+                return createAscendant(ascendantGender.FEMALE);
+            }   
+            case 2 -> {
+                return createAscendant(ascendantGender.NON_DISTINCT);
+            }
+            default -> {
+                return createAscendant(ascendantGender.NON_DISTINCT);
+            }
+        }
+    }
+
+    public enum ascendantGender {
+        MALE, FEMALE, NON_DISTINCT;
+    }
+
+    private static String[] createAscendant(ascendantGender gender) {
+        String[] male = {
+            "Lord", "King", "Master", "Emperor", "Prince",
+            "Wizard", "Sorcerer", "Warlock", "Temptor", "Monarch",
+            "Father", "Duke", "Imperator"
+        };
+        String[] female = {
+            "Lady", "Queen", "Mistress", "Empress", "Princess",
+            "Witch", "Sorceress", "Enchantress", "Temptress", "Matriarch",
+            "Mother", "Duchess", "Imperatrix"
+        };
+        String[] nonDistinct = {
+            "Ruler", "Sovereign", "Regent", "Overlord", "Flame",
+            "Spellcaster", "Mage", "Magus", "Conjurer", "Dynast",
+            "Guardian", "Champion", "Sentinel", "Voice", "Scourge",
+            "Hand", "Mind", "Delusion", "Warden", "Specter", 
+            "Lie", "Phantom", "Homage", "Echo", "Function"
+        };
+        String[] transitionWords = {
+            "of", "to", "from"
+        };
+        String[] suffixes = {
+            "Dust", "Reverie", "Temptation", "the Dominion", "Dominion",
+            "the Beyond", "the Veil", "the Weave", "the Abyss", "Eternity",
+            "the Void", "the Infinite", "the Unknown", "the Lost", "the Forgotten",
+            "Self", "the Bloom", "Devotion"
+        };
+        String[] titleAdjectives = {
+            "Apogeic", "Transcended", "Crimson", "Aeterna", "Fragmented",
+            "Astral", "Astra", "Celestial", "Eclipsed", "Seraphic",
+            "Resplendent", "Twilight", "Recursive", "Broken"
+        };
+
+        String[] chosenArray;
+        switch (gender) {
+            case MALE -> {
+                chosenArray = male;
+                break;
+            }
+            case FEMALE -> {
+                chosenArray = female;
+                break;
+            }
+            case NON_DISTINCT -> {
+                chosenArray = nonDistinct;
+                break;
+            }
+            default -> {
+                chosenArray = nonDistinct;
+                break;
+            }
+        }
+
+        Random rand = new Random();
+        int roll = rand.nextInt(1, 4);
+        switch (roll) {
+            case 1 -> {
+                return new String[] {chosenArray[rand.nextInt(chosenArray.length)], transitionWords[rand.nextInt(transitionWords.length)], suffixes[rand.nextInt(suffixes.length)]};
+            }
+            case 2 -> {
+                return new String[] {chosenArray[rand.nextInt(chosenArray.length)], titleAdjectives[rand.nextInt(titleAdjectives.length)]};
+            }
+            case 3 -> {
+                return new String[] {titleAdjectives[rand.nextInt(titleAdjectives.length)], chosenArray[rand.nextInt(chosenArray.length)]};
+            }
+            default -> {
+                return new String[] {"", ""};
+            }
+        }
     }
 
     private static String safeText(Element parent, String selector) {
