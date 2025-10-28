@@ -261,31 +261,19 @@ public class XmlParser {
     }
 
     public static String getBase64OfImage(Image image) {
-        if (image != null && image.getUrl() != null) {
-            PixelReader pixelReader = image.getPixelReader();
+        if (image == null) return null;
 
-            int width = (int) image.getWidth();
-            int height = (int) image.getHeight();
+        try {
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            byte[] buffer = new byte[width * height * 4];
-            pixelReader.getPixels(0, 0, width, height, WritablePixelFormat.getByteBgraInstance(), buffer, 0, width * 4);
+            ImageIO.write(bufferedImage, "png", outputStream);
 
-            return Base64.getEncoder().encodeToString(buffer);
+            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        else if (image.getUrl() == null) {
-            try {
-                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage, "png", outputStream);
-
-                return Base64.getEncoder().encodeToString(outputStream.toByteArray());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return null;
     }
 
     public static Element getElement(Map<String, String> map, String id) {

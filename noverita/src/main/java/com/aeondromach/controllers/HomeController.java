@@ -9,6 +9,9 @@ package com.aeondromach.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import org.w3c.dom.CharacterData;
 
 import com.aeondromach.Messages;
 import com.aeondromach.Settings;
@@ -72,6 +75,14 @@ public class HomeController {
     public void setHubField() {
         Stage stage = (Stage) vBoxSquadList.getScene().getWindow();
         birthCharacters();
+        buildCharacters(stage);
+    }
+
+    /**
+     * Sets the Character Hub field on the Home subTab
+     */
+    public void buildHubField() {
+        Stage stage = (Stage) vBoxSquadList.getScene().getWindow();
         buildCharacters(stage);
     }
 
@@ -381,13 +392,31 @@ public class HomeController {
      * @param event handles mouse input
      */
     @FXML protected void handleRefreshClick(MouseEvent event) {
-        RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), btRefresh);
+        btRefresh.setDisable(true);
+        RotateTransition rotate = new RotateTransition(Duration.seconds(.5), btRefresh);
         rotate.setByAngle(360);
         rotate.setCycleCount(1);
         rotate.setAutoReverse(false);
+        rotate.play();
 
-        rotate.playFromStart();
+        Task<Void> loadTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                birthCharacters();
+                return null;
+            }
+        };
 
-        setHubField();
+        loadTask.setOnSucceeded(ev -> {
+            buildHubField();
+            btRefresh.setDisable(false);
+        });
+
+        loadTask.setOnFailed(ev -> {
+            Throwable ex = loadTask.getException();
+            ex.printStackTrace();
+        });
+
+        new Thread(loadTask, "LoadCharactersThread").start();
     }
 }

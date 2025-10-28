@@ -13,11 +13,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.aeondromach.Messages;
 import com.aeondromach.system.exclusives.form.Form;
 import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.minor.OtherStat;
@@ -32,16 +34,15 @@ public class Character {
     private int rank;
     private String squad;
 
-    // Personal Info
+    // Appearance
     private String name;
     private String gender;
     private int age;
     private String weight;
-    private String eye;
+    private String eyes;
     private String height;
     private String skin;
     private String hair;
-    private String religion;
 
     // Stats
     private final Integer[] baseStats = new Integer[6];
@@ -64,10 +65,11 @@ public class Character {
     }
 
     // Personality
+    private String religion;
     private String personality;
-    private String ideal;
-    private String bond;
-    private String flaw;
+    private String ideals;
+    private String bonds;
+    private String flaws;
 
     // Form
     private Form form;
@@ -94,38 +96,119 @@ public class Character {
             Document doc = Jsoup.parse(Files.readString(Paths.get(filePath)));
             Element character = doc.selectFirst("character");
                 Element information = character.selectFirst("information");
-            if (information.selectFirst("name").ownText().trim() != null) this.name = information.selectFirst("name").ownText().trim();
-            else this.name = "Enygma";
-            this.rank = Integer.parseInt(information.selectFirst("rank").ownText().trim());
-            this.squad = information.selectFirst("squad").ownText().trim();
+                Element inclusiveTag = character.selectFirst("inclusive");
+                    Element stats = inclusiveTag.selectFirst("stats");
+                    Element appearance = inclusiveTag.selectFirst("appearance");
+                    Element beliefs = inclusiveTag.selectFirst("beliefs");
+                     
+            this.name = safeText(information, "name", "Vagrant");
+            this.rank = safeInt(information, "rank");
+            this.squad = safeText(information, "squad");
             Element charPortrait = information.selectFirst("charportrait");
-            this.form = new Form(information.selectFirst("form").attr("id"), information.selectFirst("aspect").attr("id"));
+            this.form = new Form(safeId(information, "form"), safeId(information, "aspect"));
             this.image = XmlParser.findImage(charPortrait);
 
-            this.baseStats[0] = 10;
-            this.baseStats[1] = 10;
-            this.baseStats[2] = 10;
-            this.baseStats[3] = 10;
-            this.baseStats[4] = 10;
-            this.baseStats[5] = 10;
+            String[] statValues = stats.selectFirst("stats").ownText().split(",");
+            for (int i = 0; i < statValues.length && i < 6; i++) {
+                this.baseStats[i] = Integer.parseInt(statValues[i].trim());
+            }
             this.statPoints = 27;
-            this.gender = "Male";
-            this.age = 23;
-            this.weight = "3kg, 223g";
-            this.eye = "Red, black Sclera";
-            this.height = "217cm";
-            this.skin = "Pale white";
-            this.hair = "Black, spiky with mohawk";
-            this.religion = "Agnostic";
-            this.personality = "Edgy, goth";
-            this.ideal = "Believes short people are evil";
-            this.bond = "Strives to be the best a person can be.";
-            this.flaw = "Hates short people";
+
+            this.gender = safeText(appearance, "gender");
+            this.age = safeInt(appearance, "age");
+            this.weight = safeText(appearance, "weight");
+            this.eyes = safeText(appearance, "eyes");
+            this.height = safeText(appearance, "height");
+            this.skin = safeText(appearance, "skin");
+            this.hair = safeText(appearance, "hair");
+
+            this.religion = safeText(beliefs, "religion");
+            this.personality = safeText(beliefs, "personality");
+            this.ideals = safeText(beliefs, "ideals");
+            this.bonds = safeText(beliefs, "bonds");
+            this.flaws = safeText(beliefs, "flaws");
 
             runSetOtherStats();
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
         
+    }
+
+    public static String generateDefaultName() {
+        String[] titles = {
+            "", "", "", "Roaming", "Strayed",
+            "Lost", "Errant", "Forsaken", "Unbound", "Tetherless",
+            "", "Journeyed", "Drifting", "", "Far-Flung"
+        };
+        String[] names = {
+            "Vagrant", "Wanderer", "Hiker", "Drifter", "Peregrine",
+            "Explorer", "Seeker", "Pilgrim", "Adventurer", "Wayfarer",
+            "Nomad", "Rover", "Voyager", "Strider", "Outrider"
+        };
+        String[] adjectives = {
+            "Lonely", "Restless", "Curious", "Bold", "Weary",
+            "Determined", "Feral", "Silent", "Haunted", "Wistful",
+            "Resolute", "Stoic", "Fleeting", "Wild", "Aimless"
+        };
+        String[] suffixes = {
+            "the Wilds", "Open Road", "", "the Unknown", "the Beyond",
+            "Nowhere", "Forgotten Paths", "", "the Lost Lands", "the Crossroads",
+            "Dust", "Dreams", "Kahndel", "Candelva", "No Name"
+        };
+        Random rand = new Random();
+        int nameRoll = rand.nextInt(1, 5);
+        int firstRoll = rand.nextInt(0, 15);
+        int secondRoll = rand.nextInt(0, 15);
+
+        switch (nameRoll) {
+            case 1:
+                return (titles[firstRoll] + " " + names[secondRoll]);
+            case 2:
+                return adjectives[firstRoll] + " " + names[secondRoll];
+            case 3:
+                return names[firstRoll] + " " + suffixes[secondRoll];
+            case 4:
+                return adjectives[firstRoll] + " " + names[secondRoll] + " of " + suffixes[rand.nextInt(0, 15)];
+            case 5:
+                return titles[firstRoll] + " " + names[secondRoll] + " of " + suffixes[rand.nextInt(0, 15)];
+        }
+        return "Vagrant";
+    }
+
+    public static void generateAscendantTitle() {
+
+    }
+
+    private static String safeText(Element parent, String selector) {
+        if (parent == null) return "";
+        Element child = parent.selectFirst(selector);
+        return (child != null && !child.ownText().trim().isEmpty()) 
+            ? child.ownText().trim() 
+            : "";
+    }
+
+    private static String safeId(Element parent, String selector) {
+        if (parent == null) return "";
+        Element child = parent.selectFirst(selector);
+        return (child != null && !child.attr("id").isEmpty()) 
+            ? child.attr("id")
+            : "";
+    }
+
+    private static String safeText(Element parent, String selector, String defaultValue) {
+        if (parent == null) return defaultValue;
+        Element child = parent.selectFirst(selector);
+        return (child != null && !child.ownText().trim().isEmpty()) 
+            ? child.ownText().trim() 
+            : defaultValue;
+    }
+
+    private static int safeInt(Element parent, String selector) {
+        try {
+            return Integer.parseInt(safeText(parent, selector));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /* --------- */
@@ -133,7 +216,7 @@ public class Character {
     /* --------- */
 
     /**
-     * Return the filepath of the character
+     * Return the filepath the character
      * @return filepath
      */
     public String getFilePath() {
@@ -141,7 +224,7 @@ public class Character {
     }
 
     /**
-     * Set the filepath of the character
+     * Set the filepath the character
      * @param filePath filepath
      */
     public void setFilePath(String filePath) {
@@ -153,7 +236,7 @@ public class Character {
     /* ------------- */
 
     /**
-     * Return the name of the character
+     * Return the name the character
      * @return name
      */
     public String getName() {
@@ -161,7 +244,7 @@ public class Character {
     }
 
     /**
-     * Set the name of the character
+     * Set the name the character
      * @param name name
      */
     public void setName(String name) {
@@ -169,7 +252,7 @@ public class Character {
     }
 
     /**
-     * Return the gender of the character
+     * Return the gender the character
      * @return gender
      */
     public String getGender() {
@@ -177,7 +260,7 @@ public class Character {
     }
 
     /**
-     * Set the gender of the character
+     * Set the gender the character
      * @param gender gender
      */
     public void setGender(String gender) {
@@ -185,7 +268,7 @@ public class Character {
     }
 
     /**
-     * Return the age of the character
+     * Return the age the character
      * @return age
      */
     public int getAge() {
@@ -193,7 +276,7 @@ public class Character {
     }
 
     /**
-     * Set the age of the character
+     * Set the age the character
      * @param age age
      */
     public void setAge(int age) {
@@ -201,7 +284,7 @@ public class Character {
     }
 
     /**
-     * Return the weight of the character
+     * Return the weight the character
      * @return weight
      */
     public String getWeight() {
@@ -209,7 +292,7 @@ public class Character {
     }
 
     /**
-     * Set the weight of the character
+     * Set the weight the character
      * @param weight weight
      */
     public void setWeight(String weight) {
@@ -217,23 +300,23 @@ public class Character {
     }
 
     /**
-     * Return the eyes of the character
+     * Return the eyes the character
      * @return eyes
      */
-    public String getEye() {
-        return eye;
+    public String getEyes() {
+        return eyes;
     }
 
     /**
-     * Set the eyes of the character
+     * Set the eyes the character
      * @param eye eyes
      */
-    public void setEye(String eye) {
-        this.eye = eye;
+    public void setEyes(String eye) {
+        this.eyes = eye;
     }
 
     /**
-     * Return the height of the character
+     * Return the height the character
      * @return height
      */
     public String getHeight() {
@@ -241,7 +324,7 @@ public class Character {
     }
 
     /**
-     * Set the height of the character
+     * Set the height the character
      * @param height height
      */
     public void setHeight(String height) {
@@ -249,7 +332,7 @@ public class Character {
     }
 
     /**
-     * Return the skin of the character
+     * Return the skin the character
      * @return skin
      */
     public String getSkin() {
@@ -257,7 +340,7 @@ public class Character {
     }
 
     /**
-     * Set the skin of the character
+     * Set the skin the character
      * @param skin skin
      */
     public void setSkin(String skin) {
@@ -265,7 +348,7 @@ public class Character {
     }
 
     /**
-     * Return the hair of the character
+     * Return the hair the character
      * @return hair
      */
     public String getHair() {
@@ -273,7 +356,7 @@ public class Character {
     }
 
     /**
-     * Set the hair of the character
+     * Set the hair the character
      * @param hair hair
      */
     public void setHair(String hair) {
@@ -281,7 +364,7 @@ public class Character {
     }
 
     /**
-     * Return the religion of the character
+     * Return the religion the character
      * @return religion
      */
     public String getReligion() {
@@ -289,7 +372,7 @@ public class Character {
     }
 
     /**
-     * Set the religion of the character
+     * Set the religion the character
      * @param religion religion
      */
     public void setReligion(String religion) {
@@ -301,7 +384,7 @@ public class Character {
     /* ---- */
 
     /**
-     * Return the strength of the character
+     * Return the strength the character
      * @return strength
      */
     public int getBaseStat(int index) {
@@ -309,7 +392,7 @@ public class Character {
     }
 
     /**
-     * Set the strength of the character
+     * Set the strength the character
      * @param base strength
      */
     public void setBaseStat(int base, int index) {
@@ -317,7 +400,7 @@ public class Character {
     }
 
     /**
-     * Set the base stats of the selected stat
+     * Set the base stats the selected stat
      * @param stat base stats
      * @return adjusted stat
      */
@@ -334,7 +417,7 @@ public class Character {
     }
 
     /**
-     * Get the point cost of a stat
+     * Get the point cost a stat
      * @param test How much is being added
      * @param index which stat is being charged
      * @return the cost
@@ -396,7 +479,7 @@ public class Character {
     /* -------- */
 
     /**
-     * Return the personality of the character
+     * Return the personality the character
      * @return personality
      */
     public String getPersonality() {
@@ -404,7 +487,7 @@ public class Character {
     }
 
     /**
-     * Set the personality of the character
+     * Set the personality the character
      * @param personality personality
      */
     public void setPersonality(String personality) {
@@ -412,55 +495,55 @@ public class Character {
     }
 
     /**
-     * Return the ideal of the character
+     * Return the ideal the character
      * @return ideal
      */
-    public String getIdeal() {
-        return ideal;
+    public String getIdeals() {
+        return ideals;
     }
 
     /**
-     * Set the ideal of the character
+     * Set the ideal the character
      * @param ideal ideal
      */
-    public void setIdeal(String ideal) {
-        this.ideal = ideal;
+    public void setIdeals(String ideal) {
+        this.ideals = ideal;
     }
 
     /**
-     * Return the bond of the character
+     * Return the bond the character
      * @return bond
      */
-    public String getBond() {
-        return bond;
+    public String getBonds() {
+        return bonds;
     }
 
     /**
-     * Set the bond of the character
+     * Set the bond the character
      * @param bond bond
      */
-    public void setBond(String bond) {
-        this.bond = bond;
+    public void setBonds(String bond) {
+        this.bonds = bond;
     }
 
     /**
-     * Return the flaw of the character
+     * Return the flaw the character
      * @return flaw
      */
-    public String getFlaw() {
-        return flaw;
+    public String getFlaws() {
+        return flaws;
     }
 
     /**
-     * Set the flaw of the character
+     * Set the flaw the character
      * @param flaw flaw
      */
-    public void setFlaw(String flaw) {
-        this.flaw = flaw;
+    public void setFlaws(String flaw) {
+        this.flaws = flaw;
     }
 
     /**
-     * Return the modifier of the stat
+     * Return the modifier the stat
      * @return modifier
      */
     public int getModifier(int stat) {
@@ -468,7 +551,7 @@ public class Character {
     }
 
     /**
-     * Return the modifier of the stat (String)
+     * Return the modifier the stat (String)
      * @return modifier (String)
      */
     public String getModifierString(int stat) {
@@ -486,7 +569,7 @@ public class Character {
     /* ------- */
 
     /**
-     * Return the form of the character
+     * Return the form the character
      * @return form
      */
     public Form getForm() {

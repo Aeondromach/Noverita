@@ -333,6 +333,20 @@ public class NovController {
                     Element base64Tag = charPortraitTag.appendElement("base64");
             Element inclusiveTag = characterTag.appendElement("inclusive");
                 Element statTag = inclusiveTag.appendElement("stats");
+                Element appearanceTag = inclusiveTag.appendElement("appearance");
+                    Element genderTag = appearanceTag.appendElement("gender");
+                    Element ageTag = appearanceTag.appendElement("age");
+                    Element weightTag = appearanceTag.appendElement("weight");
+                    Element eyesTag = appearanceTag.appendElement("eyes");
+                    Element heightTag = appearanceTag.appendElement("height");
+                    Element skinTag = appearanceTag.appendElement("skin");
+                    Element hairTag = appearanceTag.appendElement("hair");
+                Element beliefTag = inclusiveTag.appendElement("beliefs");
+                    Element religionTag = beliefTag.appendElement("religion");
+                    Element personalityTag = beliefTag.appendElement("personality");
+                    Element idealsTag = beliefTag.appendElement("ideals");
+                    Element bondsTag = beliefTag.appendElement("bonds");
+                    Element flawsTag = beliefTag.appendElement("flaws");
             Element exclusiveTag = characterTag.appendElement("exclusive");
 
             if (character.getName() != null) nameTag.text(character.getName());
@@ -379,6 +393,20 @@ public class NovController {
                 character.getBaseStat(4) + "," + 
                 character.getBaseStat(5));
 
+            genderTag.text(character.getGender());
+            ageTag.text(String.valueOf(character.getAge()));
+            weightTag.text(character.getWeight());
+            eyesTag.text(character.getEyes());
+            heightTag.text(character.getHeight());
+            skinTag.text(character.getSkin());
+            hairTag.text(character.getHair());
+
+            religionTag.text(character.getReligion());
+            personalityTag.text(character.getPersonality());
+            idealsTag.text(character.getIdeals());
+            bondsTag.text(character.getBonds());
+            flawsTag.text(character.getFlaws());
+
             doc.outputSettings()
                 .syntax(Document.OutputSettings.Syntax.xml)
                 .escapeMode(org.jsoup.nodes.Entities.EscapeMode.xhtml)
@@ -395,8 +423,10 @@ public class NovController {
             File file = new File(character.getFilePath());
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(xmlContent);
-                if ((Boolean) Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE)) refreshHubCharacters();
-                System.out.println(Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE));
+                Platform.runLater(() ->{
+                    if ((Boolean) Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE)) refreshHubCharacters();
+                    System.out.println(Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE));
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }

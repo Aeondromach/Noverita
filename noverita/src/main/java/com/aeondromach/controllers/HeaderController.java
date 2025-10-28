@@ -371,7 +371,7 @@ public class HeaderController {
     @FXML
     protected void handleMenuSavePDF(ActionEvent event) {
         if (nov.getCharacter() != null) {
-            System.out.println("Save PDF Character");
+            System.out.println(com.aeondromach.system.Character.generateDefaultName());
         }
     }
 
