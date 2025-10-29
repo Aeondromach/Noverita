@@ -288,27 +288,31 @@ public class HeaderController {
     @FXML
     protected void handleSettingsClick(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
-            try {
-                Parent root = App.loadFXML("Settings");
+            openSettings();
+        }
+    }
 
-                Stage settingsStage = new Stage();
-                settingsStage.setTitle("Settings");
-                settingsStage.setScene(new Scene(root));
-                settingsStage.initModality(Modality.WINDOW_MODAL);
-                root.setStyle(App.getTheme());
+    private void openSettings() {
+        try {
+            Parent root = App.loadFXML("Settings");
 
-                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                settingsStage.initOwner(currentStage);
-                settingsStage.initStyle(StageStyle.TRANSPARENT);
+            Stage settingsStage = new Stage();
+            settingsStage.setTitle("Settings");
+            settingsStage.setScene(new Scene(root));
+            settingsStage.initModality(Modality.WINDOW_MODAL);
+            root.setStyle(App.getTheme());
 
-                settingsStage.getScene().setFill(Color.TRANSPARENT);
+            Stage currentStage = (Stage) headerPane.getScene().getWindow();
+            settingsStage.initOwner(currentStage);
+            settingsStage.initStyle(StageStyle.TRANSPARENT);
 
-                settingsStage.show();
-                nov.addAction("Entered Settings");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Messages.errorAlert("Failed to open Settings", "Failed to open Settings", "We failed to open the settings window, please try again." + e.getMessage());
-            }
+            settingsStage.getScene().setFill(Color.TRANSPARENT);
+
+            settingsStage.show();
+            nov.addAction("Entered Settings");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Messages.errorAlert("Failed to open Settings", "Failed to open Settings", "We failed to open the settings window, please try again." + e.getMessage());
         }
     }
 
@@ -372,10 +376,11 @@ public class HeaderController {
     protected void handleMenuSavePDF(ActionEvent event) {
         if (nov.getCharacter() != null) {
             String tString = "";
-            for (String string: com.aeondromach.system.Character.generateAscendantTitle(com.aeondromach.system.Character.ascendantGender.FEMALE)) {
+            for (String string: com.aeondromach.system.Character.generateAscendantTitle()) {
                 tString += string + " ";
             }
             System.out.println(tString);
+            character.setAscendantTitle(tString.trim());
         }
     }
 
@@ -452,7 +457,7 @@ public class HeaderController {
      */
     @FXML
     protected void handleMenuSettings(ActionEvent event) {
-        System.out.println("Open Settings /ie Menu");
+        openSettings();
     }
 
     /**

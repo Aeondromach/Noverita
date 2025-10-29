@@ -99,11 +99,14 @@ public class CharacterController {
 
     public void setTables() {
         try {
+            aspectHold.getChildren().clear();
             formVbox.getChildren().addAll(setFormTable(), aspectHold);
         } catch (NullPointerException e) {
             try {
+                aspectHold.getChildren().clear();
                 formVbox.getChildren().addAll(setFormTable());
             } catch (NullPointerException e2) {
+                aspectHold.getChildren().clear();
                 formVbox.getChildren().clear();
                 Messages.errorAlert("Forms and/or Aspects failed to load", "Forms and/or Aspects failed to load", "The forms and/or aspects files failed to load, check to make sure you are on an up to date build and recheck your custom path settings.");
             }
@@ -116,6 +119,10 @@ public class CharacterController {
         formTable = new Table(IdClassList.IdType.FORM, "form", "Form", this::formClick, this::formDualClick);
         VBox formTableBox = formTable.setTable();
         formTableBox.prefWidthProperty().bind(formVbox.widthProperty().subtract(10));
+
+        if (nov.getCharacter().hasForm()) {
+            setAspectTable(nov.getCharacter().getForm().getId());
+        }
 
         return formTableBox;
     }

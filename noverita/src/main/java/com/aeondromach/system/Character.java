@@ -107,6 +107,8 @@ public class Character {
             this.form = new Form(safeId(information, "form"), safeId(information, "aspect"));
             this.image = XmlParser.findImage(charPortrait);
 
+            this.ascendantTitle = safeText(information, "ascendanttitle").replace("%20", " ");
+
             String[] statValues = stats.selectFirst("stats").ownText().split(",");
             for (int i = 0; i < statValues.length && i < 6; i++) {
                 this.baseStats[i] = Integer.valueOf(statValues[i].trim());
@@ -231,12 +233,15 @@ public class Character {
             "Dust", "Reverie", "Temptation", "the Dominion", "Dominion",
             "the Beyond", "the Veil", "the Weave", "the Abyss", "Eternity",
             "the Void", "the Infinite", "the Unknown", "the Lost", "the Forgotten",
-            "Self", "the Bloom", "Devotion"
+            "Self", "the Bloom", "Devotion", "Vow", "Cypher",
+            "Judgment", "Tether", "Rapture", "Tear"
         };
         String[] titleAdjectives = {
             "Apogeic", "Transcended", "Crimson", "Aeterna", "Fragmented",
             "Astral", "Astra", "Celestial", "Eclipsed", "Seraphic",
-            "Resplendent", "Twilight", "Recursive", "Broken"
+            "Resplendent", "Twilight", "Recursive", "Broken", "Vermillion",
+            "Verdant", "Violet", "Scarlet", "Onyx", "Tyrian",
+            "Radiant", "Jade", "Cerulean", "Obsidian", "Luminous",
         };
 
         String[] chosenArray;
@@ -737,5 +742,13 @@ public class Character {
 
     public String getSquad() {
         return this.squad;
+    }
+
+    public String getAscendantTitle() {
+        return ascendantTitle;
+    }
+
+    public void setAscendantTitle(String ascendantTitle) {
+        this.ascendantTitle = ascendantTitle;
     }
 }

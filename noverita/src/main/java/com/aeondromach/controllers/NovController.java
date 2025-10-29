@@ -328,6 +328,7 @@ public class NovController {
                 Element variantTag = informationTag.appendElement("variant");
                 Element squadTag = informationTag.appendElement("squad");
                 Element rankTag = informationTag.appendElement("rank");
+                Element ascendantTitleTag = informationTag.appendElement("ascendanttitle");
                 Element charPortraitTag = informationTag.appendElement("charPortrait");
                     Element localTag = charPortraitTag.appendElement("local");
                     Element base64Tag = charPortraitTag.appendElement("base64");
@@ -374,9 +375,12 @@ public class NovController {
             variantTag.text("");
 
             if (character.getSquad() != null) squadTag.text(character.getSquad());
-            else squadTag.text("Unsorted Characters");
+            else squadTag.text("");
 
             rankTag.text(String.valueOf(character.getRank()));
+
+            if (character.getAscendantTitle() != null) ascendantTitleTag.text(character.getAscendantTitle().replace(" ", "%20"));
+            else ascendantTitleTag.text("");
 
             if (character.getImage().getUrl() != null)
                 localTag.text(character.getImage().getUrl().replace("file:/", ""));
@@ -416,7 +420,7 @@ public class NovController {
             String xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + doc.outerHtml();
 
             xmlContent = xmlContent.replaceAll(
-                "(?s)<(\\w+)([^>]*)>\\s*([^<>\n]+)\\s*</\\1>",
+                "(?s)<(\\w+)([^>]*)>\\s*([^<>]+?)\\s*</\\1>",
                 "<$1$2>$3</$1>"
             );
 
