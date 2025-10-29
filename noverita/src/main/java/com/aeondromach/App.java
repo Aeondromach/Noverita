@@ -61,8 +61,8 @@ public class App extends Application {
         // Set app background to transparent and remove windows decorations
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        mainWidth = 1160.0;
-        mainHeight = 550.0;
+        mainWidth = 1200.0;
+        mainHeight = 660.0;
         
         // get and set scene
         root = loadFXML("NovFX");
@@ -252,6 +252,7 @@ public class App extends Application {
 
             if (height >= stage.getMinHeight()) {
                 stage.setHeight(height);
+                System.out.println(width + " " + height);
             }
             else {
                 stage.setHeight(stage.getMinHeight());

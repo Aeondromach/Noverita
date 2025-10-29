@@ -38,6 +38,7 @@ public class SettingsController {
 
     @FXML private ToggleButton generalHeader;
     @FXML private ToggleButton displayHeader;
+    @FXML private ToggleButton savingHeader;
     @FXML private ToggleButton customHeader;
     @FXML private ToggleButton characterHeader;
     @FXML private ToggleButton pdfHeader;
@@ -90,6 +91,7 @@ public class SettingsController {
 
     @FXML private ScrollPane generalScrollPane;
     @FXML private ScrollPane displayScrollPane;
+    @FXML private ScrollPane savingScrollPane;
     @FXML private ScrollPane customScrollPane;
     @FXML private ScrollPane characterScrollPane;
     @FXML private ScrollPane pdfScrollPane;
@@ -97,6 +99,8 @@ public class SettingsController {
     private final ArrayList<ScrollPane> SCROLL_PANES = new ArrayList<>();
 
     @FXML private CheckBox charLoadCheck;
+    @FXML private CheckBox reloadCharactersCheck;
+    @FXML private CheckBox utilizeBase64Check;
 
     @FXML private Button baseFolderButton;
     @FXML private Button customFolderButton;
@@ -129,6 +133,7 @@ public class SettingsController {
             Collections.addAll(HEADERS,
                 generalHeader,
                 displayHeader,
+                savingHeader,
                 customHeader,
                 characterHeader,
                 pdfHeader,
@@ -137,6 +142,7 @@ public class SettingsController {
             Collections.addAll(SCROLL_PANES,
                 generalScrollPane,
                 displayScrollPane,
+                savingScrollPane,
                 customScrollPane,
                 characterScrollPane,
                 pdfScrollPane,
@@ -145,6 +151,8 @@ public class SettingsController {
 
             charLoadCheck.setSelected((Boolean) Settings.getSetting(Settings.GeneralSettings.CHARLOADALERT));
             darkModeCheck.setSelected((Boolean) Settings.getSetting(Settings.DisplaySettings.DARK_MODE));
+            utilizeBase64Check.setSelected((Boolean) Settings.getSetting(Settings.SaveLoadSettings.BASE64));
+            reloadCharactersCheck.setSelected((Boolean) Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE));
             int theme = (Integer) Settings.getSetting(Settings.DisplaySettings.THEME);
             setActiveThemeButton(theme);
 
@@ -253,6 +261,7 @@ public class SettingsController {
 
         if (tButton.equals(generalHeader)) sPane = generalScrollPane;
         else if (tButton.equals(displayHeader)) sPane = displayScrollPane;
+        else if (tButton.equals(savingHeader)) sPane = savingScrollPane;
         else if (tButton.equals(customHeader)) sPane = customScrollPane;
         else if (tButton.equals(characterHeader)) sPane = characterScrollPane;
         else if (tButton.equals(pdfHeader)) sPane = pdfScrollPane;
@@ -574,5 +583,17 @@ public class SettingsController {
             Settings.setSetting(Settings.CustomSettings.PORTRAIT_PATH, field.getText());
             nov.refreshHubCharacters();
         }
+    }
+
+    @FXML
+    protected void handleBase64UtilizationClick(MouseEvent event) {
+        Settings.setSetting(Settings.SaveLoadSettings.BASE64, utilizeBase64Check.isSelected());
+        Settings.saveSettings();
+    }
+
+    @FXML
+    protected void reloadCharacterSaveClick(MouseEvent event) {
+        Settings.setSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE, reloadCharactersCheck.isSelected());
+        Settings.saveSettings();
     }
 }

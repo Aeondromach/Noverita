@@ -18,9 +18,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="1160.0" prefHeight="100.0" prefWidth="1160.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
+<AnchorPane id="headsHeader" fx:id="headerPane" maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="1200.0" prefHeight="100.0" prefWidth="1200.0" styleClass="heads" stylesheets="@../styles/heads.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HeaderController">
    <children>
-      <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1160.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
+      <AnchorPane fx:id="titleBar" minHeight="32.0" minWidth="1200.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress">
          <children>
             <Button id="titleImageButton" alignment="CENTER" layoutX="3.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
                <graphic>

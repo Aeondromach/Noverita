@@ -132,10 +132,10 @@
     -fx-border-color: -brightSecondary; /* -quartaryColor */
     -fx-border-insets: 0;
     -fx-border-width: 1;
+    -fx-background-insets: 0;
     -fx-padding: 0;
     -fx-end-margin: 0;
     -fx-start-margin: 0;
-    -fx-background-insets: 0;
 }
 
 .charHold:hover {
@@ -344,7 +344,7 @@
 
 .settingsBody {
     -fx-pref-width: 375px;
-    -fx-pref-height: 550px;
+    -fx-pref-height: 660px;
     -fx-hbar-policy: NEVER;
 }
 

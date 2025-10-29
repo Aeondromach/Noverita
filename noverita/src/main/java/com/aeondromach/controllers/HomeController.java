@@ -13,8 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.CharacterData;
-
 import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 import com.aeondromach.system.CharView;
@@ -24,7 +22,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -33,10 +30,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TabPane;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -44,7 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -223,9 +215,11 @@ public class HomeController {
         charImage.setPreserveRatio(true);
         charImage.setFitHeight(size);
         charImage.setFitWidth(size);
-        charImage.setViewport(getCenteredViewport(character.getImage(), size, size));
+        charImage.setViewport(getCenteredViewport(character.getImage(), charImage.getFitWidth(), charImage.getFitHeight()));
         charImage.setLayoutX(1);
         charImage.setLayoutY(1);
+        charImage.setSmooth(true);
+        charImage.setCache(true);
 
         VBox charHighlight = new VBox();
         charHighlight.setAlignment(Pos.TOP_LEFT);
@@ -277,23 +271,24 @@ public class HomeController {
         charHold.getChildren().addAll(charImage, charHighlight);
         charMargin.getChildren().add(charHold);
 
-        System.out.println("Created tile for " + character.getName());
+        System.out.println("charHold=" + charHold.getPrefWidth() + "x" + charHold.getPrefHeight() + ", " + charHold.getMaxWidth() + "x" + charHold.getMaxHeight());
         return charMargin;
     }
 
     private Rectangle2D getCenteredViewport(Image img, double viewWidth, double viewHeight) {
         double imageWidth = img.getWidth();
         double imageHeight = img.getHeight();
+
         double scaleX = viewWidth / imageWidth;
         double scaleY = viewHeight / imageHeight;
         double scale = Math.max(scaleX, scaleY);
-        double cropWidth = Math.round(viewWidth / scale);
-        double cropHeight = Math.round(viewHeight / scale);
-        double xOffset = Math.round((imageWidth - cropWidth) / 2.0);
-        double yOffset = Math.round((imageHeight - cropHeight) / 2.0);
 
+        double cropWidth = viewWidth / scale;
+        double cropHeight = viewHeight / scale;
 
-        System.out.println("Viewport: " + xOffset + ", " + yOffset + ", " + cropWidth + ", " + cropHeight);
+        double xOffset = (imageWidth - cropWidth) / 2;
+        double yOffset = (imageHeight - cropHeight) / 2;
+
         return new Rectangle2D(xOffset, yOffset, cropWidth, cropHeight);
     }
 

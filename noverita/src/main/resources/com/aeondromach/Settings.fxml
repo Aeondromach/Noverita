@@ -23,7 +23,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="mainAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: green;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.SettingsController">
+<BorderPane id="mainAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: green;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.SettingsController">
    <top>
       <BorderPane id="headsHeader" fx:id="titleBar" minHeight="32.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress" styleClass="heads" stylesheets="@styles/heads.css" BorderPane.alignment="CENTER">
          <right>
@@ -49,6 +49,7 @@
                <children>
                   <ToggleButton fx:id="generalHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" selected="true" styleClass="settingsHeader" text="General" />
                   <ToggleButton fx:id="displayHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Display" />
+                  <ToggleButton fx:id="savingHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Saving" />
                   <ToggleButton fx:id="customHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Custom" />
                   <ToggleButton fx:id="characterHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="Character" />
                   <ToggleButton fx:id="pdfHeader" mnemonicParsing="false" onMouseClicked="#handleHeaderClick" styleClass="settingsHeader" text="PDF" />
@@ -147,7 +148,7 @@
                                  <children>
                                     <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Character Block Size" />
                                     <Label styleClass="settingsBodyDescription" text="How big should Characters be in the Nexus?" />
-                                    <Slider fx:id="charBlockSizeSlider" blockIncrement="25.0" max="200.0" min="100.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="settingsSlider" value="175.0" />
+                                    <Slider fx:id="charBlockSizeSlider" blockIncrement="25.0" max="250.0" min="125.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="settingsSlider" value="175.0" />
                                     <Pane prefHeight="10.0" />
                                     <StackPane>
                                        <children>
@@ -368,6 +369,53 @@
                                              </value>
                                           </ColorPicker>
                                           <Label styleClass="settingsBodyColorDesc" text="Special Border Color" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </content>
+                     <styleClass>
+                        <String fx:value="settingsBody" />
+                        <String fx:value="bodyScrollPane" />
+                        <String fx:value="bodyAppPane" />
+                     </styleClass>
+                  </ScrollPane>
+                  <ScrollPane fx:id="savingScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                     <content>
+                        <VBox styleClass="settingsBodyVBox">
+                           <children>
+                              <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Saving &amp; Loading Settings" />
+                              <Label styleClass="settingsBodyDescription" text="Settings that influence saving or loading schemes" />
+                              <VBox styleClass="settingsBoolVBox">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="15.0" styleClass="settingsBoolHBox">
+                                       <children>
+                                          <CheckBox fx:id="reloadCharactersCheck" mnemonicParsing="false" onMouseClicked="#reloadCharacterSaveClick" styleClass="settingsCheckBox" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Reload Characters on Save" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" styleClass="settingsBoolHBox">
+                                       <children>
+                                          <Pane minWidth="18.0" prefWidth="18.0" styleClass="settingsCheckBoxFake" />
+                                          <Label styleClass="settingsBodyDescription" text="Reload all characters on the Home menu after saving one?" wrapText="true" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox styleClass="settingsBoolVBox">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="15.0" styleClass="settingsBoolHBox">
+                                       <children>
+                                          <CheckBox fx:id="utilizeBase64Check" mnemonicParsing="false" onMouseClicked="#handleBase64UtilizationClick" styleClass="settingsCheckBox" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Utilize Base64" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" styleClass="settingsBoolHBox">
+                                       <children>
+                                          <Pane minWidth="18.0" prefWidth="18.0" styleClass="settingsCheckBoxFake" />
+                                          <Label styleClass="settingsBodyDescription" text="Embed images directly into the character file (increases file size significantly)" wrapText="true" />
                                        </children>
                                     </HBox>
                                  </children>

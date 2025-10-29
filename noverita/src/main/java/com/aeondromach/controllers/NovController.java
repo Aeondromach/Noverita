@@ -27,7 +27,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.App;
-import com.aeondromach.Messages;
 import com.aeondromach.Settings;
 import static com.aeondromach.controllers.HeaderController.isMax;
 import com.aeondromach.system.CharView;
@@ -162,7 +161,7 @@ public class NovController {
                     Element archetype = information.selectFirst("archetype");
                     Element squad = information.selectFirst("squad");
                     Element rank = information.selectFirst("rank");
-                    Element portrait = information.selectFirst("charPortrait");
+                    Element portrait = information.selectFirst("charportrait");
 
                     if (name == null) nameTag = "Enygma";
                     else nameTag = name.ownText();
@@ -226,7 +225,7 @@ public class NovController {
      * @return original size Rectangle2d
      */
     public Rectangle2D getOriginalSize() {
-        Rectangle2D rect = new Rectangle2D(1150, 550, stageW, stageH);
+        Rectangle2D rect = new Rectangle2D(1150, 660, stageW, stageH);
         return rect;
     }
 
