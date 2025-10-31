@@ -127,7 +127,7 @@
 }
 
 .charHold {
-    -fx-background-color: -backgroundTer;
+    -fx-background-color: -backgroundSec;
     -fx-effect: dropshadow( three-pass-box, -brightSecondary, 10.0, 0.0, 0.0, 0.0);
     -fx-border-color: -brightSecondary; /* -quartaryColor */
     -fx-border-insets: 0;
@@ -159,6 +159,8 @@
 
 .charHighlight {
     -fx-background-color: -backgroundQuad;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
     -fx-padding: 4px 8px;
 }
 
@@ -304,6 +306,10 @@
 }
 
 .tableElem:hover {
+    -fx-background-color: -hoverSecondary;
+}
+
+.tableElemClicked {
     -fx-background-color: -hoverPrimary;
 }
 

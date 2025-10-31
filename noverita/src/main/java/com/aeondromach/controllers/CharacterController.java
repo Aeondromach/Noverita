@@ -7,6 +7,10 @@
 
 package com.aeondromach.controllers;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.Messages;
@@ -64,6 +68,7 @@ public class CharacterController {
     private Table formTable;
     private Table aspectTable;
     private final VBox aspectHold = new VBox();
+    private final LinkedList<Table> tables = new LinkedList<>();
 
     /**
      * Takes instantiated Novcontroller and links self to it.
@@ -83,6 +88,13 @@ public class CharacterController {
 
             formVbox.prefWidthProperty().bind(character.widthProperty().subtract(formSidePane.widthProperty()));
             formVbox.maxWidthProperty().bind(character.widthProperty().subtract(formSidePane.widthProperty()));
+
+            tables.addAll(
+                java.util.Arrays.asList(
+                    formTable,
+                    aspectTable
+                )
+            );
         });
     }
 
@@ -128,6 +140,10 @@ public class CharacterController {
     }
 
     private void formClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        for (Table table: tables) {
+            if (table != null) table.unsetAllClickedElems();
+        }
+
         Element element = XmlParser.getElement(IdClassList.getIdMap(IdType.FORM), id);
         formTitle.setText(element.attr("name"));
         formSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap(IdType.FORM)));
@@ -136,9 +152,16 @@ public class CharacterController {
     private void formDualClick(String id, AnchorPane tableElem) {
         com.aeondromach.system.Character curChar = nov.getCharacter();
 
-        curChar.getForm().setId(id);
+        if (!curChar.getForm().matchingIds(id)) curChar.getForm().setId(id);
+        else {
+            formTable.unsetAllClickedElems();
+            curChar.getForm().resetStats(); // If the user clicks on their equipped form, remove it
+            curChar.getForm().getASPECT().resetStats();
+        }
         aspectHold.getChildren().clear();
-        setAspectTable(id);
+
+        if (curChar.getForm().matchingIds(id)) setAspectTable(id);
+
         nov.updateHeaderDescription();
     }
 
@@ -153,6 +176,10 @@ public class CharacterController {
     }
 
     private void aspectClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
+        for (Table table: tables) {
+            if (table != null) table.unsetAllClickedElems();
+        }
+        
         Element element = XmlParser.getElement(IdClassList.getIdMap(IdType.ASPECT), id);
         formTitle.setText(element.attr("name"));
         formSidePaneV.getChildren().add(HtmlParser.parseHtml(id, IdClassList.getIdMap(IdType.ASPECT)));
@@ -160,8 +187,12 @@ public class CharacterController {
 
     private void aspectDualClick(String id, @SuppressWarnings("unused") AnchorPane tableElem) {
         com.aeondromach.system.Character curChar = nov.getCharacter();
-
-        curChar.getForm().getASPECT().setId(id);
+        
+        if (!curChar.getForm().getASPECT().matchingIds(id)) curChar.getForm().getASPECT().setId(id);
+        else {
+            aspectTable.unsetAllClickedElems();
+            curChar.getForm().getASPECT().resetStats(); // If the user clicks on their equipped aspect, remove it
+        } 
         nov.updateHeaderDescription();
     }
 

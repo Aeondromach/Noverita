@@ -209,12 +209,13 @@ public class HomeController {
         AnchorPane charHold = new AnchorPane();
         charHold.setPrefSize(size, size);
         charHold.setMaxSize(size, size);
+        charHold.setMinSize(size, size);
         charHold.getStyleClass().add("charHold");
 
         ImageView charImage = new ImageView(character.getImage());
         charImage.setPreserveRatio(true);
-        charImage.setFitHeight(size);
-        charImage.setFitWidth(size);
+        charImage.setFitHeight(size - 2);
+        charImage.setFitWidth(size - 2);
         charImage.setViewport(getCenteredViewport(character.getImage(), charImage.getFitWidth(), charImage.getFitHeight()));
         charImage.setLayoutX(1);
         charImage.setLayoutY(1);
@@ -223,10 +224,10 @@ public class HomeController {
 
         VBox charHighlight = new VBox();
         charHighlight.setAlignment(Pos.TOP_LEFT);
-        charHighlight.setPrefWidth(size);
+        charHighlight.setPrefWidth(size - 2);
         charHighlight.setPrefHeight(70);
         charHighlight.setLayoutX(1);
-        charHighlight.setLayoutY(size - 69);
+        charHighlight.setLayoutY((size) - 71);
         charHighlight.getStyleClass().add("charHighlight");
 
         Label charTitle = new Label(character.getName());

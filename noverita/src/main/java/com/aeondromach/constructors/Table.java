@@ -159,6 +159,7 @@ public class Table {
                     tableElem.setOnMouseClicked(e -> {
                         if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 1) {
                             singleClick.accept(id, tableElem);
+                            tableElem.getStyleClass().add("tableElemClicked");
                         }
                         else if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
                             doubleClick.accept(id, tableElem);
@@ -204,6 +205,16 @@ public class Table {
             return table;
         }
         return null;
+    }
+
+    public void tableElemClickedCSS(AnchorPane tableElem) {
+        tableElem.getStyleClass().add("tableElemClicked");
+    }
+
+    public void unsetAllClickedElems() {
+        for (AnchorPane tableElem: TABLE_ELEM_LIST) {
+            tableElem.getStyleClass().remove("tableElemClicked");
+        }
     }
 
     private ArrayList<String> parseXml(Document doc) {

@@ -43,6 +43,11 @@ public abstract class Exclusive {
         checkId();
     }
 
+    public boolean matchingIds(String idToCompare) {
+        if (this.id == null) return false;
+        return this.id.equals(idToCompare);
+    }
+
     /**
      * Check if id is fit to read
      */
