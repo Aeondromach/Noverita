@@ -1,8 +1,10 @@
 package com.aeondromach.controllers;
 
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -10,14 +12,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.aeondromach.App;
+import com.aeondromach.Messages;
 import com.aeondromach.Settings;
+import com.aeondromach.Settings.DisplaySettings;
 import com.aeondromach.system.IdClassList;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.css.Size;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -26,6 +34,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -117,12 +127,20 @@ public class SettingsController {
     @FXML private StackPane characterFolderPane;
     @FXML private StackPane imagesFolderPane;
 
+    @FXML private ChoiceBox<AppSizes> settingsAppSizeChoice;
+
+    private final Size COMPACT_SIZE = new Size(1140, 555);
+    private final Size MEDIUM_SIZE = new Size(1160, 610);
+    private final Size LARGE_SIZE = new Size(1200, 660);
+
     private double mousePosX, mousePosY;
     private NovController nov;
     private boolean hubNeedRefresh = false;
+    private boolean appNeedsRefresh = false;
 
     /**
      * Runs initial Settings set up
+     * @param <T>
      */
     @FXML
     protected void initialize() {
@@ -229,7 +247,80 @@ public class SettingsController {
             customFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.CUSTOM_PATH)));
             characterFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.CHAR_PATH)));
             imagesFolderField.setText(String.valueOf(Settings.getSetting(Settings.CustomSettings.PORTRAIT_PATH)));
+
+            settingsAppSizeChoice.getItems().addAll(
+                AppSizes.COMPACT,
+                AppSizes.MEDIUM,
+                AppSizes.LARGE
+            );
+
+            Size currentSize = new Size(
+                (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X),
+                (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y)
+            );
+
+            if (currentSize.equals(COMPACT_SIZE)) settingsAppSizeChoice.setValue(AppSizes.COMPACT);
+            else if (currentSize.equals(MEDIUM_SIZE)) settingsAppSizeChoice.setValue(AppSizes.MEDIUM);
+            else if (currentSize.equals(LARGE_SIZE)) settingsAppSizeChoice.setValue(AppSizes.LARGE);
+            else settingsAppSizeChoice.setValue(AppSizes.MEDIUM);
+
+            settingsAppSizeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                switch (newVal) {
+                    case COMPACT:
+                        setAppSize(COMPACT_SIZE);
+                        break;
+                    case MEDIUM:
+                        setAppSize(MEDIUM_SIZE);
+                        break;
+                    case LARGE:
+                        setAppSize(LARGE_SIZE);
+                        break;
+                    default:
+                        break;
+                }
+            });
         });
+    }
+
+    private void setAppSize(Size size) {
+        Settings.setSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X, size.WIDTH);
+        Settings.setSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y, size.HEIGHT);
+        Settings.saveSettings();
+
+        if (!size.equals(App.mainWidth, App.mainHeight)) {
+            appNeedsRefresh = true;
+        }
+    }
+
+    private class Size {
+        public final double WIDTH;
+        public final double HEIGHT;
+
+        public Size(double width, double height) {
+            this.WIDTH = width;
+            this.HEIGHT = height;
+        }
+
+        public boolean equals(Size other) {
+            return this.WIDTH == other.WIDTH && this.HEIGHT == other.HEIGHT;
+        }
+    }
+
+    enum AppSizes {
+        COMPACT("Compact (1140px x 555px)"),
+        MEDIUM("Medium (1600px x 900px)"),
+        LARGE("Large (1920px x 1080px)");
+
+        private final String displayName;
+
+        AppSizes(String displayName) {
+            this.displayName = displayName;
+        }
+
+        @Override
+        public String toString() {
+            return displayName;
+        }
     }
 
     private void setFolderButtons(Button button, StackPane stackPane) {
@@ -296,9 +387,13 @@ public class SettingsController {
     @FXML
     protected void handleCloseClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY)){
+            Stage stage = (Stage) closeBtn.getScene().getWindow();
+
+            if (appNeedsRefresh) {
+                Messages.yesNoAlert("Restart App?", "App requires restart", "Some content you have changed requires an app restart to take effect, would you like to restart the app?", null, () -> {stage.close(); nov.restartApp();}, () -> stage.close());
+            }
             if (hubNeedRefresh) nov.refreshHubCharacters();
 
-            Stage stage = (Stage) closeBtn.getScene().getWindow();
             stage.close();
         }
     }

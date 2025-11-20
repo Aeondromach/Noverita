@@ -350,7 +350,7 @@
 
 .settingsBody {
     -fx-pref-width: 375px;
-    -fx-pref-height: 660px;
+    -fx-pref-height: 550px;
     -fx-hbar-policy: NEVER;
 }
 
@@ -498,6 +498,47 @@
     -fx-text-fill: -primaryTextColor;
     -fx-font-size: 14px;
     -fx-padding: 5 15;
+}
+
+.settingsChoiceBox {
+    -fx-background-color: -backgroundSec;
+    -fx-border-color: -brightSecondary;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-padding: 0 5;
+}
+
+.settingsChoiceBox .menu-item {
+    -fx-background-color: -backgroundSec;
+}
+
+.settingsChoiceBox .menu-item:focused { 
+    -fx-background-color: -hoverSecondary; 
+}
+
+.settingsChoiceBox .menu-item > .label { 
+    -fx-text-fill: -secondaryTextColor; 
+}
+
+.settingsChoiceBox .menu-item:focused > .label { 
+    -fx-text-fill: -primaryTextColor; 
+}
+
+.settingsChoiceBox > .label {
+    -fx-text-fill: -primaryTextColor;
+}
+
+.settingsChoiceBox > .label, 
+.settingsChoiceBox > .arrow-button, 
+.settingsChoiceBox > .arrow-button > .arrow,
+.settingsChoiceBox {
+    -fx-background-color: -backgroundSec;
+}
+
+.settingsChoiceBox .context-menu {
+    -fx-background-color: -backgroundSec;
+    -fx-border-color: -brightSecondary;
 }
 
 .settingsButton:pressed {

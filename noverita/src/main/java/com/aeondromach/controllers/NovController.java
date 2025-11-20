@@ -27,6 +27,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.App;
+import com.aeondromach.Main;
 import com.aeondromach.Settings;
 import static com.aeondromach.controllers.HeaderController.isMax;
 import com.aeondromach.system.CharView;
@@ -225,7 +226,7 @@ public class NovController {
      * @return original size Rectangle2d
      */
     public Rectangle2D getOriginalSize() {
-        Rectangle2D rect = new Rectangle2D(1150, 660, stageW, stageH);
+        Rectangle2D rect = new Rectangle2D(1150, 550, stageW, stageH);
         return rect;
     }
 
@@ -471,5 +472,11 @@ public class NovController {
 
     public void refreshHubCharacters() {
         homeController.setHubField();
+    }
+
+    public void restartApp() {
+        Stage stage = (Stage) novPane.getScene().getWindow();
+        stage.close();
+        Main.main(new String[]{});
     }
 }

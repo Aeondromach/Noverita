@@ -371,7 +371,9 @@ public abstract class Settings {
                 "rgb(91, 52, 127)" // color border
             )
         )), // Length 10
-        CHAR_VIEW_SIZE("character hub block size", 175);
+        CHAR_VIEW_SIZE("character hub block size", 175),
+        APP_VIEW_SIZE_X("application window width", 1160),
+        APP_VIEW_SIZE_Y("application window height", 610);
 
         private final String key;
         private final Object defaultValue;

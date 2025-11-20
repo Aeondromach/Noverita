@@ -38,7 +38,7 @@ public class App extends Application {
     private static Scene scene;
     private static final int RESIZE_MARGIN = 5;
     private BorderPane mainPane;
-    private double mainHeight, mainWidth;
+    public double mainHeight, mainWidth;
     private static Parent root;
     private static final String[] styles = new String[1];
     private static NovController novController;
@@ -61,8 +61,8 @@ public class App extends Application {
         // Set app background to transparent and remove windows decorations
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        mainWidth = 1200.0;
-        mainHeight = 660.0;
+        mainWidth = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) : 1040.0;
+        mainHeight = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) : 555.0;
         
         // get and set scene
         root = loadFXML("NovFX");

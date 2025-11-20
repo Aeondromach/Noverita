@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane id="mainAppPane" fx:id="novPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="660.0" minWidth="1200.0" prefHeight="660.0" prefWidth="1200.0" style="-fx-background-color: none;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.NovController">
+<BorderPane id="mainAppPane" fx:id="novPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="555.0" minWidth="1040.0" prefHeight="555.0" prefWidth="1040.0" style="-fx-background-color: none;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.NovController">
    <center>
       <Pane fx:id="tabView" style="-fx-padding: 0; -fx-background-insets: 0; -fx-border-image-insets: 0; -fx-margins: 0;" BorderPane.alignment="CENTER">
          <children>
