@@ -64,7 +64,7 @@
          <center>
             <Pane prefWidth="178.0" BorderPane.alignment="CENTER">
                <children>
-                  <ScrollPane fx:id="generalScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                  <ScrollPane fx:id="generalScrollPane" prefHeight="200.0" prefWidth="200.0">
                      <content>
                         <VBox styleClass="settingsBodyVBox">
                            <children>
@@ -95,7 +95,7 @@
                         <String fx:value="bodyAppPane" />
                      </styleClass>
                   </ScrollPane>
-                  <ScrollPane fx:id="displayScrollPane" prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane fx:id="displayScrollPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
                         <VBox styleClass="settingsBodyVBox">
                            <children>

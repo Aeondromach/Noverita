@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import com.aeondromach.Messages;
 import com.aeondromach.constructors.Table;
 import com.aeondromach.system.IdClassList;
+import com.aeondromach.system.Character.StatIndex;
 import com.aeondromach.system.IdClassList.IdType;
 import com.aeondromach.system.parsers.HtmlParser;
 import com.aeondromach.system.parsers.XmlParser;
@@ -221,44 +222,44 @@ public class CharacterController {
             switch (sourceButton.getId()) {
                 case "btStrIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 0)) {
-                        curChar.setBaseStat(curChar.getBaseStat(0) + 1, 0);
-                        tStr.setText(curChar.getFinalStat(0) + " (" + curChar.getModifierString(curChar.getFinalStat(0)) + ")");
-                        tfStr.setPromptText(String.valueOf(curChar.getBaseStat(0)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.STRENGTH) + 1, StatIndex.STRENGTH);
+                        tStr.setText(curChar.getFinalStat(StatIndex.STRENGTH) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.STRENGTH)) + ")");
+                        tfStr.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.STRENGTH)));
                     }
                     break;
                 case "btDexIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 1)) {
-                        curChar.setBaseStat(curChar.getBaseStat(1) + 1, 1);
-                        tDex.setText(curChar.getFinalStat(1) + " (" + curChar.getModifierString(curChar.getFinalStat(1)) + ")");
-                        tfDex.setPromptText(String.valueOf(curChar.getBaseStat(1)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.DEXTERITY) + 1, StatIndex.DEXTERITY);
+                        tDex.setText(curChar.getFinalStat(StatIndex.DEXTERITY) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.DEXTERITY)) + ")");
+                        tfDex.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.DEXTERITY)));
                     }                    
                     break;
                 case "btConIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 2)) {
-                        curChar.setBaseStat(curChar.getBaseStat(2) + 1, 2);
-                        tCon.setText(curChar.getFinalStat(2) + " (" + curChar.getModifierString(curChar.getFinalStat(2)) + ")");
-                        tfCon.setPromptText(String.valueOf(curChar.getBaseStat(2)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.CONSTITUTION) + 1, StatIndex.CONSTITUTION);
+                        tCon.setText(curChar.getFinalStat(StatIndex.CONSTITUTION) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CONSTITUTION)) + ")");
+                        tfCon.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CONSTITUTION)));
                     }                    
                     break;
                 case "btIntIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 3)) {
-                        curChar.setBaseStat(curChar.getBaseStat(3) + 1, 3);
-                        tInt.setText(curChar.getFinalStat(3) + " (" + curChar.getModifierString(curChar.getFinalStat(3)) + ")");
-                        tfInt.setPromptText(String.valueOf(curChar.getBaseStat(3)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.INTELLIGENCE) + 1, StatIndex.INTELLIGENCE);
+                        tInt.setText(curChar.getFinalStat(StatIndex.INTELLIGENCE) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.INTELLIGENCE)) + ")");
+                        tfInt.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.INTELLIGENCE)));
                     }                    
                     break;
                 case "btWisIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 4)) {
-                        curChar.setBaseStat(curChar.getBaseStat(4) + 1, 4);
-                        tWis.setText(curChar.getFinalStat(4) + " (" + curChar.getModifierString(curChar.getFinalStat(4)) + ")");
-                        tfWis.setPromptText(String.valueOf(curChar.getBaseStat(4)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.WISDOM) + 1, StatIndex.WISDOM);
+                        tWis.setText(curChar.getFinalStat(StatIndex.WISDOM) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.WISDOM)) + ")");
+                        tfWis.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.WISDOM)));
                     }                    
                     break;
                 case "btChaIncUp":
                     if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 5)) {
-                        curChar.setBaseStat(curChar.getBaseStat(5) + 1, 5);
-                        tCha.setText(curChar.getFinalStat(5) + " (" + curChar.getModifierString(curChar.getFinalStat(5)) + ")");
-                        tfCha.setPromptText(String.valueOf(curChar.getBaseStat(5)));
+                        curChar.setBaseStat(curChar.getBaseStat(StatIndex.CHARISMA) + 1, StatIndex.CHARISMA);
+                        tCha.setText(curChar.getFinalStat(StatIndex.CHARISMA) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CHARISMA)) + ")");
+                        tfCha.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CHARISMA)));
                     }                    
                     break;
             }
@@ -279,34 +280,34 @@ public class CharacterController {
     
             switch (sourceButton.getId()) {
                 case "btStrIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(0) - 1, 0);
-                    tStr.setText(curChar.getFinalStat(0) + " (" + curChar.getModifierString(curChar.getFinalStat(0)) + ")");
-                    tfStr.setPromptText(String.valueOf(curChar.getBaseStat(0)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.STRENGTH) - 1, StatIndex.STRENGTH);
+                    tStr.setText(curChar.getFinalStat(StatIndex.STRENGTH) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.STRENGTH)) + ")");
+                    tfStr.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.STRENGTH)));
                     break;
                 case "btDexIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(1) - 1, 1);
-                    tDex.setText(curChar.getFinalStat(1) + " (" + curChar.getModifierString(curChar.getFinalStat(1)) + ")");
-                    tfDex.setPromptText(String.valueOf(curChar.getBaseStat(1)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.DEXTERITY) - 1, StatIndex.DEXTERITY);
+                    tDex.setText(curChar.getFinalStat(StatIndex.DEXTERITY) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.DEXTERITY)) + ")");
+                    tfDex.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.DEXTERITY)));
                     break;
                 case "btConIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(2) - 1, 2);
-                    tCon.setText(curChar.getFinalStat(2) + " (" + curChar.getModifierString(curChar.getFinalStat(2)) + ")");
-                    tfCon.setPromptText(String.valueOf(curChar.getBaseStat(2)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.CONSTITUTION) - 1, StatIndex.CONSTITUTION);
+                    tCon.setText(curChar.getFinalStat(StatIndex.CONSTITUTION) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CONSTITUTION)) + ")");
+                    tfCon.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CONSTITUTION)));
                     break;
                 case "btIntIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(3) - 1, 3);
-                    tInt.setText(curChar.getFinalStat(3) + " (" + curChar.getModifierString(curChar.getFinalStat(3)) + ")");
-                    tfInt.setPromptText(String.valueOf(curChar.getBaseStat(3)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.INTELLIGENCE) - 1, StatIndex.INTELLIGENCE);
+                    tInt.setText(curChar.getFinalStat(StatIndex.INTELLIGENCE) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.INTELLIGENCE)) + ")");
+                    tfInt.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.INTELLIGENCE)));
                     break;
                 case "btWisIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(4) - 1, 4);
-                    tWis.setText(curChar.getFinalStat(4) + " (" + curChar.getModifierString(curChar.getFinalStat(4)) + ")");
-                    tfWis.setPromptText(String.valueOf(curChar.getBaseStat(4)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.WISDOM) - 1, StatIndex.WISDOM);
+                    tWis.setText(curChar.getFinalStat(StatIndex.WISDOM) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.WISDOM)) + ")");
+                    tfWis.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.WISDOM)));
                     break;
                 case "btChaIncDown":
-                    curChar.setBaseStat(curChar.getBaseStat(5) - 1, 5);
-                    tCha.setText(curChar.getFinalStat(5) + " (" + curChar.getModifierString(curChar.getFinalStat(5)) + ")");
-                    tfCha.setPromptText(String.valueOf(curChar.getBaseStat(5)));
+                    curChar.setBaseStat(curChar.getBaseStat(StatIndex.CHARISMA) - 1, StatIndex.CHARISMA);
+                    tCha.setText(curChar.getFinalStat(StatIndex.CHARISMA) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CHARISMA)) + ")");
+                    tfCha.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CHARISMA)));
                     break;
             }
             curChar.setStatPoints();
@@ -363,45 +364,45 @@ public class CharacterController {
 
             switch (tf.getId()) {
                 case "tfStr":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(0), 0)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 0);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(0)));
-                        t.setText(character.getFinalStat(0) + " (" + character.getModifierString(character.getFinalStat(0)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.STRENGTH), StatIndex.STRENGTH)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.STRENGTH);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.STRENGTH)));
+                        t.setText(character.getFinalStat(StatIndex.STRENGTH) + " (" + character.getModifierString(character.getFinalStat(StatIndex.STRENGTH)) + ")");
                     }
                     break;
                 case "tfDex":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(1), 1)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 1);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(1)));
-                        t.setText(character.getFinalStat(1) + " (" + character.getModifierString(character.getFinalStat(1)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.DEXTERITY), StatIndex.DEXTERITY)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.DEXTERITY);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.DEXTERITY)));
+                        t.setText(character.getFinalStat(StatIndex.DEXTERITY) + " (" + character.getModifierString(character.getFinalStat(StatIndex.DEXTERITY)) + ")");
                     }
                     break;
                 case "tfCon":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(2), 2)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 2);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(2)));
-                        t.setText(character.getFinalStat(2) + " (" + character.getModifierString(character.getFinalStat(2)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.CONSTITUTION), StatIndex.CONSTITUTION)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.CONSTITUTION);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.CONSTITUTION)));
+                        t.setText(character.getFinalStat(StatIndex.CONSTITUTION) + " (" + character.getModifierString(character.getFinalStat(StatIndex.CONSTITUTION)) + ")");
                     }
                     break;
                 case "tfInt":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(3), 3)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 3);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(3)));
-                        t.setText(character.getFinalStat(3) + " (" + character.getModifierString(character.getFinalStat(3)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.INTELLIGENCE), StatIndex.INTELLIGENCE)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.INTELLIGENCE);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.INTELLIGENCE)));
+                        t.setText(character.getFinalStat(StatIndex.INTELLIGENCE) + " (" + character.getModifierString(character.getFinalStat(StatIndex.INTELLIGENCE)) + ")");
                     }
                     break;
                 case "tfWis":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(4), 4)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 4);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(4)));
-                        t.setText(character.getFinalStat(4) + " (" + character.getModifierString(character.getFinalStat(4)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.WISDOM), StatIndex.WISDOM)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.WISDOM);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.WISDOM)));
+                        t.setText(character.getFinalStat(StatIndex.WISDOM) + " (" + character.getModifierString(character.getFinalStat(StatIndex.WISDOM)) + ")");
                     }
                     break;
                 case "tfCha":
-                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(5), 5)) {
-                        character.setBaseStat(Integer.parseInt(tf.getText()), 5);
-                        tf.setPromptText(String.valueOf(character.getBaseStat(5)));
-                        t.setText(character.getFinalStat(5) + " (" + character.getModifierString(character.getFinalStat(5)) + ")");
+                    if (character.getStatPoints() != 0 && 27 >= character.getPointCost(input - character.getBaseStat(StatIndex.CHARISMA), StatIndex.CHARISMA)) {
+                        character.setBaseStat(Integer.parseInt(tf.getText()), StatIndex.CHARISMA);
+                        tf.setPromptText(String.valueOf(character.getBaseStat(StatIndex.CHARISMA)));
+                        t.setText(character.getFinalStat(StatIndex.CHARISMA) + " (" + character.getModifierString(character.getFinalStat(StatIndex.CHARISMA)) + ")");
                     }
                     break;
             }

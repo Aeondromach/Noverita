@@ -474,9 +474,23 @@ public class NovController {
         homeController.setHubField();
     }
 
-    public void restartApp() {
-        Stage stage = (Stage) novPane.getScene().getWindow();
-        stage.close();
-        Main.main(new String[]{});
+    public static void restartApp() {
+        try {
+            String javaBin = System.getProperty("java.home") + "/bin/java";
+            String jarPath = new File(Main.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI())
+                    .getPath();
+
+            new ProcessBuilder(javaBin, "-jar", jarPath)
+                    .start();
+
+            Platform.exit(); // clean JavaFX shutdown
+            System.exit(0);  // kill JVM
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -50,7 +50,10 @@ public class IdClassList {
         ASPECT_INTRINSIC,
         ASPECT_SPECIALTY,
         FLESH,
-        CLOAK
+        CLOAK,
+        ARCHETYPE,
+        ABILITY,
+        EDICT
     }
 
     /**

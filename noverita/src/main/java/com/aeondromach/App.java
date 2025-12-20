@@ -38,7 +38,7 @@ public class App extends Application {
     private static Scene scene;
     private static final int RESIZE_MARGIN = 5;
     private BorderPane mainPane;
-    public double mainHeight, mainWidth;
+    public static double mainHeight, mainWidth;
     private static Parent root;
     private static final String[] styles = new String[1];
     private static NovController novController;

@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.aeondromach.system.exclusives.archetype.Archetype;
 import com.aeondromach.system.exclusives.form.Form;
 import com.aeondromach.system.minor.Grant;
 import com.aeondromach.system.minor.OtherStat;
@@ -52,6 +53,25 @@ public class Character {
     private int statPoints;
     private static final Map<Integer, Integer> COSTS = new HashMap<>();
 
+    public enum StatIndex {
+        STRENGTH(0),
+        DEXTERITY(1),
+        CONSTITUTION(2),
+        INTELLIGENCE(3),
+        WISDOM(4),
+        CHARISMA(5);
+
+        private final int index;
+
+        StatIndex(int index) {
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
+
     static {
         COSTS.put(8, 0);
         COSTS.put(9, 1);
@@ -77,7 +97,7 @@ public class Character {
     // private Perset settings;
 
     // Archetype
-    // private Archetype arche;
+    private Archetype arche;
 
     // Inventory & Equipment
     // private final Inventory INVENTORY;
@@ -105,6 +125,7 @@ public class Character {
             this.squad = safeText(information, "squad");
             Element charPortrait = information.selectFirst("charportrait");
             this.form = new Form(safeId(information, "form"), safeId(information, "aspect"));
+            this.arche = new Archetype(safeId(information, "archetype"), this.rank);
             this.image = XmlParser.findImage(charPortrait);
 
             this.ascendantTitle = safeText(information, "ascendanttitle").replace("%20", " ");
@@ -487,19 +508,19 @@ public class Character {
     /* ---- */
 
     /**
-     * Return the strength the character
-     * @return strength
+     * Return the base stat the character
+     * @return stat
      */
-    public int getBaseStat(int index) {
-        return baseStats[index];
+    public int getBaseStat(StatIndex stat) {
+        return baseStats[stat.getIndex()];
     }
 
     /**
-     * Set the strength the character
-     * @param base strength
+     * Set the base stat the character
+     * @param base stat
      */
-    public void setBaseStat(int base, int index) {
-        if (index >= 0 && index <= 5) this.baseStats[index] = setBaseStat(base);
+    public void setBaseStat(int base, StatIndex stat) {
+        if (stat.getIndex() >= 0 && stat.getIndex() <= 5) this.baseStats[stat.getIndex()] = setBaseStat(base);
     }
 
     /**
@@ -525,15 +546,15 @@ public class Character {
      * @param index which stat is being charged
      * @return the cost
      */
-    public int getPointCost(int test, int index) {
-        this.baseStats[index] += test;
+    public int getPointCost(int test, StatIndex index) {
+        this.baseStats[index.getIndex()] += test;
         int cost = 0;
         for (Integer stat: this.baseStats) {
             if (COSTS.containsKey(stat)) {
                 cost += COSTS.get(stat);
             }
         }
-        this.baseStats[index] -= test;
+        this.baseStats[index.getIndex()] -= test;
         return cost;
     }
 
@@ -571,10 +592,10 @@ public class Character {
      * Return the final strength after adding up all other bonuses
      * @return final strength
      */
-    public int getFinalStat(int index) {
-        int finalMod = setFinalMod(index);
-        finalStats[index] = baseStats[index] + finalMod; // Also needs Form, ASI, Expertise/Mastery, Archetype, etc.
-        return finalStats[index];
+    public int getFinalStat(StatIndex stat) {
+        int finalMod = setFinalMod(stat.getIndex());
+        finalStats[stat.getIndex()] = baseStats[stat.getIndex()] + finalMod; // Also needs Form, ASI, Expertise/Mastery, Archetype, etc.
+        return finalStats[stat.getIndex()];
     }
 
     /* -------- */
@@ -734,6 +755,11 @@ public class Character {
 
     public void setRank(int rank) {
         this.rank = rank;
+        rankCheck();
+    }
+
+    public void rankCheck() {
+        this.arche.setRank(rank);
     }
 
     public Boolean hasForm() {

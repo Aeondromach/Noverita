@@ -287,9 +287,10 @@ public class SettingsController {
         Settings.setSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y, size.HEIGHT);
         Settings.saveSettings();
 
-        if (!size.equals(App.mainWidth, App.mainHeight)) {
+        if (!size.equals(new Size(App.mainWidth, App.mainHeight))) {
             appNeedsRefresh = true;
         }
+        else appNeedsRefresh = false;
     }
 
     private class Size {
@@ -308,8 +309,8 @@ public class SettingsController {
 
     enum AppSizes {
         COMPACT("Compact (1140px x 555px)"),
-        MEDIUM("Medium (1600px x 900px)"),
-        LARGE("Large (1920px x 1080px)");
+        MEDIUM("Medium (1160px x 610px)"),
+        LARGE("Large (1200px x 660px)");
 
         private final String displayName;
 
@@ -390,7 +391,7 @@ public class SettingsController {
             Stage stage = (Stage) closeBtn.getScene().getWindow();
 
             if (appNeedsRefresh) {
-                Messages.yesNoAlert("Restart App?", "App requires restart", "Some content you have changed requires an app restart to take effect, would you like to restart the app?", null, () -> {stage.close(); nov.restartApp();}, () -> stage.close());
+                Messages.yesNoAlert("Restart App?", "App requires restart", "Some content you have changed requires an app restart to take effect, would you like to restart the app?\n(If no, changes will apply next time app restarts)", null, () -> {stage.close(); nov.restartApp();}, () -> stage.close());
             }
             if (hubNeedRefresh) nov.refreshHubCharacters();
 
