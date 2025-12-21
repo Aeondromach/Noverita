@@ -31,6 +31,7 @@ public class Table {
     private final BiConsumer<String, AnchorPane> doubleClick;
     private String searchTerm;
     private boolean hasParent;
+    private TableGroup connectedTables;
 
     private final List<AnchorPane> TABLE_ELEM_LIST = new ArrayList<>();
 
@@ -159,7 +160,12 @@ public class Table {
                     tableElem.setOnMouseClicked(e -> {
                         if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 1) {
                             singleClick.accept(id, tableElem);
-                            tableElem.getStyleClass().add("tableElemClicked");
+                            if (connectedTables == null) {
+                                unsetAllClickedElems();
+                                tableElem.getStyleClass().add("tableElemClicked");
+                            }
+                            else
+                                connectedTables.clickHoverSet(this, tableElem);
                         }
                         else if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
                             doubleClick.accept(id, tableElem);
@@ -295,5 +301,13 @@ public class Table {
 
     public boolean hasParent() {
         return this.hasParent;
+    }
+
+    public TableGroup getConnectedTables() {
+        return connectedTables;
+    }
+
+    public void setConnectedTables(TableGroup connectedTables) {
+        this.connectedTables = connectedTables;
     }
 }

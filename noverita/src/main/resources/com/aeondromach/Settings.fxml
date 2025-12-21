@@ -24,7 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="mainAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: green;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.SettingsController">
+<BorderPane id="mainAppPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: green;" stylesheets="@styles/variables.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.SettingsController">
    <top>
       <BorderPane id="headsHeader" fx:id="titleBar" minHeight="32.0" onMouseDragged="#handleTitleBarDrag" onMousePressed="#handleTitleBarPress" onMouseReleased="#handleTitleBarUnPress" styleClass="heads" stylesheets="@styles/heads.css" BorderPane.alignment="CENTER">
          <right>
@@ -163,12 +163,6 @@
                                     <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="settingsBodyTitle" text="Character Block Size" />
                                     <Label styleClass="settingsBodyDescription" text="How big should Characters be in the Nexus?" />
                                     <Slider fx:id="charBlockSizeSlider" blockIncrement="25.0" max="250.0" min="125.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="settingsSlider" value="175.0" />
-                                    <Pane prefHeight="10.0" />
-                                    <StackPane>
-                                       <children>
-                                          <Button fx:id="charHubRefreshBt" mnemonicParsing="false" styleClass="settingsButton" text="Refresh Character Hub" />
-                                       </children>
-                                    </StackPane>
                                     <Pane prefHeight="10.0" />
                                  </children>
                               </VBox>

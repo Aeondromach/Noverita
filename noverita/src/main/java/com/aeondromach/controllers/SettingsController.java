@@ -67,8 +67,6 @@ public class SettingsController {
 
     @FXML private Slider charBlockSizeSlider;
 
-    @FXML private Button charHubRefreshBt;
-
     @FXML private CheckBox customThemeCheck;
     @FXML private VBox customThemesHold;
 
@@ -135,7 +133,6 @@ public class SettingsController {
 
     private double mousePosX, mousePosY;
     private NovController nov;
-    private boolean hubNeedRefresh = false;
     private boolean appNeedsRefresh = false;
 
     /**
@@ -190,12 +187,7 @@ public class SettingsController {
                 }
                 Settings.setSetting(Settings.DisplaySettings.CHAR_VIEW_SIZE, val);
                 Settings.saveSettings();
-                hubNeedRefresh = true;
-            });
-
-            charHubRefreshBt.setOnMouseClicked(e -> {
                 nov.refreshHubCharacters();
-                hubNeedRefresh = false;
             });
 
             Collections.addAll(COLOR_PICKERS,
@@ -393,7 +385,6 @@ public class SettingsController {
             if (appNeedsRefresh) {
                 Messages.yesNoAlert("Restart App?", "App requires restart", "Some content you have changed requires an app restart to take effect, would you like to restart the app?\n(If no, changes will apply next time app restarts)", null, () -> {stage.close(); nov.restartApp();}, () -> stage.close());
             }
-            if (hubNeedRefresh) nov.refreshHubCharacters();
 
             stage.close();
         }

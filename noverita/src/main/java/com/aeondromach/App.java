@@ -61,8 +61,18 @@ public class App extends Application {
         // Set app background to transparent and remove windows decorations
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        mainWidth = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) : 1040.0;
-        mainHeight = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) : 555.0;
+        try {
+            mainWidth = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X) : 1040.0;
+            mainHeight = Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) != null ? (double) Settings.getSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y) : 555.0;
+        }
+        catch (ClassCastException e) {
+            Messages.errorAlert("Error Gathering App Size", "Error Gathering App Size", "We encountered an issue while gathering app size, fixing now.", e);
+            mainWidth = 1040.0;
+            mainHeight = 555.0;
+
+            Settings.setSetting(Settings.DisplaySettings.APP_VIEW_SIZE_X, 1040.0);
+            Settings.setSetting(Settings.DisplaySettings.APP_VIEW_SIZE_Y, 555.0);
+        }
         
         // get and set scene
         root = loadFXML("NovFX");

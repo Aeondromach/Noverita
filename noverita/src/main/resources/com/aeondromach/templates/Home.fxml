@@ -15,15 +15,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1040.0" prefHeight="430.0" prefWidth="1040.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HomeController">
+<TabPane id="homeBod" fx:id="home" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="430.0" minWidth="1040.0" prefHeight="430.0" prefWidth="1040.0" styleClass="bodyAppPane" stylesheets="@../styles/nov.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aeondromach.controllers.HomeController">
   <tabs>
     <Tab text="Character Hub">
          <content>
             <BorderPane id="charHubMainPane">
+               <center>
+                  <ScrollPane id="scrollCharHubs" hbarPolicy="NEVER" hmax="0.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <VBox id="vBoxCharHubs" fx:id="vBoxCharHub" prefWidth="762.0" styleClass="homeCharPage">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                     </content>
+                     <styleClass>
+                        <String fx:value="bodyAppPane" />
+                        <String fx:value="bodyScrollPane" />
+                     </styleClass>
+                  </ScrollPane>
+               </center>
                <left>
-                  <AnchorPane id="sidePaneCharHub" fx:id="sidePaneCharHub" prefWidth="370.0" style="-fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER">
-                     <children>
-                        <GridPane maxHeight="50.0" maxWidth="370.0" minHeight="50.0" minWidth="370.0" prefHeight="50.0" prefWidth="370.0">
+                  <BorderPane id="sidePaneCharHub" fx:id="sidePaneCharHub" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER">
+                     <top>
+                        <GridPane maxHeight="50.0" maxWidth="370.0" minHeight="50.0" minWidth="370.0" prefHeight="50.0" prefWidth="370.0" BorderPane.alignment="CENTER">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="40.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="270.0" percentWidth="80.0" prefWidth="270.0" />
@@ -45,38 +60,27 @@
                               </StackPane>
                            </children>
                         </GridPane>
-                        <ScrollPane id="squadsPane" hbarPolicy="NEVER" hmax="0.0" layoutY="54.0" prefHeight="240.0" prefWidth="360.0" styleClass="bodyPane">
+                     </top>
+                     <center>
+                        <ScrollPane id="squadsPane" hbarPolicy="NEVER" hmax="0.0" prefHeight="240.0" prefWidth="360.0" styleClass="bodyPane" BorderPane.alignment="CENTER">
                            <content>
                               <VBox fx:id="vBoxSquadList" prefHeight="0.0" prefWidth="360.0" styleClass="bodyPane" />
                            </content>
                         </ScrollPane>
-                        <StackPane id="newCharButtonHold" layoutY="294.0" prefHeight="103.0" prefWidth="370.0">
+                     </center>
+                     <bottom>
+                        <StackPane id="newCharButtonHold" prefHeight="103.0" prefWidth="370.0" BorderPane.alignment="CENTER">
                            <children>
                               <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" text="New Character" />
                            </children>
                         </StackPane>
-                     </children>
+                     </bottom>
                      <styleClass>
                         <String fx:value="bodyPane" />
                         <String fx:value="sidePaneBorder" />
                      </styleClass>
-                  </AnchorPane>
+                  </BorderPane>
                </left>
-               <center>
-                  <ScrollPane id="scrollCharHubs" hbarPolicy="NEVER" hmax="0.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <content>
-                        <VBox id="vBoxCharHubs" fx:id="vBoxCharHub" prefWidth="762.0" styleClass="homeCharPage">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </VBox>
-                     </content>
-                     <styleClass>
-                        <String fx:value="bodyAppPane" />
-                        <String fx:value="bodyScrollPane" />
-                     </styleClass>
-                  </ScrollPane>
-               </center>
             </BorderPane>
          </content>
     </Tab>

@@ -72,7 +72,6 @@ public class NovController {
     private final ArrayList<String> LAST_ACTIONS = new ArrayList<>();
     private double stageX, stageY, stageW, stageH;
     private Character character;
-    private final ArrayList<String> SQUADS = new ArrayList<>();
     private Scene scene;
 
     /**
@@ -126,18 +125,14 @@ public class NovController {
      * Reads the character files within the path, returning them in an Arraylist
      * @return an Arraylist of character views
      */
-    public ArrayList<CharView> readCharViews() {
+    public void readCharViews() {
         Path path = Paths.get(String.valueOf(Settings.getSetting(Settings.CustomSettings.CHAR_PATH)));
-        SQUADS.clear();
-        ArrayList<CharView> charViews = new ArrayList<>();
         try (Stream<Path> stream = Files.walk(path)) {
             stream.filter(Files::isRegularFile)
                   .filter(file -> file.toString().endsWith(".ncf"))
-                  .forEach(file -> ncfCharViewRead(Paths.get(file.toString()), charViews)); // Pass each file to parser
-        } catch (IOException e) { 
-            return null;
+                  .forEach(file -> ncfCharViewRead(Paths.get(file.toString()))); // Pass each file to parser
+        } catch (IOException e) {
         }
-        return charViews;
     }
 
     /**
@@ -145,7 +140,7 @@ public class NovController {
      * @param path The path of the file
      * @param charViews the arraylist to parse to
      */
-    private void ncfCharViewRead(Path path, ArrayList<CharView> charViews) {
+    private void ncfCharViewRead(Path path) {
         if (Files.exists(path) && Files.isRegularFile(path)) {
             String nameTag;
             String archetypeTag;
@@ -173,7 +168,16 @@ public class NovController {
                     if (rank == null) rankTag = 1;
                     else rankTag = Integer.parseInt(rank.ownText());
 
-                    charViews.add(new CharView(nameTag, archetypeTag, squadTag, rankTag, XmlParser.findImage(portrait), path.toString()));
+                    CharView charView = new CharView(nameTag, archetypeTag, squadTag, rankTag, XmlParser.findImage(portrait), path.toString());
+                    charView.setCharHoldAction(() -> {
+                        createCharacter(charView.getFILEPATH(), charView.getImage());
+
+                        addAction("Loaded " + charView.getName());
+                        setFooterPath(charView.getFILEPATH());
+                        loadCharacter();
+                    });
+
+                    homeController.addCharacter(charView);
             } 
             catch (IOException e) {
             }
@@ -390,12 +394,12 @@ public class NovController {
             }
 
             statTag.text(
-                character.getBaseStat(0) + "," + 
-                character.getBaseStat(1) + "," + 
-                character.getBaseStat(2) + "," + 
-                character.getBaseStat(3) + "," +
-                character.getBaseStat(4) + "," + 
-                character.getBaseStat(5));
+                character.getBaseStat(Character.StatIndex.STRENGTH) + "," + 
+                character.getBaseStat(Character.StatIndex.DEXTERITY) + "," + 
+                character.getBaseStat(Character.StatIndex.CONSTITUTION) + "," + 
+                character.getBaseStat(Character.StatIndex.INTELLIGENCE) + "," +
+                character.getBaseStat(Character.StatIndex.WISDOM) + "," + 
+                character.getBaseStat(Character.StatIndex.CHARISMA));
 
             genderTag.text(character.getGender());
             ageTag.text(String.valueOf(character.getAge()));
@@ -429,12 +433,15 @@ public class NovController {
                 fileWriter.write(xmlContent);
                 Platform.runLater(() ->{
                     if ((Boolean) Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE)) refreshHubCharacters();
-                    System.out.println(Settings.getSetting(Settings.SaveLoadSettings.RELOAD_ON_SAVE));
                 });
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void fullReload() {
+        homeController.freshLoad();
     }
 
     /**
@@ -448,19 +455,19 @@ public class NovController {
 
         characterController.setCharTab();
 
-        characterController.gettStr().setText(character.getFinalStat(0) + " (" + character.getModifierString(character.getFinalStat(0)) + ")");
-        characterController.gettDex().setText(character.getFinalStat(1) + " (" + character.getModifierString(character.getFinalStat(1)) + ")");
-        characterController.gettCon().setText(character.getFinalStat(2) + " (" + character.getModifierString(character.getFinalStat(2)) + ")");
-        characterController.gettInt().setText(character.getFinalStat(3) + " (" + character.getModifierString(character.getFinalStat(3)) + ")");
-        characterController.gettWis().setText(character.getFinalStat(4) + " (" + character.getModifierString(character.getFinalStat(4)) + ")");
-        characterController.gettCha().setText(character.getFinalStat(5) + " (" + character.getModifierString(character.getFinalStat(5)) + ")");
+        characterController.gettStr().setText(character.getFinalStat(Character.StatIndex.STRENGTH) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.STRENGTH)) + ")");
+        characterController.gettDex().setText(character.getFinalStat(Character.StatIndex.DEXTERITY) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.DEXTERITY)) + ")");
+        characterController.gettCon().setText(character.getFinalStat(Character.StatIndex.CONSTITUTION) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.CONSTITUTION)) + ")");
+        characterController.gettInt().setText(character.getFinalStat(Character.StatIndex.INTELLIGENCE) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.INTELLIGENCE)) + ")");
+        characterController.gettWis().setText(character.getFinalStat(Character.StatIndex.WISDOM) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.WISDOM)) + ")");
+        characterController.gettCha().setText(character.getFinalStat(Character.StatIndex.CHARISMA) + " (" + character.getModifierString(character.getFinalStat(Character.StatIndex.CHARISMA)) + ")");
 
-        characterController.getTfStr().setPromptText(String.valueOf(character.getBaseStat(0)));
-        characterController.getTfDex().setPromptText(String.valueOf(character.getBaseStat(1)));
-        characterController.getTfCon().setPromptText(String.valueOf(character.getBaseStat(2)));
-        characterController.getTfInt().setPromptText(String.valueOf(character.getBaseStat(3)));
-        characterController.getTfWis().setPromptText(String.valueOf(character.getBaseStat(4)));
-        characterController.getTfCha().setPromptText(String.valueOf(character.getBaseStat(5)));
+        characterController.getTfStr().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.STRENGTH)));
+        characterController.getTfDex().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.DEXTERITY)));
+        characterController.getTfCon().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.CONSTITUTION)));
+        characterController.getTfInt().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.INTELLIGENCE)));
+        characterController.getTfWis().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.WISDOM)));
+        characterController.getTfCha().setPromptText(String.valueOf(character.getBaseStat(Character.StatIndex.CHARISMA)));
 
         character.setStatPoints();
         characterController.getPointText().setText(character.getStatPoints() + "/27");
@@ -471,7 +478,7 @@ public class NovController {
     }
 
     public void refreshHubCharacters() {
-        homeController.setHubField();
+        homeController.placeCharacters();
     }
 
     public static void restartApp() {

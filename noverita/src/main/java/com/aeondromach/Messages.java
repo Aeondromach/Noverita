@@ -55,6 +55,33 @@ public abstract class Messages {
         alert.showAndWait();
     }
 
+    public static void errorAlert(String title, String header, String content, Throwable e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR - " + title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String stackTrace = sw.toString();
+
+        TextArea textArea = new TextArea(stackTrace);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        VBox vbox = new VBox(textArea);
+
+        alert.getDialogPane().setExpandableContent(vbox);
+
+        setAlert(alert);
+
+        alert.showAndWait();
+    }
+
     public static void warningAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("WARNING - " + title);

@@ -358,6 +358,15 @@ public class HeaderController {
     }
 
     /**
+     * Handles a complete reload of the character hub
+     * @param event
+     */
+    @FXML
+    protected void handleMenuReloadHub(ActionEvent event) {
+        nov.fullReload();
+    }
+
+    /**
      * Handles saving the character
      * @param event
      */

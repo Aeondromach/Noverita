@@ -7,16 +7,16 @@
 
 package com.aeondromach.controllers;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.jsoup.nodes.Element;
 
 import com.aeondromach.Messages;
 import com.aeondromach.constructors.Table;
-import com.aeondromach.system.IdClassList;
+import com.aeondromach.constructors.TableGroup;
 import com.aeondromach.system.Character.StatIndex;
+import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.IdClassList.IdType;
 import com.aeondromach.system.parsers.HtmlParser;
 import com.aeondromach.system.parsers.XmlParser;
@@ -66,6 +66,7 @@ public class CharacterController {
     @FXML private VBox formVbox;
     @FXML private VBox formSideBarHtml;
 
+    private TableGroup formGroup = new TableGroup(new ArrayList<Table>());
     private Table formTable;
     private Table aspectTable;
     private final VBox aspectHold = new VBox();
@@ -130,6 +131,9 @@ public class CharacterController {
         formVbox.getChildren().clear(); // Deletes previous table instances
 
         formTable = new Table(IdClassList.IdType.FORM, "form", "Form", this::formClick, this::formDualClick);
+
+        formGroup.addTable(formTable);
+
         VBox formTableBox = formTable.setTable();
         formTableBox.prefWidthProperty().bind(formVbox.widthProperty().subtract(10));
 
@@ -167,7 +171,11 @@ public class CharacterController {
     }
 
     private void setAspectTable(String id) {
+        formGroup.removeTable(aspectTable);
+
         aspectTable = new Table(IdClassList.IdType.ASPECT, "aspect", "Aspect", this::aspectClick, this::aspectDualClick, id, IdClassList.IdType.FORM);
+        formGroup.addTable(aspectTable);
+
         VBox aspectTableBox = aspectTable.setTable();
         
         if (aspectTable.hasParent()) {
@@ -221,42 +229,42 @@ public class CharacterController {
     
             switch (sourceButton.getId()) {
                 case "btStrIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 0)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.STRENGTH)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.STRENGTH) + 1, StatIndex.STRENGTH);
                         tStr.setText(curChar.getFinalStat(StatIndex.STRENGTH) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.STRENGTH)) + ")");
                         tfStr.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.STRENGTH)));
                     }
                     break;
                 case "btDexIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 1)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.DEXTERITY)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.DEXTERITY) + 1, StatIndex.DEXTERITY);
                         tDex.setText(curChar.getFinalStat(StatIndex.DEXTERITY) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.DEXTERITY)) + ")");
                         tfDex.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.DEXTERITY)));
                     }                    
                     break;
                 case "btConIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 2)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.CONSTITUTION)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.CONSTITUTION) + 1, StatIndex.CONSTITUTION);
                         tCon.setText(curChar.getFinalStat(StatIndex.CONSTITUTION) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CONSTITUTION)) + ")");
                         tfCon.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CONSTITUTION)));
                     }                    
                     break;
                 case "btIntIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 3)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.INTELLIGENCE)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.INTELLIGENCE) + 1, StatIndex.INTELLIGENCE);
                         tInt.setText(curChar.getFinalStat(StatIndex.INTELLIGENCE) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.INTELLIGENCE)) + ")");
                         tfInt.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.INTELLIGENCE)));
                     }                    
                     break;
                 case "btWisIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 4)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.WISDOM)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.WISDOM) + 1, StatIndex.WISDOM);
                         tWis.setText(curChar.getFinalStat(StatIndex.WISDOM) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.WISDOM)) + ")");
                         tfWis.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.WISDOM)));
                     }                    
                     break;
                 case "btChaIncUp":
-                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, 5)) {
+                    if (curChar.getStatPoints() != 0 && 27 >= curChar.getPointCost(1, StatIndex.CHARISMA)) {
                         curChar.setBaseStat(curChar.getBaseStat(StatIndex.CHARISMA) + 1, StatIndex.CHARISMA);
                         tCha.setText(curChar.getFinalStat(StatIndex.CHARISMA) + " (" + curChar.getModifierString(curChar.getFinalStat(StatIndex.CHARISMA)) + ")");
                         tfCha.setPromptText(String.valueOf(curChar.getBaseStat(StatIndex.CHARISMA)));
