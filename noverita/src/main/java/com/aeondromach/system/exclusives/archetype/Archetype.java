@@ -1,6 +1,5 @@
 package com.aeondromach.system.exclusives.archetype;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +8,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.Character.StatIndex;
+import com.aeondromach.system.IdClassList;
 import com.aeondromach.system.abstracts.Exclusive;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import javafx.scene.image.Image;
 
